@@ -25,7 +25,7 @@ public class LoginCommand implements Command {
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            request.setAttribute("name", user.getName());
+            request.setAttribute("name", user.getLogin());
         } else {
             request.setAttribute("errorMessage", "Invalid username or password");
         }

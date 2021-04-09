@@ -11,7 +11,7 @@ import java.util.Optional;
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
     public static final String FIND = "SELECT * FROM USER";
-    public static final String FIND_BY_LOGIN_AND_PASSWORD = "SELECT * FROM USER";
+    public static final String FIND_BY_LOGIN_AND_PASSWORD = "SELECT * FROM USER WHERE";
     // WHERE login = ? AND password = MD5(?)
 
 

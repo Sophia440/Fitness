@@ -4,10 +4,7 @@ import com.epam.web.entity.Identifiable;
 import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.RowMapper;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +12,19 @@ import java.util.Optional;
 public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
     private Connection connection;
 
+    private static final String MYSQL_URL = "jdbc:mysql://localhost:3307/fitness_db?useSSL=false&serverTimezone=Europe/Minsk";
+    private static final String MYSQL_USER = "root";
+    private static final String MYSQL_PASSWORD = "root";
+
     public AbstractDao() {
+        Driver driver = null;
+        try {
+            driver = new com.mysql.cj.jdbc.Driver();
+            DriverManager.registerDriver(driver);
+            this.connection = DriverManager.getConnection(MYSQL_URL, MYSQL_USER, MYSQL_PASSWORD);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
     }
 
     protected AbstractDao(Connection connection) {
@@ -32,7 +41,8 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
             }
             return entities;
         } catch (SQLException exception) {
-            throw new DaoException(exception);
+            throw new DaoException(exception.getMessage(), exception);
+            //throw new DaoException(exception.getMessage() + "\nthrown from AbstractDao", exception);
         }
     }
 
@@ -55,7 +65,7 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         if (items.size() == 1) {
             return Optional.of(items.get(0));
         } else if (items.size() > 1) {
-            throw new IllegalArgumentException("Mare than one record found");
+            throw new IllegalArgumentException("More than one record found");
         }
         return Optional.empty();
     }
