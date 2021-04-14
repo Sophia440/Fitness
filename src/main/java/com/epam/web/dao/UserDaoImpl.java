@@ -1,5 +1,6 @@
 package com.epam.web.dao;
 
+import com.epam.web.connection.ProxyConnection;
 import com.epam.web.entity.User;
 import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.UserRowMapper;
@@ -10,8 +11,8 @@ import java.util.Optional;
 
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
-    public static final String FIND = "SELECT * FROM USER";
-    public static final String FIND_BY_LOGIN_AND_PASSWORD = "SELECT * FROM USER WHERE";
+    public static final String FIND = "select * from user";
+    public static final String FIND_BY_LOGIN_AND_PASSWORD = "select * from user where login = ? and password = ?";
     // WHERE login = ? AND password = MD5(?)
 
 
@@ -19,7 +20,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
         super();
     }
 
-    public UserDaoImpl(Connection connection) {
+    public UserDaoImpl(ProxyConnection connection) {
         super(connection);
     }
 

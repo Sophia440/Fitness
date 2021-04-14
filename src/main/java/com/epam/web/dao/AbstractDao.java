@@ -1,5 +1,6 @@
 package com.epam.web.dao;
 
+import com.epam.web.connection.ProxyConnection;
 import com.epam.web.entity.Identifiable;
 import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.RowMapper;
@@ -10,30 +11,17 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
-    private Connection connection;
+    private final ProxyConnection connection;
 
-    private static final String MYSQL_URL = "jdbc:mysql://localhost:3307/fitness_db?useSSL=false&serverTimezone=Europe/Minsk";
-    private static final String MYSQL_USER = "root";
-    private static final String MYSQL_PASSWORD = "root";
+    private static final String PROPERTIES = "src/main/resources/db.properties";
 
-    public AbstractDao() {
-        Driver driver = null;
-        try {
-            driver = new com.mysql.cj.jdbc.Driver();
-            DriverManager.registerDriver(driver);
-            this.connection = DriverManager.getConnection(MYSQL_URL, MYSQL_USER, MYSQL_PASSWORD);
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-    }
-
-    protected AbstractDao(Connection connection) {
+    protected AbstractDao(ProxyConnection connection) {
         this.connection = connection;
     }
 
     protected List<T> executeQuery(String query, RowMapper<T> mapper, Object... params) throws DaoException {
         try (PreparedStatement statement = createStatement(query, params)) {
-            ResultSet resultSet = statement.executeQuery(query);
+            ResultSet resultSet = statement.executeQuery();
             List<T> entities = new ArrayList<>();
             while (resultSet.next()) {
                 T entity = mapper.map(resultSet);
@@ -42,7 +30,6 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
             return entities;
         } catch (SQLException exception) {
             throw new DaoException(exception.getMessage(), exception);
-            //throw new DaoException(exception.getMessage() + "\nthrown from AbstractDao", exception);
         }
     }
 
