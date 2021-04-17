@@ -57,5 +57,26 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
         return Optional.empty();
     }
 
+    protected void executeUpdate(String query, Object... params) throws DaoException {
+        try (PreparedStatement statement = createStatement(query, params)) {
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+    }
+
+    @Override
+    public void save(T item) throws DaoException {
+        if (item.getId() == null) {
+            create(item);
+        } else {
+            update(item);
+        }
+    }
+
+    protected abstract void create(T item) throws DaoException;
+
+    protected abstract Optional<T> update(T item) throws DaoException;
+
     protected abstract String getTableName();
 }

@@ -5,20 +5,18 @@ import com.epam.web.entity.User;
 import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.UserRowMapper;
 
-import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
 public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
+    public static final String TABLE_NAME = "user";
     public static final String FIND = "select * from user";
     public static final String FIND_BY_LOGIN_AND_PASSWORD = "select * from user where login = ? and password = ?";
     // WHERE login = ? AND password = MD5(?)
-
-
-    public UserDaoImpl() {
-        super();
-    }
+    private static final String REMOVE_BY_ID = "delete from user where id = ?";
+    private static final String CREATE = "insert into user (login, password, role) values (?, ?, ?)";
+    private static final String UPDATE = "update user set login = ?, password = ?, role = ? where id = ?";
 
     public UserDaoImpl(ProxyConnection connection) {
         super(connection);
@@ -26,7 +24,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     protected String getTableName() {
-        return null;
+        return TABLE_NAME;
     }
 
     @Override
@@ -40,13 +38,23 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public void save(User item) {
-
+    protected void create(User item) throws DaoException {
+        executeUpdate(CREATE, new UserRowMapper(), item.getLogin(), item.getPassword(), item.getRole().toString());
     }
 
     @Override
-    public void removeById(Long id) {
+    protected Optional<User> update(User item) throws DaoException {
+        Optional<User> userToUpdate = getById(item.getId());
+        if (!userToUpdate.isPresent()) {
+            throw new DaoException("User " + item.getId() + " not found.");
+        }
+        executeUpdate(UPDATE, item.getLogin(), item.getPassword(), item.getId(), item.getRole().toString());
+        return userToUpdate;
+    }
 
+    @Override
+    public void removeById(Long id) throws DaoException {
+        executeUpdate(REMOVE_BY_ID, id);
     }
 
     @Override

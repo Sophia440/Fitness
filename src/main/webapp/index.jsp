@@ -1,4 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="ru_RU" scope="session" />
+<fmt:setBundle basename="resources.pagecontent" var="rb" />
 <html>
     <head>
         <meta charset="UTF-8">
@@ -15,10 +20,10 @@
 
             <div class="wrapper">
                 <h1 class="welcome__title">
-                    Welcome!
+                    <fmt:message key="welcome.title" bundle="${ rb }" />
                 </h1>
                 <p class="welcome__subtitle">
-                    Log in to view your current programs
+                    <fmt:message key="welcome.subtitle" bundle="${ rb }" />
                 </p>
                 <form class="login-form" action="/Fitness/controller" method="post">
                     <fieldset class="login-form__wrap">
@@ -34,25 +39,4 @@
         </main>
     </body>
 </html>
-
-<%--            <section class="intro">--%>
-<%--                <div class="wrapper">--%>
-<%--                    <h1 class="intro__title">--%>
-<%--                        Welcome!--%>
-<%--                    </h1>--%>
-<%--                    <p class="intro__subtitle">--%>
-<%--                        Log in to view your current programs--%>
-<%--                    </p>--%>
-<%--                    <form class="login-form" action="/Fitness/controller" method="post">--%>
-<%--                        <fieldset class="login-form__wrap">--%>
-<%--                            <p class="login-form__info">--%>
-<%--                                <input type="hidden" name="command" value="login" />--%>
-<%--                                <input type="text" name="username" class="login-form__field" placeholder="Username">--%>
-<%--                                <input type="text" name="password" class="login-form__field" placeholder="Password">--%>
-<%--                                <button type="submit" class="login-btn" value="submit">Log In</button>--%>
-<%--                            </p>--%>
-<%--                        </fieldset>--%>
-<%--                    </form>--%>
-<%--                </div>--%>
-<%--            </section>--%>
 

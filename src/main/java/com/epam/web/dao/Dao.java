@@ -11,7 +11,7 @@ public interface Dao<T extends Identifiable> {
 
     List<T> getAll() throws DaoException;
 
-    void save(T item);
+    void save(T item) throws DaoException;
 
-    void removeById(Long id);
+    void removeById(Long id) throws DaoException;
 }
