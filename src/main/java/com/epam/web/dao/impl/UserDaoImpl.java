@@ -1,6 +1,8 @@
-package com.epam.web.dao;
+package com.epam.web.dao.impl;
 
 import com.epam.web.connection.ProxyConnection;
+import com.epam.web.dao.AbstractDao;
+import com.epam.web.dao.UserDao;
 import com.epam.web.entity.User;
 import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.UserRowMapper;

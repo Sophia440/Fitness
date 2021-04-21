@@ -13,8 +13,6 @@ import java.util.Optional;
 public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
     private final ProxyConnection connection;
 
-    private static final String PROPERTIES = "src/main/resources/db.properties";
-
     protected AbstractDao(ProxyConnection connection) {
         this.connection = connection;
     }

@@ -1,10 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<fmt:setLocale value="ru_RU" scope="session" />
-<fmt:setBundle basename="resources.pagecontent" var="rb" />
-<html>
+<c:set var="language"
+       value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
+       scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="text"/>
+
+<html lang="${language}">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,25 +17,46 @@
         <link rel="stylesheet" href="static/style.css" />
     </head>
     <body>
-    <div class="header">
-        <jsp:include page="view/fragments/header.jsp"/>
-    </div>
         <main class="main">
-
+            <div class="header">
+                <header class="header">
+                    <div class="wrapper">
+                        <div class="header__wrapper">
+                            <div class="header__logo">
+                                <a href="/" class="header__logo-link">
+                                    <p>Fitness</p>
+                                </a>
+                            </div>
+                            <div class="header__language">
+                                <button class="header__language-dropbtn">
+                                    <fmt:message key="header.language" />
+                                </button>
+                                <div class="header__language-content">
+                                    <a href="${pageContext.servletContext.contextPath}?language=en" class="header__language-link">EN</a>
+                                    <a href="${pageContext.servletContext.contextPath}?language=ru" class="header__language-link">RU</a>
+                                    <a href="${pageContext.servletContext.contextPath}?language=by" class="header__language-link">BY</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            </div>
             <div class="wrapper">
                 <h1 class="welcome__title">
-                    <fmt:message key="welcome.title" bundle="${ rb }" />
+                    <fmt:message key="welcome.title" />
                 </h1>
                 <p class="welcome__subtitle">
-                    <fmt:message key="welcome.subtitle" bundle="${ rb }" />
+                    <fmt:message key="welcome.subtitle"/>
                 </p>
-                <form class="login-form" action="/Fitness/controller" method="post">
+                <form class="login-form" action="${pageContext.request.contextPath}/controller?command=login" method="post">
                     <fieldset class="login-form__wrap">
                         <p class="login-form__info">
                             <input type="hidden" name="command" value="login" />
                             <input type="text" name="username" class="login-form__field" placeholder="Username">
                             <input type="text" name="password" class="login-form__field" placeholder="Password">
-                            <button type="submit" class="login-form__submit" value="submit">Log In</button>
+                            <button type="submit" class="login-form__submit" value="submit">
+                                <fmt:message key="login.button" />
+                            </button>
                         </p>
                     </fieldset>
                 </form>

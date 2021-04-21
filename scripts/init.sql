@@ -50,10 +50,12 @@ CREATE TABLE exercise (
 ) ENGINE=INNODB DEFAULT CHARACTER SET UTF8MB4;
 
 CREATE TABLE assigned_exercise (
+	id BIGINT NOT NULL AUTO_INCREMENT,
 	program_id BIGINT NOT NULL,
     exercise_id BIGINT NOT NULL,
     start_date DATE NOT NULL,
 	end_date DATE NOT NULL,
+    PRIMARY KEY (id),
     FOREIGN KEY (exercise_id) 
     REFERENCES exercise (id)
 	ON UPDATE CASCADE

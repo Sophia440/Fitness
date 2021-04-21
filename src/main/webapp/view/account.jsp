@@ -22,6 +22,7 @@
         </div>
 
         <main class="main">
+            <h1>Личный кабинет (homepage)</h1>
             <c:if test="${name != null}">
                 <h2>
                     Hello, ${name}!
