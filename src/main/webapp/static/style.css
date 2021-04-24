@@ -453,6 +453,7 @@ body{
     color: #272D4E;
     text-decoration: none;
 }
+
 .header__link:hover, .header__link:focus, .header__link:active{
     opacity: .75;
 }
@@ -532,12 +533,11 @@ body{
 
 } */
 
-.main{
+.main {
     min-height: 100vh;
     background-size: cover;
     padding-top: 250px;
     padding-bottom: 123px;
-
 }
 
 .welcome__title{
@@ -643,3 +643,80 @@ body{
 }
 
 /* main styles end */
+
+/* account styles start */
+
+.account__title {
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 60px;
+    color: #272D4E;
+    margin-bottom: 30px;
+}
+
+/* expanding grid start */
+
+  .grid__column-abonement {
+    float: left;
+    width: 30%;
+    padding: 20px;
+    margin-right: 55px;
+    text-align: center;
+    font-size: 25px;
+    cursor: pointer;
+    color: white;
+    background:blue;
+  }
+
+  .grid__column-program {
+    float: left;
+    width: 30%;
+    padding: 20px;
+    margin-right: 55px;
+    text-align: center;
+    font-size: 25px;
+    cursor: pointer;
+    color: white;
+    background:blue;
+  }
+
+  .grid__column-diet {
+    float: left;
+    width: 30%;
+    padding: 20px;
+    text-align: center;
+    font-size: 25px;
+    cursor: pointer;
+    color: white;
+    background:blue;
+  }
+
+  .grid__container-info{
+    font-size: 25px;
+    color: #272D4E;
+  }
+  
+  .grid__container-tab {
+    padding: 20px;
+    color: white;
+    display:none;
+    /* background:blue; */
+  }
+  
+  /* Clear floats after the columns */
+  .grid__row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Closable button inside the image */
+  .grid__closebtn {
+    float: right;
+    color: #272D4E;
+    font-size: 35px;
+    cursor: pointer;
+  }
+/* expanding grid end */
+
+/* account styles end */

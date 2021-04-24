@@ -7,7 +7,6 @@ import com.epam.web.entity.Exercise;
 import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.ExerciseRowMapper;
 
-import java.util.List;
 import java.util.Optional;
 
 public class ExerciseDaoImpl extends AbstractDao<Exercise> implements ExerciseDao {
