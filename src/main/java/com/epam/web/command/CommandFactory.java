@@ -13,6 +13,9 @@ public class CommandFactory {
     public static final Logger LOGGER = LogManager.getLogger(CommandFactory.class);
     public static final String MAIN_PAGE = "/view/main.jsp";
     public static final String ACCOUNT_PAGE = "/view/account.jsp";
+    public static final String TRAINERS_PAGE = "/view/trainers.jsp";
+    public static final String SERVICES_PAGE = "/view/services.jsp";
+    public static final String ABOUT_PAGE = "/view/about.jsp";
     private static final String ERROR_PAGE = "/view/error_page.jsp";
     private ConnectionPool pool;
     private DaoHelper helper;
@@ -32,8 +35,16 @@ public class CommandFactory {
                 return new LoginCommand(new UserService(helper.createUserDao()));
             case "main":
                 return new ShowPageCommand(MAIN_PAGE);
+            case "changeLanguage":
+                return new ChangeLanguageCommand();
             case "account":
                 return new ShowPageCommand(ACCOUNT_PAGE);
+            case "trainers":
+                return new ShowPageCommand(TRAINERS_PAGE);
+            case "services":
+                return new ShowPageCommand(SERVICES_PAGE);
+            case "about":
+                return new ShowPageCommand(ABOUT_PAGE);
             case "error":
                 return new ShowPageCommand(ERROR_PAGE);
             case "logout":

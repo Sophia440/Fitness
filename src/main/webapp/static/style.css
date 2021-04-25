@@ -403,6 +403,7 @@ body{
     line-height: 1.2;
     font-weight: normal;
     color: #102746;
+    background-color: #F5F7F7;
 }
 
 .wrapper{
@@ -417,6 +418,7 @@ body{
     top: 0;
     left: 0;
     width: 100%;
+    background-color: #F5F7F7;
 }
 .header__wrapper{
     display: flex;
@@ -495,6 +497,7 @@ body{
     color: #F5F7F7;
     border-radius: 10px;
 }
+
 .header__login-btn{
     padding: 10px 35px;
     font-weight: 500;
@@ -572,6 +575,7 @@ body{
     font-weight: 500;
     font-size: 18px;
     color: #272D4E;
+    background-color: #F5F7F7;
 }
 
 .login-form__field::placeholder{
@@ -646,54 +650,69 @@ body{
 
 /* account styles start */
 
+.account__main {
+    min-height: 100vh;
+    background-size: cover;
+    padding-top: 220px;
+    padding-bottom: 123px;
+}
+
 .account__title {
     font-weight: 500;
     font-size: 36px;
     line-height: 60px;
     color: #272D4E;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
+    /* margin-left: 50px; */
 }
 
 /* expanding grid start */
 
-  .grid__column-abonement {
+  .grid__column-membership {
     float: left;
-    width: 30%;
+    width: 33.33%;
     padding: 20px;
-    margin-right: 55px;
     text-align: center;
     font-size: 25px;
     cursor: pointer;
-    color: white;
-    background:blue;
+    color: #272D4E;
+    border-right: 0.2px solid #272D4E;
+    border-bottom: 0.2px solid #272D4E;
   }
 
   .grid__column-program {
     float: left;
-    width: 30%;
+    width: 33.33%;
     padding: 20px;
-    margin-right: 55px;
     text-align: center;
     font-size: 25px;
     cursor: pointer;
-    color: white;
-    background:blue;
+    color: #272D4E;
+    border-right: 0.2px solid #272D4E;
+    border-bottom: 0.2px solid #272D4E;
   }
 
   .grid__column-diet {
     float: left;
-    width: 30%;
+    width: 33.33%;
     padding: 20px;
     text-align: center;
     font-size: 25px;
     cursor: pointer;
-    color: white;
-    background:blue;
+    color: #272D4E;
+    border-bottom: 0.2px solid #272D4E;
   }
 
-  .grid__container-info{
+  .grid__container-info-title {
     font-size: 25px;
     color: #272D4E;
+    margin-top: 10px;
+  }
+
+  .grid__container-info {
+    font-size: 18px;
+    color: #272D4E;
+    margin-top: 10px;
   }
   
   .grid__container-tab {
@@ -720,3 +739,89 @@ body{
 /* expanding grid end */
 
 /* account styles end */
+
+/* service styles start */
+
+.service__main {
+    min-height: 100vh;
+    background-size: cover;
+    padding-top: 220px;
+    padding-bottom: 123px;
+}
+
+.service__title {
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 60px;
+    color: #272D4E;
+    margin-bottom: 30px;
+}
+
+.service__subtitle {
+    color: #272D4E;
+    font-size: 24px;
+    line-height: 40px;
+    margin-bottom: 30px;
+}
+
+.service-form__field {
+    width: 297px;
+    border: 0;
+    border-bottom: 2px solid #BFC0C5;
+    margin-right: 60px;
+    margin-bottom: 20px;
+    padding-left: 20px;
+    padding-bottom: 30px;
+    font-weight: 500;
+    font-size: 18px;
+    background-color: #F5F7F7;
+    color: #272D4E;
+}
+
+.service__item {
+    color: #272D4E;
+    margin-bottom: 20px;
+    margin-left: 30px;
+    padding: 15px 30px 15px 0px;
+    list-style-type: circle;
+    /* border: 0.2px solid #272D4E;
+    border-radius: 5px; */
+}
+
+.service__item-info {
+    font-size: 22px;
+    cursor: pointer;
+    color: #272D4E;
+    text-decoration: none;
+}
+
+/* service styles end */
+
+/* trainers styles start */
+
+.trainers__main {
+    min-height: 100vh;
+    background-size: cover;
+    padding-top: 220px;
+    padding-bottom: 123px;
+}
+
+.trainers__title {
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 60px;
+    color: #272D4E;
+    margin-bottom: 30px;
+}
+
+.trainers__item {
+    font-size: 22px;
+    color: #272D4E;
+    margin-bottom: 20px;
+    margin-left: 30px;
+    padding: 15px 30px 15px 0px;
+    list-style-type: circle;
+}
+
+
+/* trainers styles end */

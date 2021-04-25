@@ -1,14 +1,18 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="language"
-       value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
-       scope="session"/>
-<fmt:setLocale value="${language}"/>
-<fmt:setBundle basename="text"/>
-<html lang="${language}">
+<fmt:setLocale value="${sessionScope.local}" />
+<fmt:setBundle basename="text" var="local" />
+
+<fmt:message bundle="${local}" key="header.account" var="account" />
+<fmt:message bundle="${local}" key="header.trainers" var="trainers" />
+<fmt:message bundle="${local}" key="header.services" var="services" />
+<fmt:message bundle="${local}" key="header.about" var="about" />
+<fmt:message bundle="${local}" key="header.language" var="language" />
+<fmt:message bundle="${local}" key="header.logout" var="logout" />
+
+<html>
 
     <head>
         <link rel="stylesheet" href="static/style.css">
@@ -19,7 +23,7 @@
             <div class="wrapper">
                 <div class="header__wrapper">
                     <div class="header__logo">
-                        <a href="/" class="header__logo-link">
+                        <a href="${pageContext.request.contextPath}/controller?command=main" class="header__logo-link">
                             <p>Fitness</p>
                         </a>
                     </div>
@@ -28,46 +32,41 @@
                         <ul class="header__list">
                             <li class="header__item">
                                 <a href="${pageContext.request.contextPath}/controller?command=account" class="header__link">
-                                    <fmt:message key="header.account" />
+                                    ${account}
                                 </a>
                             </li>
                             <li class="header__item">
-                                <a href="#!" class="header__link">
-                                    <fmt:message key="header.trainers" />
+                                <a href="${pageContext.request.contextPath}/controller?command=trainers" class="header__link">
+                                    ${trainers}
                                 </a>
                             </li>
                             <li class="header__item">
-                                <a href="#!" class="header__link">
-                                    <fmt:message key="header.services" />
+                                <a href="${pageContext.request.contextPath}/controller?command=services" class="header__link">
+                                    ${services}
                                 </a>
                             </li>
                             <li class="header__item">
-                                <a href="#!" class="header__link">
-                                    <fmt:message key="header.about" />
+                                <a href="${pageContext.request.contextPath}/controller?command=about" class="header__link">
+                                    ${about}
                                 </a>
                             </li>
                         </ul>
                     </nav>
 
                     <div class="header__language">
-                        <button class="header__language-dropbtn">
-                            <fmt:message key="header.language" />
-                        </button>
+                        <button class="header__language-dropbtn">${language}</button>
                         <div class="header__language-content">
-                            <a href="${pageContext.servletContext.contextPath}?language=en" class="header__language-link">EN</a>
-                            <a href="${pageContext.servletContext.contextPath}?language=ru" class="header__language-link">RU</a>
-                            <a href="${pageContext.servletContext.contextPath}?language=by" class="header__language-link">BY</a>
+                            <a href="${pageContext.servletContext.contextPath}?command=changeLanguage&language=en" class="header__language-link">EN</a>
+                            <a href="${pageContext.servletContext.contextPath}?command=changeLanguage&language=ru" class="header__language-link">RU</a>
+                            <a href="${pageContext.servletContext.contextPath}?command=changeLanguage&language=by" class="header__language-link">BY</a>
                         </div>
                     </div>
 
                     <div class="header__language">
                         <a href="${pageContext.request.contextPath}/controller?command=logout">
-                            <button class="header__language-dropbtn">
-                                <fmt:message key="header.logout" />
-                            </button>
+                            <button class="header__language-dropbtn">${logout}</button>
                         </a>
                     </div>
-
                 </div>
             </div>
         </header>

@@ -36,7 +36,6 @@ public class Controller extends HttpServlet {
 
         boolean isRedirect = false;
         try {
-            //request.setAttribute("errorMessage", null);
             command = commandFactory.create(commandType);
             CommandResult result = command.execute(request, response);
             page = result.getPage();
