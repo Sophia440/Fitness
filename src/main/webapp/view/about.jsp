@@ -26,9 +26,10 @@
 </div>
 
 <main class="main">
-        <h2>
-            About text
-        </h2>
+    <div class="wrapper"><h2>
+        About text
+    </h2>
+</div>
 </main>
 </body>
 </html>

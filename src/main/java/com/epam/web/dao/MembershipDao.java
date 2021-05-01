@@ -1,0 +1,48 @@
+package com.epam.web.dao;
+
+import com.epam.web.connection.ProxyConnection;
+import com.epam.web.entity.Membership;
+import com.epam.web.exception.DaoException;
+import com.epam.web.mapper.MembershipRowMapper;
+
+import java.util.Optional;
+
+public class MembershipDao extends AbstractDao<Membership> implements Dao<Membership> {
+    public static final String TABLE_NAME = "membership";
+    public static final String FIND_BY_ID = "SELECT * FROM membership WHERE id = ?";
+    public static final String FIND_BY_CLIENT_ID = "SELECT * FROM membership WHERE client_id = ?";
+
+
+    public MembershipDao(ProxyConnection connection) {
+        super(connection);
+    }
+
+    @Override
+    protected void create(Membership item) throws DaoException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    protected Optional<Membership> update(Membership item) throws DaoException {
+        return Optional.empty();
+    }
+
+    @Override
+    protected String getTableName() {
+        return TABLE_NAME;
+    }
+
+    @Override
+    public Optional<Membership> getById(Long id) throws DaoException {
+        return executeForSingleResult(FIND_BY_ID, new MembershipRowMapper(), id);
+    }
+
+    @Override
+    public void removeById(Long id) throws DaoException {
+        throw new UnsupportedOperationException();
+    }
+
+    public Optional<Membership> findMembershipByClientId(Long clientId) throws DaoException {
+        return executeForSingleResult(FIND_BY_CLIENT_ID, new MembershipRowMapper(), clientId);
+    }
+}

@@ -11,10 +11,10 @@ VALUES
 -- MD5('admin')
 
 INSERT INTO membership
-(id, client_id, start_date, end_date) 
+(id, client_id, start_date, end_date, payment_date) 
 VALUES 
-(1, 2, '2021-05-01', '2021-06-01'),
-(2, 4, '2021-04-01', '2021-07-01');
+(1, 2, '2021-05-01', '2021-06-01', '2021-05-01'),
+(2, 4, '2021-04-01', '2021-07-01', '2021-04-01');
 
 INSERT INTO program
 (id, client_id, instructor_id, status) 

@@ -70,7 +70,7 @@ public class User implements Identifiable {
 
     @Override
     public Long getId() {
-        return null;
+        return id;
     }
 
     @Override

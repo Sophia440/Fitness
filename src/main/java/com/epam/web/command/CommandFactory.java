@@ -3,6 +3,8 @@ package com.epam.web.command;
 import com.epam.web.connection.ConnectionException;
 import com.epam.web.connection.ConnectionPool;
 import com.epam.web.dao.DaoHelper;
+import com.epam.web.service.DietService;
+import com.epam.web.service.ProgramService;
 import com.epam.web.service.UserService;
 
 import org.apache.log4j.LogManager;
@@ -32,13 +34,13 @@ public class CommandFactory {
     public Command create(String type) {
         switch (type) {
             case "login":
-                return new LoginCommand(new UserService(helper.createUserDao()));
+                return new LoginCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()));
             case "main":
                 return new ShowPageCommand(MAIN_PAGE);
             case "changeLanguage":
                 return new ChangeLanguageCommand();
             case "account":
-                return new ShowPageCommand(ACCOUNT_PAGE);
+                return new ClientAccountCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()), new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
             case "trainers":
                 return new ShowPageCommand(TRAINERS_PAGE);
             case "services":

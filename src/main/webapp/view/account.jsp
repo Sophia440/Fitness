@@ -41,25 +41,27 @@
                 <div id="b1" class="grid__container-tab">
                     <span onclick="this.parentElement.style.display='none'" class="grid__closebtn">x</span>
                     <p class="grid__container-info-title">${membershipInfo}</p>
-                    <p class="grid__container-info">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, dolorem ea. Laudantium ad deleniti alias molestiae ipsa vel excepturi debitis in voluptates incidunt, pariatur corrupti iste amet natus repellendus numquam?
-                    </p>
+                    <p class="grid__container-info">Membership end date: ${membershipEndDate}</p>
                 </div>
 
                 <div id="b2" class="grid__container-tab">
                     <span onclick="this.parentElement.style.display='none'" class="grid__closebtn">x</span>
                     <p class="grid__container-info-title">${programInfo}</p>
-                    <p class="grid__container-info">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, dolorem ea. Laudantium ad deleniti alias molestiae ipsa vel excepturi debitis in voluptates incidunt, pariatur corrupti iste amet natus repellendus numquam?
-                    </p>
+                    <c:if test="${not empty exerciseList}">
+                        <c:forEach items="${exerciseList}" var="exercise">
+                            <p class="grid__container-info">${exercise.name}</p>
+                        </c:forEach>
+                    </c:if>
                 </div>
 
                 <div id="b3" class="grid__container-tab">
                     <span onclick="this.parentElement.style.display='none'" class="grid__closebtn">x</span>
                     <p class="grid__container-info-title">${dietInfo}</p>
-                    <p class="grid__container-info">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, dolorem ea. Laudantium ad deleniti alias molestiae ipsa vel excepturi debitis in voluptates incidunt, pariatur corrupti iste amet natus repellendus numquam?
-                    </p>
+                    <c:if test="${not empty dishList}">
+                        <c:forEach items="${dishList}" var="dish">
+                            <p class="grid__container-info">${dish.name}</p>
+                        </c:forEach>
+                    </c:if>
                 </div>
             </div>
         </main>
