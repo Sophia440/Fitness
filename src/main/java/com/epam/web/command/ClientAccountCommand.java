@@ -2,7 +2,6 @@ package com.epam.web.command;
 
 import com.epam.web.dto.DishDto;
 import com.epam.web.dto.ExerciseDto;
-import com.epam.web.dto.MembershipDto;
 import com.epam.web.entity.*;
 import com.epam.web.exception.ServiceException;
 import com.epam.web.service.DietService;
@@ -17,7 +16,7 @@ import java.util.Optional;
 
 public class ClientAccountCommand implements Command {
     private static final String CLIENT_ACCOUNT_PAGE = "/view/account.jsp";
-    private static final String CLIENT_ID = "user_id";
+    private static final String CLIENT_ID = "userId";
 
     private UserService userService;
     private ProgramService programService;
@@ -33,7 +32,7 @@ public class ClientAccountCommand implements Command {
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         HttpSession session = request.getSession();
         Long clientId = (Long) session.getAttribute(CLIENT_ID);
-        Optional<Membership> optionalMembership = userService.getMembership(clientId);
+        Optional<Membership> optionalMembership = userService.getLastMembership(clientId);
         Membership membership = null;
         if (optionalMembership.isPresent()) {
             membership = optionalMembership.get();

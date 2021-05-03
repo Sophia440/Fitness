@@ -12,7 +12,11 @@ import com.epam.web.exception.ServiceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UserService {
     public static final Logger LOGGER = LogManager.getLogger(UserService.class);
@@ -32,13 +36,48 @@ public class UserService {
         }
     }
 
-    public Optional<Membership> getMembership(Long clientId) {
-        Optional<Membership> membership = null;
+    public Optional<Membership> getLastMembership(Long clientId) {
+        List<Membership> memberships = getAllMemberships(clientId);
+        List<Membership> sortedMemberships = memberships.stream()
+                .sorted(Comparator.comparing(Membership::getEndDate))
+                .collect(Collectors.toList());
+        Membership lastMembership = sortedMemberships.get(sortedMemberships.size() - 1);
+        return Optional.of(lastMembership);
+    }
+
+    private List<Membership> getAllMemberships(Long clientId) {
+        List<Membership> memberships = null;
         try {
-            membership = membershipDao.findMembershipByClientId(clientId);
+            memberships = membershipDao.findMembershipsByClientId(clientId);
         } catch (DaoException exception) {
             LOGGER.fatal(exception.getMessage(), exception);
         }
-        return membership;
+        return memberships;
+    }
+
+    public boolean buyMembership(Long clientId, long monthsNumber) {
+        Membership membership = new Membership();
+        membership.setClientId(clientId);
+        LocalDate startDate;
+        Optional<Membership> currentMembershipOptional = getLastMembership(clientId);
+        if (currentMembershipOptional.isPresent()) {
+            Membership currentMembership = currentMembershipOptional.get();
+            LocalDate currentMembershipEndDate = currentMembership.getEndDate();
+            startDate = currentMembershipEndDate.plusDays(1);
+        } else {
+            startDate = LocalDate.now();
+        }
+        membership.setStartDate(startDate);
+        LocalDate endDate = startDate.plusMonths(monthsNumber);
+        membership.setEndDate(endDate);
+        membership.setPaymentDate(LocalDate.now());
+        boolean isBought = false;
+        try {
+            membershipDao.create(membership);
+            isBought = true;
+        } catch (DaoException exception) {
+            LOGGER.fatal(exception.getMessage(), exception);
+        }
+        return isBought;
     }
 }

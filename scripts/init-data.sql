@@ -1,13 +1,13 @@
 USE fitness_db;
 
 INSERT INTO user
-(id, login, password, role) 
+(id, login, password, role, discount) 
 VALUES 
-(1, 'admin', 'admin', 'ADMIN'),
-(2, 'client1', 'client', 'CLIENT'),  
-(3, 'instructor1', 'instructor', 'INSTRUCTOR'),
-(4, 'client2', 'client', 'CLIENT'),
-(5, 'instructor2', 'instructor', 'INSTRUCTOR');
+(1, 'admin', 'admin', 'ADMIN', NULL),
+(2, 'client1', 'client', 'CLIENT', 20),  
+(3, 'instructor1', 'instructor', 'INSTRUCTOR', NULL),
+(4, 'client2', 'client', 'CLIENT', 25),
+(5, 'instructor2', 'instructor', 'INSTRUCTOR', NULL);
 -- MD5('admin')
 
 INSERT INTO membership
@@ -66,23 +66,23 @@ VALUES
 (2, 4, 5, '2021-04-01', '2021-07-01', 'AWAITING_CLIENT_ANSWER');
 
 INSERT INTO dish 
-(id, name) 
+(id, name, meal) 
 VALUES 
-(1, 'Oatmeal'), 
-(2, 'Omelette'), 
-(3, 'Greek yogurt'), 
-(4, 'Fruit snack'), 
-(5, 'Protein shake'), 
-(6, 'Vegetable salad'), 
-(7, 'Steamed vegetables'),
-(8, 'Baked chicken breasts'),
-(9, 'Brown rice'),
-(10, 'Boiled chicken'),
-(11, 'Roasted beef'),
-(12, 'Sauteed broccoli'),
-(13, 'Mixed nuts'),
-(14, 'Tuna salad'),
-(15, 'Baked fish');
+(1, 'Oatmeal', 'BREAKFAST'), 
+(2, 'Omelette', 'BREAKFAST'), 
+(3, 'Greek yogurt', 'BREAKFAST'), 
+(4, 'Fruit snack', 'SNACK'), 
+(5, 'Protein shake', 'SNACK'), 
+(6, 'Vegetable salad', 'SNACK'), 
+(7, 'Steamed vegetables', 'LUNCH'),
+(8, 'Baked chicken breasts', 'DINNER'),
+(9, 'Brown rice', 'LUNCH'),
+(10, 'Boiled chicken', 'LUNCH'),
+(11, 'Roasted beef', 'DINNER'),
+(12, 'Sauteed broccoli', 'DINNER'),
+(13, 'Mixed nuts', 'SNACK'),
+(14, 'Tuna salad', 'DINNER'),
+(15, 'Baked fish', 'LUNCH');
 
 INSERT INTO assigned_dish
 (diet_id, dish_id) 

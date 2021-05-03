@@ -3,14 +3,14 @@ DROP DATABASE IF EXISTS fitness_db;
 CREATE DATABASE fitness_db DEFAULT CHARACTER SET UTF8MB4;
 
 USE fitness_db;
-DROP TABLE IF EXISTS user, service, membership, program, exercise, assigned_service, assigned_exercise;
+DROP TABLE IF EXISTS user, membership, program, exercise, assigned_service, assigned_exercise;
 
 CREATE TABLE user (
 	id BIGINT NOT NULL AUTO_INCREMENT,
 	login VARCHAR(50) NOT NULL UNIQUE CHECK(login !=''),
 	password VARCHAR(50) NOT NULL CHECK(password !=''),
 	role ENUM('ADMIN', 'CLIENT', 'INSTRUCTOR') NOT NULL,
-    discount DECIMAL(3,2),
+    discount INT(2),
 	PRIMARY KEY (id)
 ) ENGINE=INNODB DEFAULT CHARACTER SET UTF8MB4;
 
@@ -87,6 +87,7 @@ CREATE TABLE diet (
 CREATE TABLE dish (
 	id BIGINT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(255) NOT NULL UNIQUE,
+    meal ENUM('BREAKFAST', 'LUNCH', 'DINNER', 'SNACK') NOT NULL,
 	PRIMARY KEY (id)
 ) ENGINE=INNODB DEFAULT CHARACTER SET UTF8MB4;
 

@@ -7,6 +7,7 @@ import com.epam.web.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.Optional;
 
 public class LoginCommand implements Command {
@@ -26,11 +27,16 @@ public class LoginCommand implements Command {
         HttpSession session = request.getSession(false);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            session.setAttribute("user_id", user.getId());
+            session.setAttribute("userId", user.getId());
             session.setAttribute("name", user.getLogin());
             session.setAttribute("password", user.getPassword());
             session.setAttribute("role", user.getRole());
-            session.setAttribute("discount", user.getDiscount());
+            BigDecimal discount = user.getDiscount();
+            if (discount == null) {
+                session.setAttribute("discount", BigDecimal.ZERO);
+            } else {
+                session.setAttribute("discount", discount);
+            }
             return CommandResult.forward(MAIN_PAGE);
         } else {
             session.setAttribute("errorMessage", "Invalid username or password");

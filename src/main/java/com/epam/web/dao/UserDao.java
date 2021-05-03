@@ -23,7 +23,7 @@ public class UserDao extends AbstractDao<User> implements Dao<User> {
     public static final String FIND_BY_LOGIN_AND_PASSWORD = "SELECT * FROM user WHERE login = ? AND password = ?";
     // WHERE login = ? AND password = MD5(?)
     private static final String REMOVE_BY_ID = "DELETE FROM user WHERE id = ?";
-    private static final String CREATE = "INSERT INTO user (login, password, role) VALUES (?, ?, ?)";
+    private static final String CREATE = "INSERT INTO user (login, password, role) VALUE (?, ?, ?)";
     private static final String UPDATE = "UPDATE user SET login = ?, password = ?, role = ? WHERE id = ?";
     public static final Logger LOGGER = LogManager.getLogger(UserDao.class);
 

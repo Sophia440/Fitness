@@ -5,6 +5,8 @@
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="text" var="local" />
 
+<fmt:message bundle="${local}" key="return.button" var="returnBtn" />
+
 <html>
 <head>
     <meta charset="UTF-8">
@@ -21,11 +23,11 @@
 <main class="main">
     <div class="wrapper">
         <h1 class="about__title">
-            About information
+            Payment confirmed. Thanks for the purchase!
         </h1>
-        <p class="about__subtitle">
-            Final project for the EPAM Java Web Development course
-        </p>
+        <button type="submit" class="return-btn" onclick="location.href='${pageContext.request.contextPath}/controller?command=main'">
+            ${returnBtn}
+        </button>
     </div>
 </main>
 </body>

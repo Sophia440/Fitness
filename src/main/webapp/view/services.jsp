@@ -27,20 +27,14 @@
 
         <ul id="service__list">
             <li class="service__item">
-                <a href="#" class="service__item-info">
-                    Abonement
+                <a href="${pageContext.request.contextPath}/controller?command=chooseDuration" class="service__item-info">
+                    Membership
                 </a>
             </li>
 
             <li class="service__item">
                 <a href="#" class="service__item-info">
-                    Sth else
-                </a>
-            </li>
-
-            <li class="service__item">
-                <a href="#" class="service__item-info">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veritatis iste consectetur sed saepe, dolorem voluptatibus odit officia voluptatem, ipsam, consequatur magni! Modi quam natus consectetur ullam vitae nisi amet dicta.
+                    Something else
                 </a>
             </li>
         </ul>

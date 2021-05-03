@@ -67,4 +67,15 @@ public class Membership implements Identifiable {
     public void setPaymentDate(LocalDate paymentDate) {
         this.paymentDate = paymentDate;
     }
+
+    @Override
+    public String toString() {
+        return "Membership{" +
+                "id=" + id +
+                ", clientId=" + clientId +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", paymentDate=" + paymentDate +
+                '}';
+    }
 }

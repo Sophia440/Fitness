@@ -15,7 +15,7 @@ import java.util.Optional;
 public class DishDao extends AbstractDao<Dish> implements Dao<Dish> {
     public static final String TABLE_NAME = "dish";
     public static final String FIND_BY_ID = "SELECT * FROM dish WHERE id = ?";
-    public static final String FIND_BY_DIET_ID = "SELECT dish.id, dish.name FROM dish INNER JOIN assigned_dish ON dish.id=assigned_dish.dish_id WHERE diet_id = ?";
+    public static final String FIND_BY_DIET_ID = "SELECT dish.id, dish.name, dish.meal FROM dish INNER JOIN assigned_dish ON dish.id=assigned_dish.dish_id WHERE diet_id = ?";
 
     public DishDao(ProxyConnection connection) {
         super(connection);
@@ -33,7 +33,7 @@ public class DishDao extends AbstractDao<Dish> implements Dao<Dish> {
 
     @Override
     protected String getTableName() {
-        return null;
+        return TABLE_NAME;
     }
 
     @Override

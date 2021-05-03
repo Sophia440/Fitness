@@ -5,30 +5,37 @@ import com.epam.web.entity.Membership;
 import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.MembershipRowMapper;
 
+import java.util.List;
 import java.util.Optional;
 
 public class MembershipDao extends AbstractDao<Membership> implements Dao<Membership> {
     public static final String TABLE_NAME = "membership";
     public static final String FIND_BY_ID = "SELECT * FROM membership WHERE id = ?";
     public static final String FIND_BY_CLIENT_ID = "SELECT * FROM membership WHERE client_id = ?";
-
+    private static final String CREATE = "INSERT INTO membership (client_id, start_date, end_date, payment_date) VALUE (?, ?, ?, ?)";
+    private static final String UPDATE = "UPDATE membership SET client_id = ?, start_date = ?, end_date = ?, payment_date = ? WHERE id = ?";
 
     public MembershipDao(ProxyConnection connection) {
         super(connection);
     }
 
     @Override
-    protected void create(Membership item) throws DaoException {
-        throw new UnsupportedOperationException();
+    public void create(Membership item) throws DaoException {
+        executeUpdate(CREATE, item.getClientId(), item.getStartDate(), item.getEndDate(), item.getPaymentDate());
     }
 
     @Override
-    protected Optional<Membership> update(Membership item) throws DaoException {
-        return Optional.empty();
+    public Optional<Membership> update(Membership item) throws DaoException {
+        Optional<Membership> membershipToUpdate = getById(item.getId());
+        if (!membershipToUpdate.isPresent()) {
+            throw new DaoException("Membership " + item.getId() + " not found.");
+        }
+        executeUpdate(UPDATE, item.getClientId(), item.getStartDate(), item.getEndDate(), item.getPaymentDate(), item.getId());
+        return membershipToUpdate;
     }
 
     @Override
-    protected String getTableName() {
+    public String getTableName() {
         return TABLE_NAME;
     }
 
@@ -42,7 +49,7 @@ public class MembershipDao extends AbstractDao<Membership> implements Dao<Member
         throw new UnsupportedOperationException();
     }
 
-    public Optional<Membership> findMembershipByClientId(Long clientId) throws DaoException {
-        return executeForSingleResult(FIND_BY_CLIENT_ID, new MembershipRowMapper(), clientId);
+    public List<Membership> findMembershipsByClientId(Long clientId) throws DaoException {
+        return executeQuery(FIND_BY_CLIENT_ID, new MembershipRowMapper(), clientId);
     }
 }

@@ -642,6 +642,10 @@ body{
     cursor: pointer;
 }
 
+a.button {
+
+}
+
 .return-btn:hover, .return-btn:focus, .return-btn:active{
     background: #272D4E;
 }
@@ -796,6 +800,29 @@ body{
     text-decoration: none;
 }
 
+.membership__select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 15px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}  
+
+.membership__title {
+    color: #272D4E;
+    font-size: 24px;
+    line-height: 40px;
+}
+
+.membership__subtitle {
+    color: #272D4E;
+    font-size: 24px;
+    line-height: 40px;
+    margin-bottom: 20px;
+}
+
 /* service styles end */
 
 /* trainers styles start */
@@ -824,5 +851,23 @@ body{
     list-style-type: circle;
 }
 
-
 /* trainers styles end */
+
+/* about styles start */
+
+.about__title {
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 60px;
+    color: #272D4E;
+    margin-bottom: 30px;
+}
+
+.about__subtitle {
+    color: #272D4E;
+    font-size: 24px;
+    line-height: 40px;
+    margin-bottom: 30px;
+}
+
+/* about styles end */

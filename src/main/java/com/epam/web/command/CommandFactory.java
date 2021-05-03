@@ -15,6 +15,7 @@ public class CommandFactory {
     public static final Logger LOGGER = LogManager.getLogger(CommandFactory.class);
     public static final String MAIN_PAGE = "/view/main.jsp";
     public static final String ACCOUNT_PAGE = "/view/account.jsp";
+    public static final String BUY_MEMBERSHIP_PAGE = "/view/buy_membership.jsp";
     public static final String TRAINERS_PAGE = "/view/trainers.jsp";
     public static final String SERVICES_PAGE = "/view/services.jsp";
     public static final String ABOUT_PAGE = "/view/about.jsp";
@@ -45,6 +46,10 @@ public class CommandFactory {
                 return new ShowPageCommand(TRAINERS_PAGE);
             case "services":
                 return new ShowPageCommand(SERVICES_PAGE);
+            case "chooseDuration":
+                return new ShowPageCommand(BUY_MEMBERSHIP_PAGE);
+            case "buyMembership":
+                return new BuyMembershipCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()));
             case "about":
                 return new ShowPageCommand(ABOUT_PAGE);
             case "error":

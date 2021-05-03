@@ -59,7 +59,7 @@
                     <p class="grid__container-info-title">${dietInfo}</p>
                     <c:if test="${not empty dishList}">
                         <c:forEach items="${dishList}" var="dish">
-                            <p class="grid__container-info">${dish.name}</p>
+                            <p class="grid__container-info">${dish.name}, ${dish.meal}</p>
                         </c:forEach>
                     </c:if>
                 </div>
