@@ -5,6 +5,9 @@
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="text" var="local" />
 
+<fmt:message bundle="${local}" key="about.title" var="title" />
+<fmt:message bundle="${local}" key="about.subtitle" var="subtitle" />
+
 <html>
 <head>
     <meta charset="UTF-8">
@@ -20,12 +23,8 @@
 
 <main class="main">
     <div class="wrapper">
-        <h1 class="about__title">
-            About information
-        </h1>
-        <p class="about__subtitle">
-            Final project for the EPAM Java Web Development course
-        </p>
+        <h1 class="about__title">${title}</h1>
+        <p class="about__subtitle">${subtitle}</p>
     </div>
 </main>
 </body>

@@ -5,6 +5,10 @@
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="text" var="local" />
 
+<fmt:message bundle="${local}" key="services.choice" var="choice" />
+<fmt:message bundle="${local}" key="services.membership" var="membership" />
+<fmt:message bundle="${local}" key="services.title" var="title" />
+
 <html>
 <head>
     <meta charset="UTF-8">
@@ -20,23 +24,21 @@
 
 <main class="service__main">
     <div class="wrapper">
-        <h1 class="service__title">Services</h1>
-        <p class="service__subtitle">
-            Choose a service that you want to purchase:
-        </p>
+        <h1 class="service__title">${title}</h1>
+        <p class="service__subtitle">${choice}</p>
 
         <ul id="service__list">
             <li class="service__item">
                 <a href="${pageContext.request.contextPath}/controller?command=chooseDuration" class="service__item-info">
-                    Membership
+                    ${membership}
                 </a>
             </li>
 
-            <li class="service__item">
-                <a href="#" class="service__item-info">
-                    Something else
-                </a>
-            </li>
+<%--            <li class="service__item">--%>
+<%--                <a href="#" class="service__item-info">--%>
+<%--                    Something else--%>
+<%--                </a>--%>
+<%--            </li>--%>
         </ul>
     </div>
 </main>

@@ -5,6 +5,7 @@
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="text" var="local" />
 
+<fmt:message bundle="${local}" key="payment.confirmation" var="confirmation" />
 <fmt:message bundle="${local}" key="return.button" var="returnBtn" />
 
 <html>
@@ -22,9 +23,7 @@
 
 <main class="main">
     <div class="wrapper">
-        <h1 class="about__title">
-            Payment confirmed. Thanks for the purchase!
-        </h1>
+        <h1 class="about__title">${confirmation}</h1>
         <button type="submit" class="return-btn" onclick="location.href='${pageContext.request.contextPath}/controller?command=main'">
             ${returnBtn}
         </button>

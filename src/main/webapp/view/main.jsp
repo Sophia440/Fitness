@@ -5,6 +5,8 @@
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="text" var="local" />
 
+<fmt:message bundle="${local}" key="main.hello" var="hello" />
+
 <html>
     <head>
         <meta charset="UTF-8">
@@ -19,11 +21,12 @@
         </div>
 
         <main class="main">
-            <c:if test="${name != null}">
-                <h2>
-                    Hello, ${name}!
-                </h2>
-            </c:if>
+            <div class="wrapper">
+                <c:if test="${name != null}">
+                    <h1 class="main__title"> ${hello}, ${name}!</h1>
+                </c:if>
+            </div>
+
         </main>
     </body>
 </html>

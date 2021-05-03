@@ -12,6 +12,7 @@
 <fmt:message bundle="${local}" key="account.info.membership" var="membershipInfo" />
 <fmt:message bundle="${local}" key="account.info.program" var="programInfo" />
 <fmt:message bundle="${local}" key="account.info.diet" var="dietInfo" />
+<fmt:message bundle="${local}" key="account.membership.end" var="membershipEndInfo" />
 
 <html>
     <head>
@@ -41,7 +42,7 @@
                 <div id="b1" class="grid__container-tab">
                     <span onclick="this.parentElement.style.display='none'" class="grid__closebtn">x</span>
                     <p class="grid__container-info-title">${membershipInfo}</p>
-                    <p class="grid__container-info">Membership end date: ${membershipEndDate}</p>
+                    <p class="grid__container-info">${membershipEndInfo}: ${membershipEndDate}</p>
                 </div>
 
                 <div id="b2" class="grid__container-tab">
