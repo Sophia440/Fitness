@@ -5,6 +5,8 @@
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="text" var="local" />
 
+<fmt:message bundle="${local}" key="main.hello" var="hello" />
+
 <html>
 <head>
     <meta charset="UTF-8">
@@ -18,25 +20,14 @@
     <jsp:include page="fragments/header.jsp"/>
 </div>
 
-<main class="trainers__main">
+<main class="main">
     <div class="wrapper">
-
-        <h1 class="trainers__title">Trainers</h1>
-
-        <ul id="trainers__list">
-            <li class="trainers__item">
-                Trainer 1
-            </li>
-
-            <li class="trainers__item">
-                Trainer 2
-            </li>
-
-            <li class="trainers__item">
-                Trainer 3
-            </li>
-        </ul>
+        <c:if test="${name != null}">
+            <h1 class="main__title"> ${hello}, ${name}!</h1>
+            <h1 class="main__title"> You are INSTRUCTOR!</h1>
+        </c:if>
     </div>
+
 </main>
 </body>
 </html>

@@ -860,16 +860,16 @@ a.button {
 
 /* service styles end */
 
-/* trainers styles start */
+/* info styles start */
 
-.trainers__main {
+.info__main {
     min-height: 100vh;
     background-size: cover;
     padding-top: 220px;
     padding-bottom: 123px;
 }
 
-.trainers__title {
+.info__title {
     font-weight: 500;
     font-size: 36px;
     line-height: 60px;
@@ -877,16 +877,20 @@ a.button {
     margin-bottom: 30px;
 }
 
-.trainers__item {
+.info__item {
     font-size: 22px;
     color: #272D4E;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     margin-left: 30px;
     padding: 15px 30px 15px 0px;
     list-style-type: circle;
 }
 
-/* trainers styles end */
+.info__item:last-child{
+    margin-bottom: 20px;
+}
+
+/* info styles end */
 
 /* about styles start */
 

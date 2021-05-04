@@ -50,4 +50,12 @@ public class ProgramService {
             throw new ServiceException(exception);
         }
     }
+
+    public List<Exercise> getAllExercises() throws ServiceException {
+        try {
+            return exerciseDao.getAll();
+        } catch (DaoException exception) {
+            throw new ServiceException(exception);
+        }
+    }
 }

@@ -50,4 +50,12 @@ public class DietService {
             throw new ServiceException(exception);
         }
     }
+
+    public List<Dish> getAllDishes() throws ServiceException {
+        try {
+            return dishDao.getAll();
+        } catch (DaoException exception) {
+            throw new ServiceException(exception);
+        }
+    }
 }

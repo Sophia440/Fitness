@@ -1,8 +1,6 @@
 package com.epam.web.dao;
 
 import com.epam.web.connection.ProxyConnection;
-import com.epam.web.dao.AbstractDao;
-import com.epam.web.dao.Dao;
 import com.epam.web.entity.Exercise;
 import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.ExerciseRowMapper;

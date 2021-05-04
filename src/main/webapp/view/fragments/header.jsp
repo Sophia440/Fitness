@@ -6,7 +6,7 @@
 <fmt:setBundle basename="text" var="local" />
 
 <fmt:message bundle="${local}" key="header.account" var="account" />
-<fmt:message bundle="${local}" key="header.trainers" var="trainers" />
+<fmt:message bundle="${local}" key="header.information" var="information" />
 <fmt:message bundle="${local}" key="header.services" var="services" />
 <fmt:message bundle="${local}" key="header.about" var="about" />
 <fmt:message bundle="${local}" key="header.language" var="language" />
@@ -23,27 +23,53 @@
             <div class="wrapper">
                 <div class="header__wrapper">
                     <div class="header__logo">
-                        <a href="${pageContext.request.contextPath}/controller?command=main" class="header__logo-link">
-                            <p>Fitness</p>
-                        </a>
+                        <c:if test="${role=='CLIENT'}">
+                            <a href="${pageContext.request.contextPath}/controller?command=clientMain" class="header__logo-link">
+                                <p>Fitness</p>
+                            </a>
+                        </c:if>
+                        <c:if test="${role=='ADMIN'}">
+                            <a href="${pageContext.request.contextPath}/controller?command=adminMain" class="header__logo-link">
+                                <p>Fitness</p>
+                            </a>
+                        </c:if>
+                        <c:if test="${role=='INSTRUCTOR'}">
+                            <a href="${pageContext.request.contextPath}/controller?command=instructorMain" class="header__logo-link">
+                                <p>Fitness</p>
+                            </a>
+                        </c:if>
                     </div>
 
                     <nav class="header__nav">
                         <ul class="header__list">
                             <li class="header__item">
-                                <a href="${pageContext.request.contextPath}/controller?command=account" class="header__link">
-                                    ${account}
+                                <c:if test="${role=='CLIENT'}">
+                                    <a href="${pageContext.request.contextPath}/controller?command=clientAccount" class="header__link">
+                                            ${account}
+                                    </a>
+                                </c:if>
+                                <c:if test="${role=='ADMIN'}">
+                                    <a href="${pageContext.request.contextPath}/controller?command=adminAccount" class="header__link">
+                                            ${account}
+                                    </a>
+                                </c:if>
+                                <c:if test="${role=='INSTRUCTOR'}">
+                                    <a href="${pageContext.request.contextPath}/controller?command=instructorAccount" class="header__link">
+                                            ${account}
+                                    </a>
+                                </c:if>
+                            </li>
+                            <li class="header__item">
+                                <a href="${pageContext.request.contextPath}/controller?command=info" class="header__link">
+                                    ${information}
                                 </a>
                             </li>
                             <li class="header__item">
-                                <a href="${pageContext.request.contextPath}/controller?command=trainers" class="header__link">
-                                    ${trainers}
-                                </a>
-                            </li>
-                            <li class="header__item">
-                                <a href="${pageContext.request.contextPath}/controller?command=services" class="header__link">
-                                    ${services}
-                                </a>
+                                <c:if test="${role=='CLIENT'}">
+                                    <a href="${pageContext.request.contextPath}/controller?command=services" class="header__link">
+                                            ${services}
+                                    </a>
+                                </c:if>
                             </li>
                             <li class="header__item">
                                 <a href="${pageContext.request.contextPath}/controller?command=about" class="header__link">

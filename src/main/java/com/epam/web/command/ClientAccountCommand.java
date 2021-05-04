@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ClientAccountCommand implements Command {
-    private static final String CLIENT_ACCOUNT_PAGE = "/view/account.jsp";
+    private static final String CLIENT_ACCOUNT_PAGE = "/view/client_account.jsp";
     private static final String CLIENT_ID = "userId";
 
     private UserService userService;

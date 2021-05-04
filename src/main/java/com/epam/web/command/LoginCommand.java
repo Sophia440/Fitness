@@ -1,5 +1,6 @@
 package com.epam.web.command;
 
+import com.epam.web.entity.Role;
 import com.epam.web.entity.User;
 import com.epam.web.exception.ServiceException;
 import com.epam.web.service.UserService;
@@ -12,7 +13,9 @@ import java.util.Optional;
 
 public class LoginCommand implements Command {
     private final UserService userService;
-    public static final String MAIN_PAGE = "/controller?command=main";
+    public static final String CLIENT_MAIN_PAGE = "/controller?command=clientMain";
+    public static final String INSTRUCTOR_MAIN_PAGE = "/controller?command=instructorMain";
+    public static final String ADMIN_MAIN_PAGE = "/controller?command=adminMain";
     public static final String ERROR_PAGE = "/controller?command=error";
 
     public LoginCommand(UserService userService) {
@@ -30,14 +33,26 @@ public class LoginCommand implements Command {
             session.setAttribute("userId", user.getId());
             session.setAttribute("name", user.getLogin());
             session.setAttribute("password", user.getPassword());
-            session.setAttribute("role", user.getRole());
+            Role userRole = user.getRole();
+            String userRoleString = userRole.name();
+            session.setAttribute("role", userRoleString);
             BigDecimal discount = user.getDiscount();
             if (discount == null) {
                 session.setAttribute("discount", BigDecimal.ZERO);
             } else {
                 session.setAttribute("discount", discount);
             }
-            return CommandResult.forward(MAIN_PAGE);
+            switch (userRole) {
+                case ADMIN:
+                    return CommandResult.forward(ADMIN_MAIN_PAGE);
+                case CLIENT:
+                    return CommandResult.forward(CLIENT_MAIN_PAGE);
+                case INSTRUCTOR:
+                    return CommandResult.forward(INSTRUCTOR_MAIN_PAGE);
+                default:
+                    session.setAttribute("errorMessage", "Invalid user role");
+                    return CommandResult.forward(ERROR_PAGE);
+            }
         } else {
             session.setAttribute("errorMessage", "Invalid username or password");
             return CommandResult.forward(ERROR_PAGE);

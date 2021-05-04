@@ -1,5 +1,7 @@
 package com.epam.web.mapper;
 
+import com.epam.web.entity.Dish;
+import com.epam.web.entity.Exercise;
 import com.epam.web.entity.Identifiable;
 import com.epam.web.entity.User;
 
@@ -13,6 +15,10 @@ public interface RowMapper<T extends Identifiable> {
         switch (table) {
             case User.TABLE:
                 return new UserRowMapper();
+            case Exercise.TABLE:
+                return new ExerciseRowMapper();
+            case Dish.TABLE:
+                return new DishRowMapper();
             default:
                 throw new IllegalArgumentException("Unknown table " + table);
         }

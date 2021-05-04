@@ -12,10 +12,10 @@ import org.apache.log4j.Logger;
 public class CommandFactory {
 
     public static final Logger LOGGER = LogManager.getLogger(CommandFactory.class);
-    public static final String MAIN_PAGE = "/view/main.jsp";
-    public static final String ACCOUNT_PAGE = "/view/account.jsp";
+    public static final String CLIENT_MAIN_PAGE = "/view/client_main.jsp";
+    public static final String INSTRUCTOR_MAIN_PAGE = "/view/instructor_main.jsp";
+    public static final String ADMIN_MAIN_PAGE = "/view/admin_main.jsp";
     public static final String BUY_MEMBERSHIP_PAGE = "/view/buy_membership.jsp";
-    public static final String TRAINERS_PAGE = "/view/trainers.jsp";
     public static final String SERVICES_PAGE = "/view/services.jsp";
     public static final String ABOUT_PAGE = "/view/about.jsp";
     private static final String ERROR_PAGE = "/view/error_page.jsp";
@@ -35,12 +35,20 @@ public class CommandFactory {
         switch (type) {
             case "login":
                 return new LoginCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()));
-            case "main":
-                return new ShowPageCommand(MAIN_PAGE);
+            case "clientMain":
+                return new ShowPageCommand(CLIENT_MAIN_PAGE);
+            case "instructorMain":
+                return new ShowPageCommand(INSTRUCTOR_MAIN_PAGE);
+            case "adminMain":
+                return new ShowPageCommand(ADMIN_MAIN_PAGE);
             case "changeLanguage":
                 return new ChangeLanguageCommand();
-            case "account":
+            case "clientAccount":
                 return new ClientAccountCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()), new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
+            case "adminAccount":
+                return new AdminAccountCommand();
+            case "instructorAccount":
+                return new InstructorAccountCommand();
             case "acceptProgram":   //todo refactor accept and decline commands into one changeStatus command
                 return new AcceptProgramCommand(new ProgramService(helper.createProgramDao(), helper.createExerciseDao()));
             case "acceptDiet":
@@ -49,8 +57,8 @@ public class CommandFactory {
                 return new DeclineProgramCommand(new ProgramService(helper.createProgramDao(), helper.createExerciseDao()));
             case "declineDiet":
                 return new DeclineDietCommand(new DietService(helper.createDietDao(), helper.createDishDao()));
-            case "trainers":
-                return new ShowPageCommand(TRAINERS_PAGE);
+            case "info":
+                return new InfoCommand(new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
             case "services":
                 return new ShowPageCommand(SERVICES_PAGE);
             case "chooseDuration":
