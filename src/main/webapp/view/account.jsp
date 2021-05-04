@@ -13,6 +13,8 @@
 <fmt:message bundle="${local}" key="account.info.program" var="programInfo" />
 <fmt:message bundle="${local}" key="account.info.diet" var="dietInfo" />
 <fmt:message bundle="${local}" key="account.membership.end" var="membershipEndInfo" />
+<fmt:message bundle="${local}" key="account.button.accept" var="accept" />
+<fmt:message bundle="${local}" key="account.button.decline" var="decline" />
 
 <html>
     <head>
@@ -53,6 +55,14 @@
                             <p class="grid__container-info">${exercise.name}</p>
                         </c:forEach>
                     </c:if>
+                    <c:if test="${programStatus=='AWAITING_CLIENT_ANSWER'}">
+                        <form action="${pageContext.request.contextPath}/controller?command=acceptProgram" method="post">
+                            <button type="submit" class="account-form__accept" value="submit">${accept}</button>
+                        </form>
+                        <form action="${pageContext.request.contextPath}/controller?command=declineProgram" method="post">
+                            <button type="submit" class="account-form__decline" value="submit">${decline}</button>
+                        </form>
+                    </c:if>
                 </div>
 
                 <div id="b3" class="grid__container-tab">
@@ -62,6 +72,14 @@
                         <c:forEach items="${dishList}" var="dish">
                             <p class="grid__container-info">${dish.name}, ${dish.meal}</p>
                         </c:forEach>
+                    </c:if>
+                    <c:if test="${dietStatus=='AWAITING_CLIENT_ANSWER'}">
+                        <form action="${pageContext.request.contextPath}/controller?command=acceptDiet" method="post">
+                            <button type="submit" class="account-form__accept" value="submit">${accept}</button>
+                        </form>
+                        <form action="${pageContext.request.contextPath}/controller?command=declineDiet" method="post">
+                            <button type="submit" class="account-form__decline" value="submit">${decline}</button>
+                        </form>
                     </c:if>
                 </div>
             </div>

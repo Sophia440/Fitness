@@ -2,7 +2,9 @@ package com.epam.web.service;
 
 import com.epam.web.dao.DietDao;
 import com.epam.web.dao.DishDao;
-import com.epam.web.entity.*;
+import com.epam.web.entity.Diet;
+import com.epam.web.entity.Dish;
+import com.epam.web.entity.Status;
 import com.epam.web.exception.DaoException;
 import com.epam.web.exception.ServiceException;
 
@@ -34,5 +36,18 @@ public class DietService {
         Long dietId = diet.get().getId();
         List<Dish> dishes = dishDao.getDishesByDietId(dietId);
         diet.get().setDishes(dishes);
+    }
+
+    public void setDietStatus(Long clientId, Status status) throws ServiceException {
+        try {
+            Optional<Diet> optionalDiet = getDiet(clientId);
+            if (optionalDiet.isPresent()) {
+                Diet diet = optionalDiet.get();
+                diet.setStatus(status);
+                dietDao.update(diet);
+            }
+        } catch (DaoException exception) {
+            throw new ServiceException(exception);
+        }
     }
 }

@@ -1,14 +1,8 @@
 package com.epam.web.dao;
 
-import com.epam.web.connection.ConnectionException;
-import com.epam.web.connection.ConnectionPool;
 import com.epam.web.connection.ProxyConnection;
-import com.epam.web.dao.AbstractDao;
-import com.epam.web.dao.Dao;
-import com.epam.web.entity.Membership;
 import com.epam.web.entity.User;
 import com.epam.web.exception.DaoException;
-import com.epam.web.mapper.MembershipRowMapper;
 import com.epam.web.mapper.UserRowMapper;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -20,6 +14,7 @@ public class UserDao extends AbstractDao<User> implements Dao<User> {
 
     public static final String TABLE_NAME = "user";
     public static final String FIND = "SELECT * FROM user";
+    public static final String FIND_BY_ID = "SELECT * FROM user WHERE id = ?";
     public static final String FIND_BY_LOGIN_AND_PASSWORD = "SELECT * FROM user WHERE login = ? AND password = ?";
     // WHERE login = ? AND password = MD5(?)
     private static final String REMOVE_BY_ID = "DELETE FROM user WHERE id = ?";
@@ -37,8 +32,8 @@ public class UserDao extends AbstractDao<User> implements Dao<User> {
     }
 
     @Override
-    public Optional<User> getById(Long id) {
-        return Optional.empty();
+    public Optional<User> getById(Long id) throws DaoException {
+        return executeForSingleResult(FIND_BY_ID, new UserRowMapper(), id);
     }
 
     @Override
@@ -57,7 +52,7 @@ public class UserDao extends AbstractDao<User> implements Dao<User> {
         if (!userToUpdate.isPresent()) {
             throw new DaoException("User " + item.getId() + " not found.");
         }
-        executeUpdate(UPDATE, item.getLogin(), item.getPassword(), item.getId(), item.getRole().toString());
+        executeUpdate(UPDATE, item.getLogin(), item.getPassword(), item.getRole().toString(), item.getId());
         return userToUpdate;
     }
 

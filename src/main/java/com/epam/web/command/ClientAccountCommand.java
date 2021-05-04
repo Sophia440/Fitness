@@ -37,23 +37,27 @@ public class ClientAccountCommand implements Command {
         if (optionalMembership.isPresent()) {
             membership = optionalMembership.get();
         }
-        request.setAttribute("membershipEndDate", membership.getEndDate());
+        session.setAttribute("membershipEndDate", membership.getEndDate());
         Optional<Program> optionalProgram = programService.getProgram(clientId);
         Program program = null;
         if (optionalProgram.isPresent()) {
             program = optionalProgram.get();
         }
         List<Exercise> exerciseList = program.getExercises();
-        request.setAttribute("exerciseList", exerciseList);
-        request.setAttribute("exercise", new ExerciseDto());
+        session.setAttribute("exerciseList", exerciseList);
+        session.setAttribute("exercise", new ExerciseDto());
+        String programStatus = program.getStatus().toString();
+        session.setAttribute("programStatus", programStatus);
         Optional<Diet> optionalDiet = dietService.getDiet(clientId);
         Diet diet = null;
         if (optionalDiet.isPresent()) {
             diet = optionalDiet.get();
         }
         List<Dish> dishList = diet.getDishes();
-        request.setAttribute("dishList", dishList);
-        request.setAttribute("dish", new DishDto());
+        session.setAttribute("dishList", dishList);
+        session.setAttribute("dish", new DishDto());
+        String dietStatus = diet.getStatus().toString();
+        session.setAttribute("dietStatus", dietStatus);
         return CommandResult.forward(CLIENT_ACCOUNT_PAGE);
     }
 }

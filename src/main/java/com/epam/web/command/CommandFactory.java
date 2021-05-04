@@ -6,7 +6,6 @@ import com.epam.web.dao.DaoHelper;
 import com.epam.web.service.DietService;
 import com.epam.web.service.ProgramService;
 import com.epam.web.service.UserService;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -42,6 +41,14 @@ public class CommandFactory {
                 return new ChangeLanguageCommand();
             case "account":
                 return new ClientAccountCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()), new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
+            case "acceptProgram":   //todo refactor accept and decline commands into one changeStatus command
+                return new AcceptProgramCommand(new ProgramService(helper.createProgramDao(), helper.createExerciseDao()));
+            case "acceptDiet":
+                return new AcceptDietCommand(new DietService(helper.createDietDao(), helper.createDishDao()));
+            case "declineProgram":
+                return new DeclineProgramCommand(new ProgramService(helper.createProgramDao(), helper.createExerciseDao()));
+            case "declineDiet":
+                return new DeclineDietCommand(new DietService(helper.createDietDao(), helper.createDishDao()));
             case "trainers":
                 return new ShowPageCommand(TRAINERS_PAGE);
             case "services":

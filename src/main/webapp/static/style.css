@@ -545,7 +545,7 @@ body{
 
 .main__title {
     font-weight: 500;
-    font-size: 50px;
+    font-size: 36px;
     line-height: 60px;
     color: #272D4E;
     margin-bottom: 30px;
@@ -750,6 +750,33 @@ a.button {
     cursor: pointer;
   }
 /* expanding grid end */
+
+
+.account-form__accept {
+    padding: 10px 35px;
+    font-weight: 500;
+    font-size: 24px;
+    color: #F5F7F7;
+    background: #6C64D3;
+    border: 0;
+    font-family: 'Roboto';
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.account-form__decline {
+    padding: 10px 35px;
+    font-weight: 500;
+    font-size: 24px;
+    color: #F5F7F7;
+    background: #6C64D3;
+    border: 0;
+    font-family: 'Roboto';
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+}
 
 /* account styles end */
 

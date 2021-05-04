@@ -1,8 +1,5 @@
 package com.epam.web.service;
 
-import com.epam.web.connection.ConnectionException;
-import com.epam.web.connection.ConnectionPool;
-import com.epam.web.connection.ProxyConnection;
 import com.epam.web.dao.MembershipDao;
 import com.epam.web.dao.UserDao;
 import com.epam.web.entity.Membership;
@@ -56,6 +53,18 @@ public class UserService {
     }
 
     public boolean buyMembership(Long clientId, long monthsNumber) {
+        Membership membership = getNewMembershipInfo(clientId, monthsNumber);
+        boolean isBought = false;
+        try {
+            membershipDao.create(membership);
+            isBought = true;
+        } catch (DaoException exception) {
+            LOGGER.fatal(exception.getMessage(), exception);
+        }
+        return isBought;
+    }
+
+    private Membership getNewMembershipInfo(Long clientId, long monthsNumber) {
         Membership membership = new Membership();
         membership.setClientId(clientId);
         LocalDate startDate;
@@ -71,13 +80,6 @@ public class UserService {
         LocalDate endDate = startDate.plusMonths(monthsNumber);
         membership.setEndDate(endDate);
         membership.setPaymentDate(LocalDate.now());
-        boolean isBought = false;
-        try {
-            membershipDao.create(membership);
-            isBought = true;
-        } catch (DaoException exception) {
-            LOGGER.fatal(exception.getMessage(), exception);
-        }
-        return isBought;
+        return membership;
     }
 }

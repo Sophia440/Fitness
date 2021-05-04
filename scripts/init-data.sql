@@ -19,8 +19,8 @@ VALUES
 INSERT INTO program
 (id, client_id, instructor_id, status) 
 VALUES 
-(1, 2, 3, 'ACTIVE'), 
-(2, 4, 5, 'AWAITING_CLIENT_ANSWER');
+(1, 2, 3, 'AWAITING_CLIENT_ANSWER'), 
+(2, 4, 5, 'ACTIVE');
 
 INSERT INTO exercise
 (id, name) 
@@ -62,8 +62,8 @@ VALUES
 INSERT INTO diet 
 (id, client_id, instructor_id, start_date, end_date, status) 
 VALUES 
-(1, 2, 3, '2021-05-01', '2021-06-01', 'ACTIVE'), 
-(2, 4, 5, '2021-04-01', '2021-07-01', 'AWAITING_CLIENT_ANSWER');
+(1, 2, 3, '2021-05-01', '2021-06-01', 'AWAITING_CLIENT_ANSWER'), 
+(2, 4, 5, '2021-04-01', '2021-07-01', 'ACTIVE');
 
 INSERT INTO dish 
 (id, name, meal) 
