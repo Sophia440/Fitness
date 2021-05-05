@@ -11,6 +11,7 @@ public class ProgramDao extends AbstractDao<Program> implements Dao<Program> {
     public static final String TABLE_NAME = "program";
     public static final String FIND_PROGRAM_BY_ID = "SELECT * FROM program WHERE id = ?";
     public static final String FIND_PROGRAM_BY_CLIENT_ID = "SELECT * FROM program WHERE client_id = ?";
+    private static final String CREATE = "INSERT INTO program (client_id, instructor_id, status) VALUE (?, ?, ?)";
     private static final String UPDATE = "UPDATE program SET client_id = ?, instructor_id = ?, status = ? WHERE id = ?";
 
     public ProgramDao(ProxyConnection connection) {
@@ -19,7 +20,7 @@ public class ProgramDao extends AbstractDao<Program> implements Dao<Program> {
 
     @Override
     public void create(Program item) throws DaoException {
-        throw new UnsupportedOperationException();
+        executeUpdate(CREATE, item.getClientId(), item.getInstructorId(), item.getStatus().toString());
     }
 
     @Override

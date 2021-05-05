@@ -19,7 +19,7 @@
 </head>
 <body>
 <div class="header">
-    <jsp:include page="fragments/header.jsp"/>
+    <jsp:include page="../fragments/header.jsp"/>
 </div>
 
 <main class="service__main">

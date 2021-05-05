@@ -4,6 +4,7 @@ import com.epam.web.dao.DietDao;
 import com.epam.web.dao.DishDao;
 import com.epam.web.entity.Diet;
 import com.epam.web.entity.Dish;
+import com.epam.web.entity.Meal;
 import com.epam.web.entity.Status;
 import com.epam.web.exception.DaoException;
 import com.epam.web.exception.ServiceException;
@@ -54,6 +55,25 @@ public class DietService {
     public List<Dish> getAllDishes() throws ServiceException {
         try {
             return dishDao.getAll();
+        } catch (DaoException exception) {
+            throw new ServiceException(exception);
+        }
+    }
+
+    public void addDish(String newDishName, String newDishMeal) throws ServiceException {
+        Dish dish = new Dish();
+        dish.setName(newDishName);
+        dish.setMeal(Meal.valueOf(newDishMeal.toUpperCase()));
+        try {
+            dishDao.create(dish);
+        } catch (DaoException exception) {
+            throw new ServiceException(exception);
+        }
+    }
+
+    public void deleteDish(Long id) throws ServiceException {
+        try {
+            dishDao.removeById(id);
         } catch (DaoException exception) {
             throw new ServiceException(exception);
         }

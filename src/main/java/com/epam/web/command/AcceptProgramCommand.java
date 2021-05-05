@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class AcceptProgramCommand implements Command {
-    private static final String CLIENT_ACCOUNT_PAGE = "/view/account.jsp";
+    private static final String CLIENT_ACCOUNT_PAGE = "/view/client_pages/client_account.jsp";
     private static final String CLIENT_ID = "userId";
 
     private ProgramService programService;

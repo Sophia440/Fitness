@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 public class BuyMembershipCommand implements Command {
     private final UserService userService;
     private static final String CLIENT_ID = "userId";
-    private static final String PURCHASE_CONFIRMED = "/view/purchase_confirmed.jsp";
+    private static final String ACTION_CONFIRMED_PAGE = "/view/fragments/action_confirmed.jsp";
     public static final String ERROR_PAGE = "/controller?command=error";
 
     public BuyMembershipCommand(UserService userService) {
@@ -25,7 +25,8 @@ public class BuyMembershipCommand implements Command {
         long monthsNumber = Long.parseLong(membershipDuration);
         boolean isBought = userService.buyMembership(clientId, monthsNumber);
         if (isBought) {
-            return CommandResult.forward(PURCHASE_CONFIRMED);
+            session.setAttribute("confirmation", "Payment confirmed. Thanks for the purchase!");
+            return CommandResult.forward(ACTION_CONFIRMED_PAGE);
         } else {
             session.setAttribute("errorMessage", "Membership purchase was not successful!");
             return CommandResult.forward(ERROR_PAGE);

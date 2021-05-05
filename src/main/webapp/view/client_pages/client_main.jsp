@@ -17,14 +17,13 @@
     </head>
     <body>
         <div class="header">
-            <jsp:include page="fragments/header.jsp"/>
+            <jsp:include page="../fragments/header.jsp"/>
         </div>
 
         <main class="main">
             <div class="wrapper">
                 <c:if test="${name != null}">
                     <h1 class="main__title"> ${hello}, ${name}!</h1>
-                    <h1 class="main__title"> You are CLIENT!</h1>
                 </c:if>
             </div>
 

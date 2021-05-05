@@ -3,10 +3,8 @@ package com.epam.web.mapper;
 import com.epam.web.entity.Role;
 import com.epam.web.entity.User;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Locale;
 
 public class UserRowMapper implements RowMapper<User> {
 
@@ -17,8 +15,7 @@ public class UserRowMapper implements RowMapper<User> {
         String password = resultSet.getString(User.PASSWORD);
         String roleString = resultSet.getString(User.ROLE);
         Role role = Role.valueOf(roleString.toUpperCase());
-        double discountDouble = resultSet.getDouble(User.DISCOUNT);
-        BigDecimal discount = BigDecimal.valueOf(discountDouble);
+        int discount = resultSet.getInt(User.DISCOUNT);
         return new User(id, login, password, role, discount);
     }
 }

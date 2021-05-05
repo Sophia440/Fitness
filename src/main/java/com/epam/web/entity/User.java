@@ -1,7 +1,5 @@
 package com.epam.web.entity;
 
-import java.math.BigDecimal;
-
 public class User implements Identifiable {
     public static final String TABLE = "user";
     public static final String ID = "id";
@@ -14,7 +12,7 @@ public class User implements Identifiable {
     private String login;
     private String password;
     private Role role;
-    private BigDecimal discount;
+    private int discount;
 
     public User() {
     }
@@ -24,7 +22,7 @@ public class User implements Identifiable {
         this.login = login;
     }
 
-    public User(Long id, String login, String password, Role role, BigDecimal discount) {
+    public User(Long id, String login, String password, Role role, int discount) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -60,11 +58,11 @@ public class User implements Identifiable {
         this.role = role;
     }
 
-    public BigDecimal getDiscount() {
+    public int getDiscount() {
         return discount;
     }
 
-    public void setDiscount(BigDecimal discount) {
+    public void setDiscount(int discount) {
         this.discount = discount;
     }
 

@@ -4,15 +4,17 @@ import com.epam.web.entity.Role;
 import com.epam.web.entity.User;
 import com.epam.web.exception.ServiceException;
 import com.epam.web.service.UserService;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.math.BigDecimal;
 import java.util.Optional;
 
 public class LoginCommand implements Command {
     private final UserService userService;
+    public static final Logger LOGGER = LogManager.getLogger(LoginCommand.class);
     public static final String CLIENT_MAIN_PAGE = "/controller?command=clientMain";
     public static final String INSTRUCTOR_MAIN_PAGE = "/controller?command=instructorMain";
     public static final String ADMIN_MAIN_PAGE = "/controller?command=adminMain";
@@ -26,7 +28,12 @@ public class LoginCommand implements Command {
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        Optional<User> optionalUser = userService.login(username, password);
+        Optional<User> optionalUser = null;
+        try {
+            optionalUser = userService.login(username, password);
+        } catch (ServiceException exception) {
+            LOGGER.fatal(exception.getMessage(), exception);
+        }
         HttpSession session = request.getSession(false);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
@@ -36,12 +43,14 @@ public class LoginCommand implements Command {
             Role userRole = user.getRole();
             String userRoleString = userRole.name();
             session.setAttribute("role", userRoleString);
-            BigDecimal discount = user.getDiscount();
-            if (discount == null) {
-                session.setAttribute("discount", BigDecimal.ZERO);
-            } else {
-                session.setAttribute("discount", discount);
-            }
+//            BigDecimal discount = user.getDiscount();
+//            if (discount == null) {
+//                session.setAttribute("discount", BigDecimal.ZERO);
+//            } else {
+//                session.setAttribute("discount", discount);
+//            }
+            int discount = user.getDiscount();
+            session.setAttribute("discount", discount);
             switch (userRole) {
                 case ADMIN:
                     return CommandResult.forward(ADMIN_MAIN_PAGE);

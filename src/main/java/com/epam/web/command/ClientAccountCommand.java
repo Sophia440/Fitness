@@ -7,6 +7,8 @@ import com.epam.web.exception.ServiceException;
 import com.epam.web.service.DietService;
 import com.epam.web.service.ProgramService;
 import com.epam.web.service.UserService;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class ClientAccountCommand implements Command {
-    private static final String CLIENT_ACCOUNT_PAGE = "/view/client_account.jsp";
+    public static final Logger LOGGER = LogManager.getLogger(ClientAccountCommand.class);
+    private static final String CLIENT_ACCOUNT_PAGE = "/view/client_pages/client_account.jsp";
     private static final String CLIENT_ID = "userId";
 
     private UserService userService;
@@ -32,7 +35,14 @@ public class ClientAccountCommand implements Command {
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         HttpSession session = request.getSession();
         Long clientId = (Long) session.getAttribute(CLIENT_ID);
-        Optional<Membership> optionalMembership = userService.getLastMembership(clientId);
+        int clientDiscount = userService.getDiscount(clientId);
+        session.setAttribute("clientDiscount", clientDiscount);
+        Optional<Membership> optionalMembership = null;
+        try {
+            optionalMembership = userService.getLastMembership(clientId);
+        } catch (ServiceException exception) {
+            LOGGER.fatal(exception.getMessage(), exception);
+        }
         Membership membership = null;
         if (optionalMembership.isPresent()) {
             membership = optionalMembership.get();

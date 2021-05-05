@@ -3,11 +3,10 @@ package com.epam.web.service;
 import com.epam.web.dao.MembershipDao;
 import com.epam.web.dao.UserDao;
 import com.epam.web.entity.Membership;
+import com.epam.web.entity.Role;
 import com.epam.web.entity.User;
 import com.epam.web.exception.DaoException;
 import com.epam.web.exception.ServiceException;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -16,7 +15,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class UserService {
-    public static final Logger LOGGER = LogManager.getLogger(UserService.class);
     private final UserDao userDao;
     private final MembershipDao membershipDao;
 
@@ -33,7 +31,7 @@ public class UserService {
         }
     }
 
-    public Optional<Membership> getLastMembership(Long clientId) {
+    public Optional<Membership> getLastMembership(Long clientId) throws ServiceException {
         List<Membership> memberships = getAllMemberships(clientId);
         List<Membership> sortedMemberships = memberships.stream()
                 .sorted(Comparator.comparing(Membership::getEndDate))
@@ -42,29 +40,29 @@ public class UserService {
         return Optional.of(lastMembership);
     }
 
-    private List<Membership> getAllMemberships(Long clientId) {
+    private List<Membership> getAllMemberships(Long clientId) throws ServiceException {
         List<Membership> memberships = null;
         try {
             memberships = membershipDao.findMembershipsByClientId(clientId);
         } catch (DaoException exception) {
-            LOGGER.fatal(exception.getMessage(), exception);
+            throw new ServiceException(exception);
         }
         return memberships;
     }
 
-    public boolean buyMembership(Long clientId, long monthsNumber) {
+    public boolean buyMembership(Long clientId, long monthsNumber) throws ServiceException {
         Membership membership = getNewMembershipInfo(clientId, monthsNumber);
         boolean isBought = false;
         try {
             membershipDao.create(membership);
             isBought = true;
         } catch (DaoException exception) {
-            LOGGER.fatal(exception.getMessage(), exception);
+            throw new ServiceException(exception);
         }
         return isBought;
     }
 
-    private Membership getNewMembershipInfo(Long clientId, long monthsNumber) {
+    private Membership getNewMembershipInfo(Long clientId, long monthsNumber) throws ServiceException {
         Membership membership = new Membership();
         membership.setClientId(clientId);
         LocalDate startDate;
@@ -81,5 +79,39 @@ public class UserService {
         membership.setEndDate(endDate);
         membership.setPaymentDate(LocalDate.now());
         return membership;
+    }
+
+    public List<User> getUsersByRole(Role role) throws ServiceException {
+        try {
+            return userDao.getUsersByRole(role);
+        } catch (DaoException exception) {
+            throw new ServiceException(exception);
+        }
+    }
+
+    public int getDiscount(Long clientId) throws ServiceException {
+        try {
+            Optional<User> optionalUser = userDao.getById(clientId);
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                return user.getDiscount();
+            }
+        } catch (DaoException exception) {
+            throw new ServiceException(exception);
+        }
+        return 0;
+    }
+
+    public void setDiscount(Long clientId, int newDiscount) throws ServiceException {
+        try {
+            Optional<User> optionalUser = userDao.getById(clientId);
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                user.setDiscount(newDiscount);
+                userDao.update(user);
+            }
+        } catch (DaoException exception) {
+            throw new ServiceException(exception);
+        }
     }
 }

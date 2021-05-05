@@ -17,15 +17,23 @@
 </head>
 <body>
 <div class="header">
-    <jsp:include page="fragments/header.jsp"/>
+    <jsp:include page="../fragments/header.jsp"/>
 </div>
 
 <main class="main">
     <div class="wrapper">
-        <c:if test="${name != null}">
-            <h1 class="main__title"> ${hello}, ${name}!</h1>
-            <h1 class="main__title"> You are INSTRUCTOR!</h1>
-        </c:if>
+        <form action="${pageContext.request.contextPath}/controller?command=adminActions&action=deleteExercise" method="post">
+            <p class="actions__subtitle">Choose exercises to delete:</p>
+            <c:if test="${not empty allExercises}">
+                <c:forEach items="${allExercises}" var="exercise">
+                    <input type="radio" name="exerciseToDelete" value="${exercise.id}">
+                    <label class="actions-form__select-radio">${exercise.name}</label><br>
+                </c:forEach>
+            </c:if>
+                <div>
+                    <input type="submit" value="Submit" class="actions-form__submit">
+                </div>
+            </form> 
     </div>
 
 </main>

@@ -27,13 +27,15 @@
     </head>
     <body>
         <div class="header">
-            <jsp:include page="fragments/header.jsp"/>
+            <jsp:include page="../fragments/header.jsp"/>
         </div>
 
         <main class="account__main">
             <div class="wrapper">
 
                 <h1 class="account__title">${title}</h1>
+
+                <p class="account__subtitle">Your discount: ${clientDiscount}%</p>
 
                 <div class="grid__row">
                     <div class="grid__column-membership" onclick="openTab('b1');">${membership}</div>

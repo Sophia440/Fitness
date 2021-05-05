@@ -12,13 +12,20 @@ import org.apache.log4j.Logger;
 public class CommandFactory {
 
     public static final Logger LOGGER = LogManager.getLogger(CommandFactory.class);
-    public static final String CLIENT_MAIN_PAGE = "/view/client_main.jsp";
-    public static final String INSTRUCTOR_MAIN_PAGE = "/view/instructor_main.jsp";
-    public static final String ADMIN_MAIN_PAGE = "/view/admin_main.jsp";
-    public static final String BUY_MEMBERSHIP_PAGE = "/view/buy_membership.jsp";
-    public static final String SERVICES_PAGE = "/view/services.jsp";
+
     public static final String ABOUT_PAGE = "/view/about.jsp";
     private static final String ERROR_PAGE = "/view/error_page.jsp";
+
+    public static final String INSTRUCTOR_MAIN_PAGE = "/view/instructor_pages/instructor_main.jsp";
+    private static final String INSTRUCTOR_ACCOUNT_PAGE = "/view/instructor_pages/instructor_account.jsp";
+
+    public static final String CLIENT_MAIN_PAGE = "/view/client_pages/client_main.jsp";
+    public static final String BUY_MEMBERSHIP_PAGE = "/view/client_pages/buy_membership.jsp";
+    public static final String SERVICES_PAGE = "/view/client_pages/services.jsp";
+
+    public static final String ADMIN_MAIN_PAGE = "/view/admin_pages/admin_main.jsp";
+    private static final String ADMIN_ACCOUNT_PAGE = "/view/admin_pages/admin_account.jsp";
+
     private ConnectionPool pool;
     private DaoHelper helper;
 
@@ -46,9 +53,13 @@ public class CommandFactory {
             case "clientAccount":
                 return new ClientAccountCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()), new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
             case "adminAccount":
-                return new AdminAccountCommand();
+                return new ShowPageCommand(ADMIN_ACCOUNT_PAGE);
+            case "adminActions":
+                return new AdminActionsCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()), new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
+            case "instructorActions":   //todo do sth with all helper.createDao params
+                return new InstructorActionsCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()), new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
             case "instructorAccount":
-                return new InstructorAccountCommand();
+                return new ShowPageCommand(INSTRUCTOR_ACCOUNT_PAGE);
             case "acceptProgram":   //todo refactor accept and decline commands into one changeStatus command
                 return new AcceptProgramCommand(new ProgramService(helper.createProgramDao(), helper.createExerciseDao()));
             case "acceptDiet":

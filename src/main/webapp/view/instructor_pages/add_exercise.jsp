@@ -17,15 +17,18 @@
 </head>
 <body>
 <div class="header">
-    <jsp:include page="fragments/header.jsp"/>
+    <jsp:include page="../fragments/header.jsp"/>
 </div>
 
 <main class="main">
     <div class="wrapper">
-        <c:if test="${name != null}">
-            <h1 class="main__title"> ${hello}, ${name}!</h1>
-            <h1 class="main__title"> You are ADMIN!</h1>
-        </c:if>
+        <form action="${pageContext.request.contextPath}/controller?command=instructorActions&action=addExercise" method="post">
+                <label class="actions-form__select-label" for="newExerciseName">Name:</label>
+                <input type="text" class="actions-form__field" id="newExerciseName" name="newExerciseName">
+                <div>
+                    <button type="submit" class="actions-form__submit" value="submit">Add</button>
+                </div>
+             </form>
     </div>
 
 </main>

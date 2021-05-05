@@ -27,15 +27,38 @@
 </head>
 <body>
 <div class="header">
-    <jsp:include page="fragments/header.jsp"/>
+    <jsp:include page="../fragments/header.jsp"/>
 </div>
 
 <main class="account__main">
     <div class="wrapper">
-
         <h1 class="account__title">${title}</h1>
-        <h1 class="account__title">Instructor account</h1>
-
+        <ul id="account__list">
+            <li class="account__item">
+                <a href="${pageContext.request.contextPath}/controller?command=instructorActions&action=addExerciseForm"
+                   class="account__item-info">
+                    Add new exercise
+                </a>
+            </li>
+            <li class="account__item">
+                <a href="${pageContext.request.contextPath}/controller?command=instructorActions&action=addDishForm"
+                   class="account__item-info">
+                    Add new dish
+                </a>
+            </li>
+            <li class="account__item">
+                <a href="${pageContext.request.contextPath}/controller?command=instructorActions&action=addProgramForm"
+                   class="account__item-info">
+                    Add new program to a client
+                </a>
+            </li>
+            <li class="account__item">
+                <a href="${pageContext.request.contextPath}/controller?command=instructorActions&action=addDietForm"
+                   class="account__item-info">
+                    Add new diet to a client
+                </a>
+            </li>
+        </ul>
     </div>
 </main>
 </body>
