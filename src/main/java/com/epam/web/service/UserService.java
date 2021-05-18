@@ -33,15 +33,19 @@ public class UserService {
 
     public Optional<Membership> getLastMembership(Long clientId) throws ServiceException {
         List<Membership> memberships = getAllMemberships(clientId);
-        List<Membership> sortedMemberships = memberships.stream()
-                .sorted(Comparator.comparing(Membership::getEndDate))
-                .collect(Collectors.toList());
-        Membership lastMembership = sortedMemberships.get(sortedMemberships.size() - 1);
-        return Optional.of(lastMembership);
+        if (memberships.isEmpty()) {
+            return Optional.empty();
+        } else {
+            List<Membership> sortedMemberships = memberships.stream()
+                    .sorted(Comparator.comparing(Membership::getEndDate))
+                    .collect(Collectors.toList());
+            Membership lastMembership = sortedMemberships.get(sortedMemberships.size() - 1);
+            return Optional.of(lastMembership);
+        }
     }
 
     private List<Membership> getAllMemberships(Long clientId) throws ServiceException {
-        List<Membership> memberships = null;
+        List<Membership> memberships;
         try {
             memberships = membershipDao.findMembershipsByClientId(clientId);
         } catch (DaoException exception) {

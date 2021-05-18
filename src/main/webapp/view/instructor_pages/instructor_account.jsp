@@ -47,13 +47,13 @@
                 </a>
             </li>
             <li class="account__item">
-                <a href="${pageContext.request.contextPath}/controller?command=instructorActions&action=addProgramForm"
+                <a href="${pageContext.request.contextPath}/controller?command=instructorActions&action=chooseClientForProgram"
                    class="account__item-info">
                     Add new program to a client
                 </a>
             </li>
             <li class="account__item">
-                <a href="${pageContext.request.contextPath}/controller?command=instructorActions&action=addDietForm"
+                <a href="${pageContext.request.contextPath}/controller?command=instructorActions&action=chooseClientForDiet"
                    class="account__item-info">
                     Add new diet to a client
                 </a>

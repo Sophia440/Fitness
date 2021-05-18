@@ -20,18 +20,18 @@
 
 <main class="main">
     <div class="wrapper">
-            <form action="${pageContext.request.contextPath}/controller?command=adminActions&action=deleteDish" method="post">
-                <p class="actions__subtitle">Choose dish to delete:</p>
-                <c:if test="${not empty allDishes}">
-                    <c:forEach items="${allDishes}" var="dish">
-                        <input type="radio" name="dishToDelete" value="${dish.id}">
-                        <label class="actions-form__select-radio">${dish.name}</label><br>
-                    </c:forEach>
-                </c:if>
-                <div>
-                    <input type="submit" value="submit" class="actions-form__submit">
-                </div>
-            </form> 
+        <form action="${pageContext.request.contextPath}/controller?command=instructorActions&action=checkProgram" method="post">
+            <p class="actions__subtitle">Choose client to add program:</p>
+            <c:if test="${not empty allClients}">
+                <c:forEach items="${allClients}" var="client">
+                    <input type="radio" name="clientToAddProgram" value="${client.id}">
+                    <label class="actions-form__select-radio">${client.login}</label><br>
+                </c:forEach>
+            </c:if>
+            <div>
+                <input type="submit" value="Submit" class="actions-form__submit">
+            </div>
+        </form>
     </div>
 
 </main>

@@ -31,6 +31,8 @@ CREATE TABLE program (
 	id BIGINT NOT NULL AUTO_INCREMENT,
 	instructor_id BIGINT NOT NULL,
 	client_id BIGINT NOT NULL,
+    start_date DATE NOT NULL,
+	end_date DATE NOT NULL,
 	status ENUM('AWAITING_CLIENT_ANSWER', 'ACTIVE', 'DECLINED') NOT NULL,
 	PRIMARY KEY (id),
     FOREIGN KEY (instructor_id) 
@@ -53,8 +55,6 @@ CREATE TABLE assigned_exercise (
 	id BIGINT NOT NULL AUTO_INCREMENT,
 	program_id BIGINT NOT NULL,
     exercise_id BIGINT NOT NULL,
-    start_date DATE NOT NULL,
-	end_date DATE NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (exercise_id) 
     REFERENCES exercise (id)

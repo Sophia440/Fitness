@@ -7,7 +7,8 @@ VALUES
 (2, 'client1', 'client', 'CLIENT', 20),  
 (3, 'instructor1', 'instructor', 'INSTRUCTOR', NULL),
 (4, 'client2', 'client', 'CLIENT', 25),
-(5, 'instructor2', 'instructor', 'INSTRUCTOR', NULL);
+(5, 'instructor2', 'instructor', 'INSTRUCTOR', NULL),
+(6, 'client3', 'client', 'CLIENT', 0);
 -- MD5('admin')
 
 INSERT INTO membership
@@ -17,10 +18,10 @@ VALUES
 (2, 4, '2021-04-01', '2021-07-01', '2021-04-01');
 
 INSERT INTO program
-(id, client_id, instructor_id, status) 
+(id, client_id, instructor_id, start_date, end_date, status) 
 VALUES 
-(1, 2, 3, 'AWAITING_CLIENT_ANSWER'), 
-(2, 4, 5, 'ACTIVE');
+(1, 2, 3, '2021-05-01', '2021-06-01', 'AWAITING_CLIENT_ANSWER'), 
+(2, 4, 5, '2021-04-01', '2021-07-01', 'ACTIVE');
 
 INSERT INTO exercise
 (id, name) 
@@ -44,20 +45,20 @@ VALUES
 (17, 'Pull-ups, 10');
 
 INSERT INTO assigned_exercise 
-(program_id, exercise_id, start_date, end_date) 
+(program_id, exercise_id) 
 VALUES 
-(1, 1, '2021-05-01', '2021-06-01'), 
-(1, 3, '2021-05-01', '2021-06-01'), 
-(1, 9, '2021-05-01', '2021-06-01'), 
-(1, 10, '2021-05-01', '2021-06-01'), 
-(1, 11, '2021-05-01', '2021-06-01'), 
-(1, 2, '2021-05-01', '2021-06-01'), 
-(2, 1, '2021-04-01', '2021-07-01'),
-(2, 3, '2021-04-01', '2021-07-01'),
-(2, 13, '2021-04-01', '2021-07-01'),
-(2, 10, '2021-04-01', '2021-07-01'),
-(2, 15, '2021-04-01', '2021-07-01'),
-(2, 2, '2021-04-01', '2021-07-01');
+(1, 1), 
+(1, 3), 
+(1, 9), 
+(1, 10), 
+(1, 11), 
+(1, 2), 
+(2, 1),
+(2, 3),
+(2, 13),
+(2, 10),
+(2, 15),
+(2, 2);
 
 INSERT INTO diet 
 (id, client_id, instructor_id, start_date, end_date, status) 

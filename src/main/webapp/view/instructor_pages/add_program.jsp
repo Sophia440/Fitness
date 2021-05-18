@@ -5,8 +5,6 @@
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="text" var="local" />
 
-<fmt:message bundle="${local}" key="main.hello" var="hello" />
-
 <html>
 <head>
     <meta charset="UTF-8">
@@ -31,13 +29,12 @@
                 </c:forEach>
             </c:if>
             <br><br>
-            <p class="actions__subtitle">Choose client to add program:</p>
-            <c:if test="${not empty allClients}">
-                <c:forEach items="${allClients}" var="client">
-                    <input type="radio" name="clientToAddProgram" value="${client.id}">
-                    <label class="actions-form__select-radio">${client.login}</label><br>
-                </c:forEach>
-            </c:if>
+            <label for="programStartDate">Start date:</label>
+            <input type="date" id="programStartDate" name="programStartDate">
+            <br><br>
+            <label for="programEndDate">End date:</label>
+            <input type="date" id="programEndDate" name="programEndDate">
+            <br><br>
             <div>
                 <button type="submit" class="login-form__submit" value="submit">Add</button>
             </div>

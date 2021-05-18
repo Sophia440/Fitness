@@ -5,14 +5,16 @@ import com.epam.web.entity.Program;
 import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.ProgramRowMapper;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 public class ProgramDao extends AbstractDao<Program> implements Dao<Program> {
     public static final String TABLE_NAME = "program";
     public static final String FIND_PROGRAM_BY_ID = "SELECT * FROM program WHERE id = ?";
     public static final String FIND_PROGRAM_BY_CLIENT_ID = "SELECT * FROM program WHERE client_id = ?";
-    private static final String CREATE = "INSERT INTO program (client_id, instructor_id, status) VALUE (?, ?, ?)";
-    private static final String UPDATE = "UPDATE program SET client_id = ?, instructor_id = ?, status = ? WHERE id = ?";
+    public static final String FIND_PROGRAM_BY_CLIENT_ID_AND_START_END_DATES = "SELECT * FROM program WHERE client_id = ? AND start_date = ? AND end_date = ?";
+    private static final String CREATE = "INSERT INTO program (client_id, instructor_id, start_date, end_date, status) VALUE (?, ?, ?, ?, ?)";
+    private static final String UPDATE = "UPDATE program SET client_id = ?, instructor_id = ?, start_date = ?, end_date = ?, status = ? WHERE id = ?";
 
     public ProgramDao(ProxyConnection connection) {
         super(connection);
@@ -20,7 +22,7 @@ public class ProgramDao extends AbstractDao<Program> implements Dao<Program> {
 
     @Override
     public void create(Program item) throws DaoException {
-        executeUpdate(CREATE, item.getClientId(), item.getInstructorId(), item.getStatus().toString());
+        executeUpdate(CREATE, item.getClientId(), item.getInstructorId(), item.getStartDate(), item.getEndDate(), item.getStatus().toString());
     }
 
     @Override
@@ -29,7 +31,7 @@ public class ProgramDao extends AbstractDao<Program> implements Dao<Program> {
         if (!programToUpdate.isPresent()) {
             throw new DaoException("Program  " + item.getId() + " not found.");
         }
-        executeUpdate(UPDATE, item.getClientId(), item.getInstructorId(), item.getStatus().toString(), item.getId());
+        executeUpdate(UPDATE, item.getClientId(), item.getInstructorId(), item.getStartDate(), item.getEndDate(), item.getStatus().toString(), item.getId());
         return programToUpdate;
     }
 
@@ -50,5 +52,9 @@ public class ProgramDao extends AbstractDao<Program> implements Dao<Program> {
 
     public Optional<Program> findProgramByClientId(Long clientId) throws DaoException {
         return executeForSingleResult(FIND_PROGRAM_BY_CLIENT_ID, new ProgramRowMapper(), clientId);
+    }
+
+    public Optional<Program> findProgramByClientIdAndStartEndDates(Long clientId, LocalDate startDate, LocalDate endDate) throws DaoException {
+        return executeForSingleResult(FIND_PROGRAM_BY_CLIENT_ID_AND_START_END_DATES, new ProgramRowMapper(), clientId, startDate.toString(), endDate.toString());
     }
 }

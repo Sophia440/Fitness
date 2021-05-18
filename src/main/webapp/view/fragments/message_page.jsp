@@ -22,7 +22,7 @@
 
 <main class="main">
     <div class="wrapper">
-        <h1 class="about__title">${confirmation}</h1>
+        <h1 class="about__title">${message}</h1>
         <c:if test="${role=='CLIENT'}">
             <button type="submit" class="return-btn" onclick="location.href='${pageContext.request.contextPath}/controller?command=clientMain'">
                     ${returnBtn}

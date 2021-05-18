@@ -5,8 +5,6 @@
 <fmt:setLocale value="${sessionScope.local}" />
 <fmt:setBundle basename="text" var="local" />
 
-<fmt:message bundle="${local}" key="main.hello" var="hello" />
-
 <html>
 <head>
     <meta charset="UTF-8">
@@ -26,20 +24,19 @@
             <p class="actions__subtitle">Choose dishes to add:</p>
             <c:if test="${not empty allDishes}">
                 <c:forEach items="${allDishes}" var="dish">
-                    <input type="checkbox" id="dietDishesList" name="dietDishesList" value="${dish.id}">
-                    <label class="actions-form__select-radio" for="dietDishesList">${dish.name}</label><br>
+                    <input type="checkbox" name="dietDishesList" value="${dish.id}">
+                    <label class="actions-form__select-radio">${dish.name}</label><br>
                 </c:forEach>
             </c:if>
             <br><br>
-            <p class="actions__subtitle">Choose client to add program:</p>
-            <c:if test="${not empty allClients}">
-                <c:forEach items="${allClients}" var="client">
-                    <input type="radio" name="clientToAddDiet" value="${client.id}">
-                    <label class="actions-form__select-radio">${client.login}</label><br>
-                </c:forEach>
-            </c:if>
+            <label for="dietStartDate">Start date:</label>
+            <input type="date" id="dietStartDate" name="dietStartDate">
+            <br><br>
+            <label for="dietEndDate">End date:</label>
+            <input type="date" id="dietEndDate" name="dietEndDate">
+            <br><br>
             <div>
-                <input type="submit" value="Submit" class="actions-form__submit">
+                <button type="submit" class="login-form__submit" value="submit">Add</button>
             </div>
         </form>
     </div>

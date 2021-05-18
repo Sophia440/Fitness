@@ -5,12 +5,15 @@ import com.epam.web.entity.Diet;
 import com.epam.web.exception.DaoException;
 import com.epam.web.mapper.DietRowMapper;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 public class DietDao extends AbstractDao<Diet> implements Dao<Diet> {
     public static final String TABLE_NAME = "diet";
     public static final String FIND_DIET_BY_ID = "SELECT * FROM diet WHERE id = ?";
     public static final String FIND_DIET_BY_CLIENT_ID = "SELECT * FROM diet WHERE client_id = ?";
+    public static final String FIND_DIET_BY_CLIENT_ID_AND_START_END_DATES = "SELECT * FROM diet WHERE client_id = ? AND start_date = ? AND end_date = ?";
+    private static final String CREATE = "INSERT INTO diet (client_id, instructor_id, start_date, end_date, status) VALUE (?, ?, ?, ?, ?)";
     private static final String UPDATE = "UPDATE diet SET client_id = ?, instructor_id = ?, start_date = ?, end_date = ?, status = ? WHERE id = ?";
 
     public DietDao(ProxyConnection connection) {
@@ -19,7 +22,7 @@ public class DietDao extends AbstractDao<Diet> implements Dao<Diet> {
 
     @Override
     public void create(Diet item) throws DaoException {
-        throw new UnsupportedOperationException();
+        executeUpdate(CREATE, item.getClientId(), item.getInstructorId(), item.getStartDate(), item.getEndDate(), item.getStatus().toString());
     }
 
     @Override
@@ -49,5 +52,9 @@ public class DietDao extends AbstractDao<Diet> implements Dao<Diet> {
 
     public Optional<Diet> findDietByClientId(Long clientId) throws DaoException {
         return executeForSingleResult(FIND_DIET_BY_CLIENT_ID, new DietRowMapper(), clientId);
+    }
+
+    public Optional<Diet> findDietByClientIdAndStartEndDates(Long clientId, LocalDate startDate, LocalDate endDate) throws DaoException {
+        return executeForSingleResult(FIND_DIET_BY_CLIENT_ID_AND_START_END_DATES, new DietRowMapper(), clientId, startDate.toString(), endDate.toString());
     }
 }

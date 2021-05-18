@@ -25,7 +25,7 @@ public class AdminActionsCommand implements Command {
     private static final String ADD_DISCOUNT_PAGE = "/view/admin_pages/add_discount.jsp";
     private static final String DELETE_EXERCISE_PAGE = "/view/admin_pages/delete_exercise.jsp";
     private static final String DELETE_DISH_PAGE = "/view/admin_pages/delete_dish.jsp";
-    private static final String ACTION_CONFIRMED_PAGE = "/view/fragments/action_confirmed.jsp";
+    private static final String MESSAGE_PAGE = "/view/fragments/message_page.jsp";
     public static final String ERROR_PAGE = "/controller?command=error";
 
     private UserService userService;
@@ -65,21 +65,21 @@ public class AdminActionsCommand implements Command {
                 return CommandResult.forward(DELETE_DISH_PAGE);
             case "addDiscount":
                 if (isDiscountAdded(request, session)) {
-                    return CommandResult.forward(ACTION_CONFIRMED_PAGE);
+                    return CommandResult.forward(MESSAGE_PAGE);
                 } else {
                     session.setAttribute("errorMessage", "Adding new discount has failed!");
                     return CommandResult.forward(ERROR_PAGE);
                 }
             case "deleteExercise":
                 if (isExerciseDeleted(request, session)) {
-                    return CommandResult.forward(ACTION_CONFIRMED_PAGE);
+                    return CommandResult.forward(MESSAGE_PAGE);
                 } else {
                     session.setAttribute("errorMessage", "Deleting exercise has failed!");
                     return CommandResult.forward(ERROR_PAGE);
                 }
             case "deleteDish":
                 if (isDishDeleted(request, session)) {
-                    return CommandResult.forward(ACTION_CONFIRMED_PAGE);
+                    return CommandResult.forward(MESSAGE_PAGE);
                 } else {
                     session.setAttribute("errorMessage", "Deleting dish has failed!");
                     return CommandResult.forward(ERROR_PAGE);
@@ -97,7 +97,7 @@ public class AdminActionsCommand implements Command {
         Long clientId = Long.parseLong(clientToAddDiscount);
         try {
             userService.setDiscount(clientId, discount);
-            session.setAttribute("confirmation", "Discount has been added successfully!");
+            session.setAttribute("message", "Discount has been added successfully!");
             return true;
         } catch (ServiceException exception) {
             LOGGER.fatal(exception.getMessage(), exception);
@@ -110,7 +110,7 @@ public class AdminActionsCommand implements Command {
         Long idToDelete = Long.parseLong(exerciseToDelete);
         try {
             programService.deleteExercise(idToDelete);
-            session.setAttribute("confirmation", "Exercise has been deleted successfully!");
+            session.setAttribute("message", "Exercise has been deleted successfully!");
             return true;
         } catch (ServiceException exception) {
             LOGGER.fatal(exception.getMessage(), exception);
@@ -123,7 +123,7 @@ public class AdminActionsCommand implements Command {
         Long idToDelete = Long.parseLong(dishToDelete);
         try {
             dietService.deleteDish(idToDelete);
-            session.setAttribute("confirmation", "Dish has been deleted successfully!");
+            session.setAttribute("message", "Dish has been deleted successfully!");
             return true;
         } catch (ServiceException exception) {
             LOGGER.fatal(exception.getMessage(), exception);

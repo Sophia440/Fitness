@@ -7,8 +7,10 @@ import com.epam.web.entity.Program;
 import com.epam.web.entity.Status;
 import com.epam.web.exception.DaoException;
 import com.epam.web.exception.ServiceException;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
-import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -16,6 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ProgramService {
+    public static final Logger LOGGER = LogManager.getLogger(ProgramService.class);
     private final ProgramDao programDao;
     private final ExerciseDao exerciseDao;
 
@@ -42,6 +45,16 @@ public class ProgramService {
         program.get().setExercises(exercises);
     }
 
+    public boolean hasProgram(Long clientId) throws ServiceException {
+        Optional<Program> optionalProgram = getProgram(clientId);
+        if (optionalProgram.isPresent()) {
+            Program program = optionalProgram.get();
+            Status programStatus = program.getStatus();
+            return programStatus != Status.DECLINED;
+        }
+        return false;
+    }
+
     public void setProgramStatus(Long clientId, Status status) throws ServiceException {
         try {
             Optional<Program> optionalProgram = getProgram(clientId);
@@ -55,50 +68,56 @@ public class ProgramService {
         }
     }
 
-    public void addProgram(Long clientId, Long instructorId, String[] programExercisesList, HttpSession session) throws ServiceException {
-        Optional<Program> optionalProgram = getProgram(clientId);
-        if (optionalProgram.isPresent()) {
-            Program program = optionalProgram.get();
-            if (program.getStatus() == Status.ACTIVE) {
-                session.setAttribute("confirmation", "User already has an active program!");
-            } else {
-                List<Long> exercisesIds = Arrays.stream(programExercisesList)
-                        .map(Long::valueOf)
-                        .collect(Collectors.toList());
-                List<Exercise> newExerciseList = exercisesIds.stream()
-                        .map(exerciseId -> {
-                            try {
-                                Optional<Exercise> optionalExercise = getExerciseById(exerciseId);
-                                if (optionalExercise.isPresent()) {
-                                    return optionalExercise.get();
-                                }
-                            } catch (ServiceException exception) {
-                                exception.printStackTrace();
-                            }
-                            return null;
-                        })
-                        .filter(Objects::nonNull)
-                        .collect(Collectors.toList());
-                Program newProgram = new Program();
-                newProgram.setExercises(newExerciseList);
-                newProgram.setInstructorId(instructorId);
-                newProgram.setClientId(clientId);
-                newProgram.setStatus(Status.AWAITING_CLIENT_ANSWER);
-                try {
-                    programDao.create(program);
-                } catch (DaoException exception) {
-                    throw new ServiceException(exception);
-                }
-            }
-        }
-    }
-
-    public Optional<Exercise> getExerciseById(Long exerciseId) throws ServiceException {
+    public boolean addProgram(Long clientId, Long instructorId, String[] programExercisesList, String startDate, String endDate) throws ServiceException {
+        List<Long> exercisesIds = Arrays.stream(programExercisesList)
+                .map(Long::valueOf)
+                .collect(Collectors.toList());
+        List<Exercise> newExerciseList = exercisesIds.stream()
+                .map(exerciseId -> {
+                    Optional<Exercise> optionalExercise = getExerciseById(exerciseId);
+                    return optionalExercise.orElse(null);
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        Program newProgram = new Program();
+        newProgram.setExercises(newExerciseList);
+        newProgram.setInstructorId(instructorId);
+        newProgram.setClientId(clientId);
+        LocalDate startDateLocal = LocalDate.parse(startDate);
+        LocalDate endDateLocal = LocalDate.parse(endDate);
+        newProgram.setStartDate(startDateLocal);
+        newProgram.setEndDate(endDateLocal);
+        newProgram.setStatus(Status.AWAITING_CLIENT_ANSWER);
         try {
-            return exerciseDao.getById(exerciseId);
+            programDao.create(newProgram);
+            Optional<Program> optionalProgram = programDao.findProgramByClientIdAndStartEndDates(clientId, startDateLocal, endDateLocal);
+            if (optionalProgram.isPresent()) {
+                Long programId = optionalProgram.get().getId();
+                newExerciseList.stream().forEach(exercise -> {
+                    addAssignedExercise(programId, exercise.getId());
+                });
+            }
+            return true;
         } catch (DaoException exception) {
             throw new ServiceException(exception);
         }
+    }
+
+    public void addAssignedExercise(Long programId, Long exerciseId) {
+        try {
+            exerciseDao.createAssignedExercise(programId, exerciseId);
+        } catch (DaoException exception) {
+            LOGGER.fatal(exception.getMessage(), exception);
+        }
+    }
+
+    public Optional<Exercise> getExerciseById(Long exerciseId) {
+        try {
+            return exerciseDao.getById(exerciseId);
+        } catch (DaoException exception) {
+            LOGGER.fatal(exception.getMessage(), exception);
+        }
+        return Optional.empty();
     }
 
     public List<Exercise> getAllExercises() throws ServiceException {
@@ -109,11 +128,12 @@ public class ProgramService {
         }
     }
 
-    public void addExercise(String newExerciseName) throws ServiceException {
+    public boolean addExercise(String newExerciseName) throws ServiceException {
         Exercise exercise = new Exercise();
         exercise.setName(newExerciseName);
         try {
             exerciseDao.create(exercise);
+            return true;
         } catch (DaoException exception) {
             throw new ServiceException(exception);
         }

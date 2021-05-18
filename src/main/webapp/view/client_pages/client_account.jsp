@@ -46,7 +46,9 @@
                 <div id="b1" class="grid__container-tab">
                     <span onclick="this.parentElement.style.display='none'" class="grid__closebtn">x</span>
                     <p class="grid__container-info-title">${membershipInfo}</p>
-                    <p class="grid__container-info">${membershipEndInfo}: ${membershipEndDate}</p>
+                    <c:if test="${not empty membershipEndDate}">
+                        <p class="grid__container-info">${membershipEndInfo}: ${membershipEndDate}</p>
+                    </c:if>
                 </div>
 
                 <div id="b2" class="grid__container-tab">

@@ -38,36 +38,29 @@ public class ClientAccountCommand implements Command {
         int clientDiscount = userService.getDiscount(clientId);
         session.setAttribute("clientDiscount", clientDiscount);
         Optional<Membership> optionalMembership = null;
-        try {
-            optionalMembership = userService.getLastMembership(clientId);
-        } catch (ServiceException exception) {
-            LOGGER.fatal(exception.getMessage(), exception);
-        }
-        Membership membership = null;
+        optionalMembership = userService.getLastMembership(clientId);
         if (optionalMembership.isPresent()) {
-            membership = optionalMembership.get();
+            Membership membership = optionalMembership.get();
+            session.setAttribute("membershipEndDate", membership.getEndDate());
         }
-        session.setAttribute("membershipEndDate", membership.getEndDate());
         Optional<Program> optionalProgram = programService.getProgram(clientId);
-        Program program = null;
         if (optionalProgram.isPresent()) {
-            program = optionalProgram.get();
+            Program program = optionalProgram.get();
+            List<Exercise> exerciseList = program.getExercises();
+            session.setAttribute("exerciseList", exerciseList);
+            session.setAttribute("exercise", new ExerciseDto());
+            String programStatus = program.getStatus().toString();
+            session.setAttribute("programStatus", programStatus);
         }
-        List<Exercise> exerciseList = program.getExercises();
-        session.setAttribute("exerciseList", exerciseList);
-        session.setAttribute("exercise", new ExerciseDto());
-        String programStatus = program.getStatus().toString();
-        session.setAttribute("programStatus", programStatus);
         Optional<Diet> optionalDiet = dietService.getDiet(clientId);
-        Diet diet = null;
         if (optionalDiet.isPresent()) {
-            diet = optionalDiet.get();
+            Diet diet = optionalDiet.get();
+            List<Dish> dishList = diet.getDishes();
+            session.setAttribute("dishList", dishList);
+            session.setAttribute("dish", new DishDto());
+            String dietStatus = diet.getStatus().toString();
+            session.setAttribute("dietStatus", dietStatus);
         }
-        List<Dish> dishList = diet.getDishes();
-        session.setAttribute("dishList", dishList);
-        session.setAttribute("dish", new DishDto());
-        String dietStatus = diet.getStatus().toString();
-        session.setAttribute("dietStatus", dietStatus);
         return CommandResult.forward(CLIENT_ACCOUNT_PAGE);
     }
 }
