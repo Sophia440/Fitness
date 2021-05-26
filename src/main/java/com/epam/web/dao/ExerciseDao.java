@@ -10,6 +10,9 @@ import java.util.Optional;
 
 public class ExerciseDao extends AbstractDao<Exercise> implements Dao<Exercise> {
     public static final String TABLE_NAME = "exercise";
+    public static final String COUNT_EXERCISES = "SELECT COUNT(id) FROM exercise";
+    public static final String COUNT_COLUMN_NAME = "COUNT(id)";
+    public static final String SELECT_SUBLIST = "SELECT * FROM exercise ORDER BY id LIMIT ? OFFSET ?";
     public static final String FIND_BY_ID = "SELECT * FROM exercise WHERE id = ?";
     public static final String FIND_BY_PROGRAM_ID = "SELECT exercise.id, exercise.name FROM exercise INNER JOIN assigned_exercise ON exercise.id=assigned_exercise.exercise_id WHERE program_id = ?";
     private static final String CREATE = "INSERT INTO exercise (name) VALUE (?)";
@@ -53,5 +56,13 @@ public class ExerciseDao extends AbstractDao<Exercise> implements Dao<Exercise> 
 
     public void createAssignedExercise(Long programId, Long exerciseId) throws DaoException {
         executeUpdate(CREATE_ASSIGNED_EXERCISE, programId, exerciseId);
+    }
+
+    public List<Exercise> getSublist(int firstRow, int rowCount) throws DaoException {
+        return executeQuery(SELECT_SUBLIST, new ExerciseRowMapper(), rowCount, firstRow);
+    }
+
+    public int getExerciseCount() throws DaoException {
+        return executeQuery(COUNT_EXERCISES, COUNT_COLUMN_NAME);
     }
 }

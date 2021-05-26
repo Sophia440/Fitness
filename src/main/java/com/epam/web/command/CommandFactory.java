@@ -15,6 +15,7 @@ public class CommandFactory {
 
     public static final String ABOUT_PAGE = "/view/about.jsp";
     private static final String ERROR_PAGE = "/view/error_page.jsp";
+    private static final String LOGIN_PAGE = "/index.jsp";
 
     public static final String INSTRUCTOR_MAIN_PAGE = "/view/instructor_pages/instructor_main.jsp";
     private static final String INSTRUCTOR_ACCOUNT_PAGE = "/view/instructor_pages/instructor_account.jsp";
@@ -42,6 +43,8 @@ public class CommandFactory {
         switch (type) {
             case "login":
                 return new LoginCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()));
+            case "loginPage":
+                return new ShowPageCommand(LOGIN_PAGE);
             case "clientMain":
                 return new ShowPageCommand(CLIENT_MAIN_PAGE);
             case "instructorMain":
@@ -52,22 +55,16 @@ public class CommandFactory {
                 return new ChangeLanguageCommand();
             case "clientAccount":
                 return new ClientAccountCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()), new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
+            case "clientActions":
+                return new ClientActionsCommand(new DietService(helper.createDietDao(), helper.createDishDao()), new ProgramService(helper.createProgramDao(), helper.createExerciseDao()));
             case "adminAccount":
                 return new ShowPageCommand(ADMIN_ACCOUNT_PAGE);
             case "adminActions":
                 return new AdminActionsCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()), new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
-            case "instructorActions":   //todo do sth with all helper.createDao params
+            case "instructorActions":
                 return new InstructorActionsCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()), new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
             case "instructorAccount":
                 return new ShowPageCommand(INSTRUCTOR_ACCOUNT_PAGE);
-            case "acceptProgram":   //todo refactor accept and decline commands into one changeStatus command
-                return new AcceptProgramCommand(new ProgramService(helper.createProgramDao(), helper.createExerciseDao()));
-            case "acceptDiet":
-                return new AcceptDietCommand(new DietService(helper.createDietDao(), helper.createDishDao()));
-            case "declineProgram":
-                return new DeclineProgramCommand(new ProgramService(helper.createProgramDao(), helper.createExerciseDao()));
-            case "declineDiet":
-                return new DeclineDietCommand(new DietService(helper.createDietDao(), helper.createDishDao()));
             case "info":
                 return new InfoCommand(new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
             case "services":

@@ -29,11 +29,11 @@
                 </c:forEach>
             </c:if>
             <br><br>
-            <label for="programStartDate">Start date:</label>
-            <input type="date" id="programStartDate" name="programStartDate">
+            <label class="actions-form__select-label" for="programStartDate">Start date:</label>
+            <input class="actions-form__date" type="date" id="programStartDate" name="programStartDate">
             <br><br>
-            <label for="programEndDate">End date:</label>
-            <input type="date" id="programEndDate" name="programEndDate">
+            <label class="actions-form__select-label" for="programEndDate">End date:</label>
+            <input class="actions-form__date" type="date" id="programEndDate" name="programEndDate">
             <br><br>
             <div>
                 <button type="submit" class="login-form__submit" value="submit">Add</button>

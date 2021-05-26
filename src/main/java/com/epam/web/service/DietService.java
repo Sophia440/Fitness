@@ -148,4 +148,20 @@ public class DietService {
             throw new ServiceException(exception);
         }
     }
+
+    public List<Dish> getDishSublist(int firstRow, int rowCount) throws ServiceException {
+        try {
+            return dishDao.getSublist(firstRow, rowCount);
+        } catch (DaoException exception) {
+            throw new ServiceException(exception);
+        }
+    }
+
+    public int getDishCount() throws ServiceException {
+        try {
+            return dishDao.getDishCount();
+        } catch (DaoException exception) {
+            throw new ServiceException(exception);
+        }
+    }
 }

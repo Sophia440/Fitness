@@ -43,12 +43,6 @@ public class LoginCommand implements Command {
             Role userRole = user.getRole();
             String userRoleString = userRole.name();
             session.setAttribute("role", userRoleString);
-//            BigDecimal discount = user.getDiscount();
-//            if (discount == null) {
-//                session.setAttribute("discount", BigDecimal.ZERO);
-//            } else {
-//                session.setAttribute("discount", discount);
-//            }
             int discount = user.getDiscount();
             session.setAttribute("discount", discount);
             switch (userRole) {

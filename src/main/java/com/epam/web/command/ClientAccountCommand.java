@@ -18,7 +18,10 @@ import java.util.Optional;
 
 public class ClientAccountCommand implements Command {
     public static final Logger LOGGER = LogManager.getLogger(ClientAccountCommand.class);
-    private static final String CLIENT_ACCOUNT_PAGE = "/view/client_pages/client_account.jsp";
+    private static final String PAGE = "page";
+    private static final String CLIENT_MEMBERSHIP_PAGE = "/view/client_pages/client_membership.jsp";
+    private static final String CLIENT_PROGRAM_PAGE = "/view/client_pages/client_program.jsp";
+    private static final String CLIENT_DIET_PAGE = "/view/client_pages/client_diet.jsp";
     private static final String CLIENT_ID = "userId";
 
     private UserService userService;
@@ -33,34 +36,44 @@ public class ClientAccountCommand implements Command {
 
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+        String page = request.getParameter(PAGE);
         HttpSession session = request.getSession();
         Long clientId = (Long) session.getAttribute(CLIENT_ID);
-        int clientDiscount = userService.getDiscount(clientId);
-        session.setAttribute("clientDiscount", clientDiscount);
-        Optional<Membership> optionalMembership = null;
-        optionalMembership = userService.getLastMembership(clientId);
-        if (optionalMembership.isPresent()) {
-            Membership membership = optionalMembership.get();
-            session.setAttribute("membershipEndDate", membership.getEndDate());
+        switch (page) {
+            case "membership":
+                int clientDiscount = userService.getDiscount(clientId);
+                session.setAttribute("clientDiscount", clientDiscount);
+                Optional<Membership> optionalMembership;
+                optionalMembership = userService.getLastMembership(clientId);
+                if (optionalMembership.isPresent()) {
+                    Membership membership = optionalMembership.get();
+                    session.setAttribute("membershipEndDate", membership.getEndDate());
+                }
+                return CommandResult.forward(CLIENT_MEMBERSHIP_PAGE);
+            case "program":
+                Optional<Program> optionalProgram = programService.getProgram(clientId);
+                if (optionalProgram.isPresent()) {
+                    Program program = optionalProgram.get();
+                    List<Exercise> exerciseList = program.getExercises();
+                    session.setAttribute("exerciseList", exerciseList);
+                    session.setAttribute("exercise", new ExerciseDto());
+                    String programStatus = program.getStatus().toString();
+                    session.setAttribute("programStatus", programStatus);
+                }
+                return CommandResult.forward(CLIENT_PROGRAM_PAGE);
+            case "diet":
+                Optional<Diet> optionalDiet = dietService.getDiet(clientId);
+                if (optionalDiet.isPresent()) {
+                    Diet diet = optionalDiet.get();
+                    List<Dish> dishList = diet.getDishes();
+                    session.setAttribute("dishList", dishList);
+                    session.setAttribute("dish", new DishDto());
+                    String dietStatus = diet.getStatus().toString();
+                    session.setAttribute("dietStatus", dietStatus);
+                }
+                return CommandResult.forward(CLIENT_DIET_PAGE);
+            default:
+                throw new IllegalArgumentException("Unknown page: " + page);
         }
-        Optional<Program> optionalProgram = programService.getProgram(clientId);
-        if (optionalProgram.isPresent()) {
-            Program program = optionalProgram.get();
-            List<Exercise> exerciseList = program.getExercises();
-            session.setAttribute("exerciseList", exerciseList);
-            session.setAttribute("exercise", new ExerciseDto());
-            String programStatus = program.getStatus().toString();
-            session.setAttribute("programStatus", programStatus);
-        }
-        Optional<Diet> optionalDiet = dietService.getDiet(clientId);
-        if (optionalDiet.isPresent()) {
-            Diet diet = optionalDiet.get();
-            List<Dish> dishList = diet.getDishes();
-            session.setAttribute("dishList", dishList);
-            session.setAttribute("dish", new DishDto());
-            String dietStatus = diet.getStatus().toString();
-            session.setAttribute("dietStatus", dietStatus);
-        }
-        return CommandResult.forward(CLIENT_ACCOUNT_PAGE);
     }
 }

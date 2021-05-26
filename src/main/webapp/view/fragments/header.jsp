@@ -6,18 +6,21 @@
 <fmt:setBundle basename="text" var="local" />
 
 <fmt:message bundle="${local}" key="header.account" var="account" />
+<fmt:message bundle="${local}" key="account.membership" var="membership" />
+<fmt:message bundle="${local}" key="account.program" var="program" />
+<fmt:message bundle="${local}" key="account.diet" var="diet" />
 <fmt:message bundle="${local}" key="header.information" var="information" />
+<fmt:message bundle="${local}" key="info.exercisesTitle" var="exercises" />
+<fmt:message bundle="${local}" key="info.dishesTitle" var="dishes" />
 <fmt:message bundle="${local}" key="header.services" var="services" />
 <fmt:message bundle="${local}" key="header.about" var="about" />
 <fmt:message bundle="${local}" key="header.language" var="language" />
 <fmt:message bundle="${local}" key="header.logout" var="logout" />
 
 <html>
-
     <head>
         <link rel="stylesheet" href="static/style.css">
     </head>
-
     <body>
         <header class="header">
             <div class="wrapper">
@@ -41,42 +44,55 @@
                     </div>
 
                     <nav class="header__nav">
-                        <ul class="header__list">
-                            <li class="header__item">
-                                <c:if test="${role=='CLIENT'}">
-                                    <a href="${pageContext.request.contextPath}/controller?command=clientAccount" class="header__link">
-                                            ${account}
-                                    </a>
-                                </c:if>
-                                <c:if test="${role=='ADMIN'}">
-                                    <a href="${pageContext.request.contextPath}/controller?command=adminAccount" class="header__link">
-                                            ${account}
-                                    </a>
-                                </c:if>
-                                <c:if test="${role=='INSTRUCTOR'}">
-                                    <a href="${pageContext.request.contextPath}/controller?command=instructorAccount" class="header__link">
-                                            ${account}
-                                    </a>
-                                </c:if>
-                            </li>
-                            <li class="header__item">
-                                <a href="${pageContext.request.contextPath}/controller?command=info" class="header__link">
-                                    ${information}
+                    <ul class="header__list">
+                        <li class="dropdown">
+                            <c:if test="${role=='CLIENT'}">
+                                <button class="dropbtn">${account}</button>
+                                <div class="dropdown-content">
+                                    <a href="${pageContext.request.contextPath}/controller?command=clientAccount&page=membership">${membership}</a>
+                                    <a href="${pageContext.request.contextPath}/controller?command=clientAccount&page=program">${program}</a>
+                                    <a href="${pageContext.request.contextPath}/controller?command=clientAccount&page=diet">${diet}</a>
+                                </div>
+                            </c:if>
+                            <c:if test="${role=='ADMIN'}">
+                            <button class="dropbtn">
+                                <a href="${pageContext.request.contextPath}/controller?command=adminAccount">
+                                    ${account}
                                 </a>
-                            </li>
-                            <li class="header__item">
-                                <c:if test="${role=='CLIENT'}">
+                            </button>    
+                            </c:if>
+                            <c:if test="${role=='INSTRUCTOR'}">
+                            <button class="dropbtn">
+                                <a href="${pageContext.request.contextPath}/controller?command=instructorAccount">
+                                        ${account}
+                                </a>
+                            </button>    
+                            </c:if>
+                        </li>
+                        <li class="dropdown">
+                            <button class="dropbtn">${information}</button>
+                            <div class="dropdown-content">
+                                <a href="${pageContext.request.contextPath}/controller?command=info&section=exercisesFirst">${exercises}</a>
+                                <a href="${pageContext.request.contextPath}/controller?command=info&section=dishesFirst">${dishes}</a>
+                            </div>
+                        </li>
+                        <li class="dropdown">
+                            <c:if test="${role=='CLIENT'}">
+                                <button class="dropbtn">
                                     <a href="${pageContext.request.contextPath}/controller?command=services" class="header__link">
-                                            ${services}
+                                        ${services}
                                     </a>
-                                </c:if>
-                            </li>
-                            <li class="header__item">
-                                <a href="${pageContext.request.contextPath}/controller?command=about" class="header__link">
+                                </button>
+                            </c:if>
+                        </li>
+                        <li class="dropdown">
+                            <button class="dropbtn">
+                                <a href="${pageContext.request.contextPath}/controller?command=about"  class="header__link">
                                     ${about}
                                 </a>
-                            </li>
-                        </ul>
+                            </button>
+                        </li>
+                    </ul>
                     </nav>
 
                     <div class="header__language">

@@ -45,7 +45,6 @@ public class InstructorActionsCommand implements Command {
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         String action = request.getParameter(ACTION);
-        String upper = action.toUpperCase();
         HttpSession session = request.getSession();
         Long instructorId = (Long) session.getAttribute(INSTRUCTOR_ID);
         switch (action) {

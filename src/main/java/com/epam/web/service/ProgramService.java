@@ -146,4 +146,20 @@ public class ProgramService {
             throw new ServiceException(exception);
         }
     }
+
+    public List<Exercise> getExerciseSublist(int firstRow, int rowCount) throws ServiceException {
+        try {
+            return exerciseDao.getSublist(firstRow, rowCount);
+        } catch (DaoException exception) {
+            throw new ServiceException(exception);
+        }
+    }
+
+    public int getExerciseCount() throws ServiceException {
+        try {
+            return exerciseDao.getExerciseCount();
+        } catch (DaoException exception) {
+            throw new ServiceException(exception);
+        }
+    }
 }
