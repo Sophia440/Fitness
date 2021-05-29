@@ -18,6 +18,8 @@ public class InfoCommand implements Command {
     private static final String INFO_DISHES_PAGE = "/view/info_dishes.jsp";
     private static final String SECTION = "section";
     private static final String PAGE = "page";
+    private static final String NEXT = "next";
+    private static final String PREVIOUS = "previous";
     private static final int DEFAULT_FIRST_ROW = 0;
     private static final int DEFAULT_ROW_COUNT = 4;
 
@@ -62,14 +64,14 @@ public class InfoCommand implements Command {
                 pageCount = Integer.parseInt(request.getParameter("pageCount"));
                 exerciseCount = programService.getExerciseCount();
                 page = request.getParameter(PAGE);
-                if (page.equals("next")) {
+                if (page.equals(NEXT)) {
                     if (firstRow + rowCount >= exerciseCount) {
                         rowCount = exerciseCount - firstRow;
                     } else {
                         firstRow = firstRow + rowCount;
                     }
                     session.setAttribute("pageCount", ++pageCount);
-                } else if (page.equals("previous")) {
+                } else if (page.equals(PREVIOUS)) {
                     if (firstRow - rowCount < DEFAULT_FIRST_ROW) {
                         firstRow = DEFAULT_FIRST_ROW;
                         rowCount = DEFAULT_ROW_COUNT;
@@ -104,14 +106,14 @@ public class InfoCommand implements Command {
                 pageCount = Integer.parseInt(request.getParameter("pageCount"));
                 dishCount = dietService.getDishCount();
                 page = request.getParameter(PAGE);
-                if (page.equals("next")) {
+                if (page.equals(NEXT)) {
                     if (firstRow + rowCount >= dishCount) {
                         rowCount = dishCount - firstRow;
                     } else {
                         firstRow = firstRow + rowCount;
                     }
                     session.setAttribute("pageCount", ++pageCount);
-                } else if (page.equals("previous")) {
+                } else if (page.equals(PREVIOUS)) {
                     if (firstRow - rowCount < DEFAULT_FIRST_ROW) {
                         firstRow = DEFAULT_FIRST_ROW;
                         rowCount = DEFAULT_ROW_COUNT;

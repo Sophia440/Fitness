@@ -10,37 +10,29 @@
 <fmt:message bundle="${local}" key="services.title" var="title" />
 
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness</title>
-    <link rel="stylesheet" href="static/style.css" />
-</head>
-<body>
-<div class="header">
-    <jsp:include page="../fragments/header.jsp"/>
-</div>
-
-<main class="service__main">
-    <div class="wrapper">
-        <h1 class="service__title">${title}</h1>
-        <p class="service__subtitle">${choice}</p>
-
-        <ul id="service__list">
-            <li class="service__item">
-                <a href="${pageContext.request.contextPath}/controller?command=chooseDuration" class="service__item-info">
-                    ${membership}
-                </a>
-            </li>
-
-<%--            <li class="service__item">--%>
-<%--                <a href="#" class="service__item-info">--%>
-<%--                    Something else--%>
-<%--                </a>--%>
-<%--            </li>--%>
-        </ul>
-    </div>
-</main>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Fitness</title>
+        <link rel="stylesheet" href="styles/style.css" />
+    </head>
+    <body>
+        <div class="header">
+            <jsp:include page="../fragments/header.jsp"/>
+        </div>
+        <main class="service__main">
+            <div class="wrapper">
+                <h1 class="service__title">${title}</h1>
+                <p class="service__subtitle">${choice}</p>
+                <ul id="service__list">
+                    <li class="service__item">
+                        <a href="${pageContext.request.contextPath}/controller?command=chooseDuration" class="service__item-info">
+                            ${membership}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </main>
+    </body>
 </html>

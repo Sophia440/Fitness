@@ -19,7 +19,7 @@
 
 <html>
     <head>
-        <link rel="stylesheet" href="static/style.css">
+        <link rel="stylesheet" href="styles/style.css">
     </head>
     <body>
         <header class="header">
@@ -42,7 +42,6 @@
                             </a>
                         </c:if>
                     </div>
-
                     <nav class="header__nav">
                     <ul class="header__list">
                         <li class="dropdown">
@@ -56,14 +55,15 @@
                             </c:if>
                             <c:if test="${role=='ADMIN'}">
                             <button class="dropbtn">
-                                <a href="${pageContext.request.contextPath}/controller?command=adminAccount">
+                                <a href="${pageContext.request.contextPath}/controller?command=adminAccount" class="header__link">
                                     ${account}
                                 </a>
                             </button>    
                             </c:if>
                             <c:if test="${role=='INSTRUCTOR'}">
                             <button class="dropbtn">
-                                <a href="${pageContext.request.contextPath}/controller?command=instructorAccount">
+                                <div class="dropdown-content"></div>
+                                <a href="${pageContext.request.contextPath}/controller?command=instructorAccount" class="header__link">
                                         ${account}
                                 </a>
                             </button>    
@@ -94,7 +94,6 @@
                         </li>
                     </ul>
                     </nav>
-
                     <div class="header__language">
                         <button class="header__language-dropbtn">${language}</button>
                         <div class="header__language-content">
@@ -103,7 +102,6 @@
                             <a href="${pageContext.servletContext.contextPath}?command=changeLanguage&language=by" class="header__language-link">BY</a>
                         </div>
                     </div>
-
                     <div class="header__language">
                         <a href="${pageContext.request.contextPath}/controller?command=logout">
                             <button class="header__language-dropbtn">${logout}</button>

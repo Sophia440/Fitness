@@ -12,6 +12,8 @@ public class BuyMembershipCommand implements Command {
     private static final String CLIENT_ID = "userId";
     private static final String MESSAGE_PAGE = "/view/fragments/message_page.jsp";
     public static final String ERROR_PAGE = "/controller?command=error";
+    private static final String MESSAGE = "message";
+    private static final String ERROR_MESSAGE = "errorMessage";
 
     public BuyMembershipCommand(UserService userService) {
         this.userService = userService;
@@ -25,10 +27,10 @@ public class BuyMembershipCommand implements Command {
         long monthsNumber = Long.parseLong(membershipDuration);
         boolean isBought = userService.buyMembership(clientId, monthsNumber);
         if (isBought) {
-            session.setAttribute("message", "Payment confirmed. Thanks for the purchase!");
+            session.setAttribute(MESSAGE, "paymentConfirmed");
             return CommandResult.forward(MESSAGE_PAGE);
         } else {
-            session.setAttribute("errorMessage", "Membership purchase was not successful!");
+            session.setAttribute(ERROR_MESSAGE, "Membership purchase was not successful!");
             return CommandResult.forward(ERROR_PAGE);
         }
     }

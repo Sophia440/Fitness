@@ -22,6 +22,8 @@ import java.util.List;
 public class AdminActionsCommand implements Command {
     public static final Logger LOGGER = LogManager.getLogger(AdminActionsCommand.class);
     private static final String ACTION = "action";
+    private static final String MESSAGE = "message";
+    private static final String ERROR_MESSAGE = "errorMessage";
     private static final String ADD_DISCOUNT_PAGE = "/view/admin_pages/add_discount.jsp";
     private static final String DELETE_EXERCISE_PAGE = "/view/admin_pages/delete_exercise.jsp";
     private static final String DELETE_DISH_PAGE = "/view/admin_pages/delete_dish.jsp";
@@ -42,6 +44,7 @@ public class AdminActionsCommand implements Command {
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         String action = request.getParameter(ACTION);
         HttpSession session = request.getSession();
+        Long idToDelete;
         switch (action) {
             case "addDiscountForm":
                 List<User> allClients = null;
@@ -64,24 +67,45 @@ public class AdminActionsCommand implements Command {
                 session.setAttribute("dish", new DishDto());
                 return CommandResult.forward(DELETE_DISH_PAGE);
             case "addDiscount":
-                if (isDiscountAdded(request, session)) {
+                String newDiscount = request.getParameter("newDiscount");
+                if (newDiscount.isEmpty()) {
+                    session.setAttribute(MESSAGE, "emptyDiscount");
                     return CommandResult.forward(MESSAGE_PAGE);
-                } else {
-                    session.setAttribute("errorMessage", "Adding new discount has failed!");
+                }
+                int discount = Integer.parseInt(newDiscount);
+                String clientToAddDiscount = request.getParameter("clientToAddDiscount");
+                Long clientId = Long.parseLong(clientToAddDiscount);
+                try {
+                    userService.setDiscount(clientId, discount);
+                    session.setAttribute(MESSAGE, "discountAdded");
+                    return CommandResult.forward(MESSAGE_PAGE);
+                } catch (ServiceException exception) {
+                    LOGGER.fatal(exception.getMessage(), exception);
+                    session.setAttribute(ERROR_MESSAGE, "Adding new discount has failed!");
                     return CommandResult.forward(ERROR_PAGE);
                 }
             case "deleteExercise":
-                if (isExerciseDeleted(request, session)) {
+                String exerciseToDelete = request.getParameter("exerciseToDelete");
+                idToDelete = Long.parseLong(exerciseToDelete);
+                try {
+                    programService.deleteExercise(idToDelete);
+                    session.setAttribute(MESSAGE, "exerciseDeleted");
                     return CommandResult.forward(MESSAGE_PAGE);
-                } else {
-                    session.setAttribute("errorMessage", "Deleting exercise has failed!");
+                } catch (ServiceException exception) {
+                    LOGGER.fatal(exception.getMessage(), exception);
+                    session.setAttribute(ERROR_MESSAGE, "Deleting exercise has failed!");
                     return CommandResult.forward(ERROR_PAGE);
                 }
             case "deleteDish":
-                if (isDishDeleted(request, session)) {
+                String dishToDelete = request.getParameter("dishToDelete");
+                idToDelete = Long.parseLong(dishToDelete);
+                try {
+                    dietService.deleteDish(idToDelete);
+                    session.setAttribute(MESSAGE, "dishDeleted");
                     return CommandResult.forward(MESSAGE_PAGE);
-                } else {
-                    session.setAttribute("errorMessage", "Deleting dish has failed!");
+                } catch (ServiceException exception) {
+                    LOGGER.fatal(exception.getMessage(), exception);
+                    session.setAttribute(ERROR_MESSAGE, "Deleting dish has failed!");
                     return CommandResult.forward(ERROR_PAGE);
                 }
             default:
@@ -89,45 +113,4 @@ public class AdminActionsCommand implements Command {
         }
     }
 
-
-    private boolean isDiscountAdded(HttpServletRequest request, HttpSession session) {
-        String newDiscount = request.getParameter("newDiscount");
-        int discount = Integer.parseInt(newDiscount);
-        String clientToAddDiscount = request.getParameter("clientToAddDiscount");
-        Long clientId = Long.parseLong(clientToAddDiscount);
-        try {
-            userService.setDiscount(clientId, discount);
-            session.setAttribute("message", "Discount has been added successfully!");
-            return true;
-        } catch (ServiceException exception) {
-            LOGGER.fatal(exception.getMessage(), exception);
-            return false;
-        }
-    }
-
-    private boolean isExerciseDeleted(HttpServletRequest request, HttpSession session) {
-        String exerciseToDelete = request.getParameter("exerciseToDelete");
-        Long idToDelete = Long.parseLong(exerciseToDelete);
-        try {
-            programService.deleteExercise(idToDelete);
-            session.setAttribute("message", "Exercise has been deleted successfully!");
-            return true;
-        } catch (ServiceException exception) {
-            LOGGER.fatal(exception.getMessage(), exception);
-            return false;
-        }
-    }
-
-    private boolean isDishDeleted(HttpServletRequest request, HttpSession session) {
-        String dishToDelete = request.getParameter("dishToDelete");
-        Long idToDelete = Long.parseLong(dishToDelete);
-        try {
-            dietService.deleteDish(idToDelete);
-            session.setAttribute("message", "Dish has been deleted successfully!");
-            return true;
-        } catch (ServiceException exception) {
-            LOGGER.fatal(exception.getMessage(), exception);
-            return false;
-        }
-    }
 }

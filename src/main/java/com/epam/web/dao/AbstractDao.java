@@ -61,7 +61,9 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
     protected Optional<T> executeForSingleResult(String query, RowMapper<T> mapper, Object... params) throws DaoException {
         List<T> items = executeQuery(query, mapper, params);
         if (items.size() == 1) {
-            return Optional.of(items.get(0));
+            if (items.get(0) != null) {
+                return Optional.of(items.get(0));
+            }
         } else if (items.size() > 1) {
             throw new IllegalArgumentException("More than one record found");
         }

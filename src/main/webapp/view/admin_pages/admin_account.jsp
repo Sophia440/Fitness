@@ -6,66 +6,61 @@
 <fmt:setBundle basename="text" var="local"/>
 
 <fmt:message bundle="${local}" key="account.title" var="title"/>
-<fmt:message bundle="${local}" key="account.membership" var="membership"/>
-<fmt:message bundle="${local}" key="account.program" var="program"/>
-<fmt:message bundle="${local}" key="account.diet" var="diet"/>
-<fmt:message bundle="${local}" key="account.info.membership" var="membershipInfo"/>
-<fmt:message bundle="${local}" key="account.info.program" var="programInfo"/>
-<fmt:message bundle="${local}" key="account.info.diet" var="dietInfo"/>
-<fmt:message bundle="${local}" key="account.membership.end" var="membershipEndInfo"/>
-<fmt:message bundle="${local}" key="account.button.accept" var="accept"/>
-<fmt:message bundle="${local}" key="account.button.decline" var="decline"/>
+<fmt:message bundle="${local}" key="account.add.discount" var="addDiscount"/>
+<fmt:message bundle="${local}" key="account.add.exercise" var="addExercise"/>
+<fmt:message bundle="${local}" key="account.add.dish" var="addDish"/>
+<fmt:message bundle="${local}" key="account.delete.exercise" var="deleteExercise"/>
+<fmt:message bundle="${local}" key="account.delete.dish" var="deleteDish"/>
 
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness</title>
-    <link rel="stylesheet" href="static/style.css"/>
-    <script src="view/scripts/account.js"></script>
-</head>
-<body>
-<div class="header">
-    <jsp:include page="../fragments/header.jsp"/>
-</div>
-
-<main class="account__main">
-        <div class="wrapper">
-            <h1 class="account__title">${title}</h1>
-            <ul id="account__list">
-                <li class="account__item">
-                    <a href="${pageContext.request.contextPath}/controller?command=adminActions&action=addDiscountForm"
-                    class="account__item-info">
-                        Add a discount to a client
-                    </a>
-                </li>
-                <li class="account__item">
-                    <a href="${pageContext.request.contextPath}/controller?command=instructorActions&action=addExerciseForm"
-                    class="account__item-info">
-                        Add new exercise
-                    </a>
-                </li>
-                <li class="account__item">
-                    <a href="${pageContext.request.contextPath}/controller?command=instructorActions&action=addDishForm"
-                    class="account__item-info">
-                        Add new dish
-                    </a>
-                </li>
-                <li class="account__item">
-                    <a href="${pageContext.request.contextPath}/controller?command=adminActions&action=deleteExerciseForm"
-                    class="account__item-info">
-                        Delete exercise
-                    </a>
-                </li>
-                <li class="account__item">
-                    <a href="${pageContext.request.contextPath}/controller?command=adminActions&action=deleteDishForm"
-                    class="account__item-info">
-                        Delete dish
-                    </a>
-                </li>
-            </ul>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Fitness</title>
+        <link rel="stylesheet" href="styles/style.css"/>
+        <script src="view/scripts/account.js"></script>
+    </head>
+    <body>
+        <div class="header">
+            <jsp:include page="../fragments/header.jsp"/>
         </div>
-    </main>
-</body>
+        <main class="account__main">
+            <div class="wrapper">
+                <h1 class="account__title">${title}</h1>
+                <ul id="account__list">
+                    <li class="account__item">
+                        <a href="${pageContext.request.contextPath}/controller?command=adminActions&action=addDiscountForm"
+                        class="account__item-info">
+                            ${addDiscount}
+                        </a>
+                    </li>
+                    <li class="account__item">
+                        <a href="${pageContext.request.contextPath}/controller?command=instructorActions&action=addExerciseForm"
+                        class="account__item-info">
+                            ${addExercise}
+                        </a>
+                    </li>
+                    <li class="account__item">
+                        <a href="${pageContext.request.contextPath}/controller?command=instructorActions&action=addDishForm"
+                        class="account__item-info">
+                            ${addDish}
+                        </a>
+                    </li>
+                    <li class="account__item">
+                        <a href="${pageContext.request.contextPath}/controller?command=adminActions&action=deleteExerciseForm"
+                        class="account__item-info">
+                            ${deleteExercise}
+                        </a>
+                    </li>
+                    <li class="account__item">
+                        <a href="${pageContext.request.contextPath}/controller?command=adminActions&action=deleteDishForm"
+                        class="account__item-info">
+                            ${deleteDish}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </main>
+    </body>
 </html>

@@ -39,6 +39,8 @@ public class ClientAccountCommand implements Command {
         String page = request.getParameter(PAGE);
         HttpSession session = request.getSession();
         Long clientId = (Long) session.getAttribute(CLIENT_ID);
+        int listSize;
+        int half;
         switch (page) {
             case "membership":
                 int clientDiscount = userService.getDiscount(clientId);
@@ -55,7 +57,15 @@ public class ClientAccountCommand implements Command {
                 if (optionalProgram.isPresent()) {
                     Program program = optionalProgram.get();
                     List<Exercise> exerciseList = program.getExercises();
-                    session.setAttribute("exerciseList", exerciseList);
+                    listSize = exerciseList.size();
+                    half = listSize / 2;
+                    if (listSize % 2 != 0) {
+                        half++;
+                    }
+                    List<Exercise> exerciseListFirstHalf = exerciseList.subList(0, half);
+                    List<Exercise> exerciseListSecondHalf = exerciseList.subList(half, listSize);
+                    session.setAttribute("exerciseListFirstHalf", exerciseListFirstHalf);
+                    session.setAttribute("exerciseListSecondHalf", exerciseListSecondHalf);
                     session.setAttribute("exercise", new ExerciseDto());
                     String programStatus = program.getStatus().toString();
                     session.setAttribute("programStatus", programStatus);
@@ -66,7 +76,15 @@ public class ClientAccountCommand implements Command {
                 if (optionalDiet.isPresent()) {
                     Diet diet = optionalDiet.get();
                     List<Dish> dishList = diet.getDishes();
-                    session.setAttribute("dishList", dishList);
+                    listSize = dishList.size();
+                    half = listSize / 2;
+                    if (listSize % 2 != 0) {
+                        half++;
+                    }
+                    List<Dish> dishListFirstHalf = dishList.subList(0, half);
+                    List<Dish> dishListSecondHalf = dishList.subList(half, listSize);
+                    session.setAttribute("dishListFirstHalf", dishListFirstHalf);
+                    session.setAttribute("dishListSecondHalf", dishListSecondHalf);
                     session.setAttribute("dish", new DishDto());
                     String dietStatus = diet.getStatus().toString();
                     session.setAttribute("dietStatus", dietStatus);

@@ -13,7 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fitness</title>
-    <link rel="stylesheet" href="static/style.css" />
+    <link rel="stylesheet" href="styles/style.css" />
 </head>
 
 <html>
@@ -39,7 +39,6 @@
                 </div>
             </header>
         </div>
-
         <main class="main">
             <div class="wrapper">
                 <h1 class="error__title">${error}</h1>

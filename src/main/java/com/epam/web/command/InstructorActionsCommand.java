@@ -11,6 +11,7 @@ import com.epam.web.exception.ServiceException;
 import com.epam.web.service.DietService;
 import com.epam.web.service.ProgramService;
 import com.epam.web.service.UserService;
+import com.epam.web.validator.Validator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -23,6 +24,8 @@ public class InstructorActionsCommand implements Command {
     public static final Logger LOGGER = LogManager.getLogger(InstructorActionsCommand.class);
     private static final String INSTRUCTOR_ID = "userId";
     private static final String ACTION = "action";
+    private static final String MESSAGE = "message";
+    private static final String ERROR_MESSAGE = "errorMessage";
     private static final String ADD_EXERCISE_PAGE = "/view/instructor_pages/add_exercise.jsp";
     private static final String ADD_DISH_PAGE = "/view/instructor_pages/add_dish.jsp";
     private static final String ADD_PROGRAM_PAGE = "/view/instructor_pages/add_program.jsp";
@@ -35,11 +38,13 @@ public class InstructorActionsCommand implements Command {
     private UserService userService;
     private ProgramService programService;
     private DietService dietService;
+    private Validator validator;
 
     public InstructorActionsCommand(UserService userService, ProgramService programService, DietService dietService) {
         this.userService = userService;
         this.programService = programService;
         this.dietService = dietService;
+        this.validator = new Validator();
     }
 
     @Override
@@ -52,23 +57,31 @@ public class InstructorActionsCommand implements Command {
                 return CommandResult.forward(ADD_EXERCISE_PAGE);
             case "addExercise":
                 String newExerciseName = request.getParameter("newExerciseName");
+                if (newExerciseName.isEmpty()) {
+                    session.setAttribute(MESSAGE, "emptyName");
+                    return CommandResult.forward(MESSAGE_PAGE);
+                }
                 if (programService.addExercise(newExerciseName)) {
-                    session.setAttribute("message", "Exercise has been added successfully!");
+                    session.setAttribute(MESSAGE, "exerciseAdded");
                     return CommandResult.forward(MESSAGE_PAGE);
                 } else {
-                    session.setAttribute("errorMessage", "Adding new exercise has failed!");
+                    session.setAttribute(ERROR_MESSAGE, "Adding new exercise has failed!");
                     return CommandResult.forward(ERROR_PAGE);
                 }
             case "addDishForm":
                 return CommandResult.forward(ADD_DISH_PAGE);
             case "addDish":
                 String newDishName = request.getParameter("newDishName");
+                if (newDishName.isEmpty()) {
+                    session.setAttribute(MESSAGE, "emptyName");
+                    return CommandResult.forward(MESSAGE_PAGE);
+                }
                 String newDishMeal = request.getParameter("newDishMeal");
                 if (dietService.addDish(newDishName, newDishMeal)) {
-                    session.setAttribute("message", "Dish has been added successfully!");
+                    session.setAttribute(MESSAGE, "dishAdded");
                     return CommandResult.forward(MESSAGE_PAGE);
                 } else {
-                    session.setAttribute("errorMessage", "Adding new dish has failed!");
+                    session.setAttribute(MESSAGE, "Adding new dish has failed!");
                     return CommandResult.forward(ERROR_PAGE);
                 }
             case "chooseClientForProgram":
@@ -83,7 +96,7 @@ public class InstructorActionsCommand implements Command {
                 try {
                     hasProgram = programService.hasProgram(clientToAddProgram);
                 } catch (ServiceException exception) {
-                    session.setAttribute("errorMessage", "Checking clients program has failed!");
+                    session.setAttribute(ERROR_MESSAGE, "Checking clients program has failed!");
                     return CommandResult.forward(ERROR_PAGE);
                 }
                 if (!hasProgram) {
@@ -92,24 +105,28 @@ public class InstructorActionsCommand implements Command {
                     session.setAttribute("exercise", new ExerciseDto());
                     return CommandResult.forward(ADD_PROGRAM_PAGE);
                 } else {
-                    session.setAttribute("message", "Client already has an active or awaiting program!");
+                    session.setAttribute(MESSAGE, "clientHasProgram");
                     return CommandResult.forward(MESSAGE_PAGE);
                 }
             case "addProgram":
                 String[] programExercisesList = request.getParameterValues("programExercisesList");
-                if (programExercisesList.length == 0) {
-                    session.setAttribute("message", "Select at least one exercise!");
+                if (programExercisesList == null) {
+                    session.setAttribute(MESSAGE, "noSelectedExercises");
                     return CommandResult.forward(MESSAGE_PAGE);
                 }
                 String programStartDate = request.getParameter("programStartDate");
                 String programEndDate = request.getParameter("programEndDate");
+                if (!validator.validateDates(programStartDate, programEndDate)) {
+                    session.setAttribute(MESSAGE, "invalidDate");
+                    return CommandResult.forward(MESSAGE_PAGE);
+                }
                 Long clientToAddProgramId = (Long) session.getAttribute("clientToAddProgram");
                 if (programService.addProgram(clientToAddProgramId, instructorId, programExercisesList,
                         programStartDate, programEndDate)) {
-                    session.setAttribute("message", "Program has been added successfully!");
+                    session.setAttribute(MESSAGE, "programAdded");
                     return CommandResult.forward(MESSAGE_PAGE);
                 } else {
-                    session.setAttribute("errorMessage", "Adding new program has failed!");
+                    session.setAttribute(ERROR_MESSAGE, "Adding new program has failed!");
                     return CommandResult.forward(ERROR_PAGE);
                 }
             case "chooseClientForDiet":
@@ -124,7 +141,7 @@ public class InstructorActionsCommand implements Command {
                 try {
                     hasDiet = dietService.hasDiet(clientToAddDietId);
                 } catch (ServiceException exception) {
-                    session.setAttribute("errorMessage", "Checking clients diet has failed!");
+                    session.setAttribute(ERROR_MESSAGE, "Checking clients diet has failed!");
                     return CommandResult.forward(ERROR_PAGE);
                 }
                 if (!hasDiet) {
@@ -133,24 +150,28 @@ public class InstructorActionsCommand implements Command {
                     session.setAttribute("dish", new DishDto());
                     return CommandResult.forward(ADD_DIET_PAGE);
                 } else {
-                    session.setAttribute("message", "Client already has an active or awaiting diet!");
+                    session.setAttribute(MESSAGE, "clientHasDiet");
                     return CommandResult.forward(MESSAGE_PAGE);
                 }
             case "addDiet":
                 String[] dietDishesList = request.getParameterValues("dietDishesList");
-                if (dietDishesList.length == 0) {
-                    session.setAttribute("message", "Select at least one dish!");
+                if (dietDishesList == null) {
+                    session.setAttribute(MESSAGE, "noSelectedDishes");
                     return CommandResult.forward(MESSAGE_PAGE);
                 }
                 String dietStartDate = request.getParameter("dietStartDate");
                 String dietEndDate = request.getParameter("dietEndDate");
+                if (!validator.validateDates(dietStartDate, dietEndDate)) {
+                    session.setAttribute(MESSAGE, "invalidDate");
+                    return CommandResult.forward(MESSAGE_PAGE);
+                }
                 Long clientToAddDiet = (Long) session.getAttribute("clientToAddDiet");
                 if (dietService.addDiet(clientToAddDiet, instructorId, dietDishesList,
                         dietStartDate, dietEndDate)) {
-                    session.setAttribute("message", "Diet has been added successfully!");
+                    session.setAttribute(MESSAGE, "dietAdded");
                     return CommandResult.forward(MESSAGE_PAGE);
                 } else {
-                    session.setAttribute("errorMessage", "Adding new diet has failed!");
+                    session.setAttribute(ERROR_MESSAGE, "Adding new diet has failed!");
                     return CommandResult.forward(ERROR_PAGE);
                 }
             default:

@@ -9,23 +9,22 @@
 <fmt:message bundle="${local}" key="about.subtitle" var="subtitle" />
 
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness</title>
-    <link rel="stylesheet" href="static/style.css" />
-</head>
-<body>
-<div class="header">
-    <jsp:include page="fragments/header.jsp"/>
-</div>
-
-<main class="main">
-    <div class="wrapper">
-        <h1 class="about__title">${title}</h1>
-        <p class="about__subtitle">${subtitle}</p>
-    </div>
-</main>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Fitness</title>
+        <link rel="stylesheet" href="styles/style.css" />
+    </head>
+    <body>
+        <div class="header">
+            <jsp:include page="fragments/header.jsp"/>
+        </div>
+        <main class="main">
+            <div class="wrapper">
+                <h1 class="about__title">${title}</h1>
+                <p class="about__subtitle">${subtitle}</p>
+            </div>
+        </main>
+    </body>
 </html>
