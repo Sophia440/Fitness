@@ -43,42 +43,44 @@ public class CommandFactory {
         switch (type) {
             case "login":
                 return new LoginCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()));
-            case "loginPage":
-                return new ShowPageCommand(LOGIN_PAGE);
-            case "clientMain":
-                return new ShowPageCommand(CLIENT_MAIN_PAGE);
-            case "instructorMain":
-                return new ShowPageCommand(INSTRUCTOR_MAIN_PAGE);
-            case "adminMain":
-                return new ShowPageCommand(ADMIN_MAIN_PAGE);
             case "changeLanguage":
                 return new ChangeLanguageCommand();
+            case "about":
+                return new ShowPageCommand(ABOUT_PAGE);
+            case "info":
+                return new InfoCommand(new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
+            case "error":
+                return new ShowPageCommand(ERROR_PAGE);
+            case "logout":
+                return new LogoutCommand();
+
+            case "clientMain":
+                return new ShowPageCommand(CLIENT_MAIN_PAGE);
             case "clientAccount":
                 return new ClientAccountCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()), new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
             case "clientActions":
                 return new ClientActionsCommand(new DietService(helper.createDietDao(), helper.createDishDao()), new ProgramService(helper.createProgramDao(), helper.createExerciseDao()));
-            case "adminAccount":
-                return new ShowPageCommand(ADMIN_ACCOUNT_PAGE);
-            case "adminActions":
-                return new AdminActionsCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()), new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
-            case "instructorActions":
-                return new InstructorActionsCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()), new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
-            case "instructorAccount":
-                return new ShowPageCommand(INSTRUCTOR_ACCOUNT_PAGE);
-            case "info":
-                return new InfoCommand(new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
             case "services":
                 return new ShowPageCommand(SERVICES_PAGE);
             case "chooseDuration":
                 return new ShowPageCommand(BUY_MEMBERSHIP_PAGE);
             case "buyMembership":
                 return new BuyMembershipCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()));
-            case "about":
-                return new ShowPageCommand(ABOUT_PAGE);
-            case "error":
-                return new ShowPageCommand(ERROR_PAGE);
-            case "logout":
-                return new LogoutCommand();
+
+            case "instructorMain":
+                return new ShowPageCommand(INSTRUCTOR_MAIN_PAGE);
+            case "instructorAccount":
+                return new ShowPageCommand(INSTRUCTOR_ACCOUNT_PAGE);
+            case "instructorActions":
+                return new InstructorActionsCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()), new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
+
+            case "adminMain":
+                return new ShowPageCommand(ADMIN_MAIN_PAGE);
+            case "adminAccount":
+                return new ShowPageCommand(ADMIN_ACCOUNT_PAGE);
+            case "adminActions":
+                return new AdminActionsCommand(new UserService(helper.createUserDao(), helper.createMembershipDao()), new ProgramService(helper.createProgramDao(), helper.createExerciseDao()), new DietService(helper.createDietDao(), helper.createDishDao()));
+
             default:
                 throw new IllegalArgumentException("Unknown type of Command " + type);
         }

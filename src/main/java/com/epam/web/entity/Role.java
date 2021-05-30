@@ -1,5 +1,5 @@
 package com.epam.web.entity;
 
 public enum Role {
-    ADMIN, CLIENT, INSTRUCTOR;
+    ADMIN, CLIENT, INSTRUCTOR, UNKNOWN
 }

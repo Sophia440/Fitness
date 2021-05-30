@@ -8,4 +8,20 @@
     <servlet-name>main</servlet-name>
     <url-pattern>/controller</url-pattern>
   </servlet-mapping>
+  <filter>
+    <filter-name>EncodingFilter</filter-name>
+    <filter-class>com.epam.web.filter.EncodingFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>EncodingFilter</filter-name>
+    <url-pattern>/controller</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>RoleFilter</filter-name>
+    <filter-class>com.epam.web.filter.AuthorizationFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>RoleFilter</filter-name>
+    <url-pattern>/controller</url-pattern>
+  </filter-mapping>
 </web-app>
