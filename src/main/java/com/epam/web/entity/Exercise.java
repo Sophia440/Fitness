@@ -1,5 +1,7 @@
 package com.epam.web.entity;
 
+import java.util.Objects;
+
 public class Exercise implements Identifiable {
     public static final String TABLE = "exercise";
     public static final String ID = "id";
@@ -39,5 +41,18 @@ public class Exercise implements Identifiable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Exercise exercise = (Exercise) object;
+        return Objects.equals(id, exercise.id) && Objects.equals(name, exercise.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

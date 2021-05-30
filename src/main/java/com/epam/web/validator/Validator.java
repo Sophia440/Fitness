@@ -11,10 +11,10 @@ public class Validator {
         try {
             startDateLocal = LocalDate.parse(startDate);
             endDateLocal = LocalDate.parse(endDate);
-        } catch (DateTimeParseException exception) {
+        } catch (DateTimeParseException | NullPointerException exception) {
             return false;
         }
         LocalDate today = LocalDate.now();
-        return startDateLocal.isBefore(endDateLocal) && today.isBefore(today);
+        return startDateLocal.isBefore(endDateLocal) && today.isBefore(startDateLocal);
     }
 }

@@ -1,6 +1,7 @@
 package com.epam.web.entity;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Membership implements Identifiable {
     public static final String TABLE = "membership";
@@ -77,5 +78,18 @@ public class Membership implements Identifiable {
                 ", endDate=" + endDate +
                 ", paymentDate=" + paymentDate +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Membership that = (Membership) object;
+        return Objects.equals(id, that.id) && Objects.equals(clientId, that.clientId) && Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate) && Objects.equals(paymentDate, that.paymentDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, clientId, startDate, endDate, paymentDate);
     }
 }

@@ -2,6 +2,7 @@ package com.epam.web.entity;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 public class Diet implements Identifiable {
     public static final String TABLE = "diet";
@@ -30,6 +31,16 @@ public class Diet implements Identifiable {
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
+    }
+
+    public Diet(Long id, Long instructorId, Long clientId, LocalDate startDate, LocalDate endDate, Status status, List<Dish> dishes) {
+        this.id = id;
+        this.instructorId = instructorId;
+        this.clientId = clientId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.status = status;
+        this.dishes = dishes;
     }
 
     public void setId(Long id) {
@@ -100,5 +111,18 @@ public class Diet implements Identifiable {
                 ", status=" + status +
                 ", dishes=" + dishes +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Diet diet = (Diet) object;
+        return Objects.equals(id, diet.id) && Objects.equals(instructorId, diet.instructorId) && Objects.equals(clientId, diet.clientId) && Objects.equals(startDate, diet.startDate) && Objects.equals(endDate, diet.endDate) && status == diet.status && Objects.equals(dishes, diet.dishes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, instructorId, clientId, startDate, endDate, status, dishes);
     }
 }

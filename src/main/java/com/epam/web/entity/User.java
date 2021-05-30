@@ -1,5 +1,7 @@
 package com.epam.web.entity;
 
+import java.util.Objects;
+
 public class User implements Identifiable {
     public static final String TABLE = "user";
     public static final String ID = "id";
@@ -80,5 +82,18 @@ public class User implements Identifiable {
                 ", role=" + role +
                 ", discount=" + discount +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        User user = (User) object;
+        return discount == user.discount && Objects.equals(id, user.id) && Objects.equals(login, user.login) && Objects.equals(password, user.password) && role == user.role;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, login, password, role, discount);
     }
 }

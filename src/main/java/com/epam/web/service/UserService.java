@@ -56,14 +56,12 @@ public class UserService {
 
     public boolean buyMembership(Long clientId, long monthsNumber) throws ServiceException {
         Membership membership = getNewMembershipInfo(clientId, monthsNumber);
-        boolean isBought = false;
         try {
             membershipDao.create(membership);
-            isBought = true;
+            return true;
         } catch (DaoException exception) {
             throw new ServiceException(exception);
         }
-        return isBought;
     }
 
     private Membership getNewMembershipInfo(Long clientId, long monthsNumber) throws ServiceException {
