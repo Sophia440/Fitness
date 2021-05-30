@@ -11,7 +11,7 @@ import com.epam.web.exception.ServiceException;
 import com.epam.web.service.DietService;
 import com.epam.web.service.ProgramService;
 import com.epam.web.service.UserService;
-import com.epam.web.validator.Validator;
+import com.epam.web.validator.DateValidator;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -20,6 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * This command redirects instructor or admin to the appropriate page depending on the 'action' parameter.
+ *
+ */
 public class InstructorActionsCommand implements Command {
     public static final Logger LOGGER = LogManager.getLogger(InstructorActionsCommand.class);
     private static final String INSTRUCTOR_ID = "userId";
@@ -38,15 +42,22 @@ public class InstructorActionsCommand implements Command {
     private UserService userService;
     private ProgramService programService;
     private DietService dietService;
-    private Validator validator;
+    private DateValidator dateValidator;
 
     public InstructorActionsCommand(UserService userService, ProgramService programService, DietService dietService) {
         this.userService = userService;
         this.programService = programService;
         this.dietService = dietService;
-        this.validator = new Validator();
+        this.dateValidator = new DateValidator();
     }
 
+    /**
+     * Handles chosen action.
+     *
+     * @param request the request from Controller
+     * @param response the response from Controller
+     * @return CommandResult of the chosen action
+     */
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         String action = request.getParameter(ACTION);
@@ -116,7 +127,7 @@ public class InstructorActionsCommand implements Command {
                 }
                 String programStartDate = request.getParameter("programStartDate");
                 String programEndDate = request.getParameter("programEndDate");
-                if (!validator.validateDates(programStartDate, programEndDate)) {
+                if (!dateValidator.validate(programStartDate, programEndDate)) {
                     session.setAttribute(MESSAGE, "invalidDate");
                     return CommandResult.forward(MESSAGE_PAGE);
                 }
@@ -161,7 +172,7 @@ public class InstructorActionsCommand implements Command {
                 }
                 String dietStartDate = request.getParameter("dietStartDate");
                 String dietEndDate = request.getParameter("dietEndDate");
-                if (!validator.validateDates(dietStartDate, dietEndDate)) {
+                if (!dateValidator.validate(dietStartDate, dietEndDate)) {
                     session.setAttribute(MESSAGE, "invalidDate");
                     return CommandResult.forward(MESSAGE_PAGE);
                 }
@@ -179,6 +190,11 @@ public class InstructorActionsCommand implements Command {
         }
     }
 
+    /**
+     * Gets a list of all clients from the database.
+     *
+     * @return list of all clients
+     */
     private List<User> getAllClients() {
         List<User> allClients = null;
         try {

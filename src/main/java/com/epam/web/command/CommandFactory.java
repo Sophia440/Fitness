@@ -1,14 +1,18 @@
 package com.epam.web.command;
 
-import com.epam.web.connection.ConnectionException;
 import com.epam.web.connection.ConnectionPool;
 import com.epam.web.dao.DaoHelper;
+import com.epam.web.exception.ConnectionException;
 import com.epam.web.service.DietService;
 import com.epam.web.service.ProgramService;
 import com.epam.web.service.UserService;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+/**
+ * This class returns a Command to the Controller depending on a 'type' parameter.
+ *
+ */
 public class CommandFactory {
 
     public static final Logger LOGGER = LogManager.getLogger(CommandFactory.class);
@@ -39,6 +43,12 @@ public class CommandFactory {
         }
     }
 
+    /**
+     * Handles chosen action.
+     *
+     * @param type Command type
+     * @return Command an instance of a class that implements the Command interface
+     */
     public Command create(String type) {
         switch (type) {
             case "login":

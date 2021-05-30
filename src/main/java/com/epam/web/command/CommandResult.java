@@ -1,5 +1,8 @@
 package com.epam.web.command;
 
+/**
+ * Represents the command result.
+ */
 public class CommandResult {
     private final boolean isRedirect;
     private final String page;
@@ -17,10 +20,23 @@ public class CommandResult {
         return page;
     }
 
+
+    /**
+     * Forwards a page.
+     *
+     * @param page a page to forward
+     * @return CommandResult with a false isRedirect flag
+     */
     public static CommandResult forward(String page) {
         return new CommandResult(false, page);
     }
 
+    /**
+     * Redirects a page.
+     *
+     * @param page a page to redirect
+     * @return CommandResult with a true isRedirect flag
+     */
     public static CommandResult redirect(String page) {
         return new CommandResult(true, page);
     }

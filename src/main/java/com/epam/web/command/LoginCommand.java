@@ -12,6 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
+/**
+ * This command checks username and password and logs in the user.
+ *
+ */
 public class LoginCommand implements Command {
     private final UserService userService;
     public static final Logger LOGGER = LogManager.getLogger(LoginCommand.class);
@@ -24,6 +28,13 @@ public class LoginCommand implements Command {
         this.userService = userService;
     }
 
+    /**
+     * Handles checking users credentials.
+     *
+     * @param request the request from Controller
+     * @param response the response from Controller
+     * @return CommandResult with the main page
+     */
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         String username = request.getParameter("username");

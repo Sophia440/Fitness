@@ -2,6 +2,9 @@ package com.epam.web.entity;
 
 import java.util.Objects;
 
+/**
+ * The Dish entity.
+ */
 public class Dish implements Identifiable {
     public static final String TABLE = "dish";
     public static final String ID = "id";

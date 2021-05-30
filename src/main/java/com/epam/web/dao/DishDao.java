@@ -8,6 +8,10 @@ import com.epam.web.mapper.DishRowMapper;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Data access object class for Dish entity. Overrides all CRUD operations.
+ *
+ */
 public class DishDao extends AbstractDao<Dish> implements Dao<Dish> {
     public static final String TABLE_NAME = "dish";
     public static final String COUNT_DISHES = "SELECT COUNT(id) FROM dish";
@@ -50,18 +54,43 @@ public class DishDao extends AbstractDao<Dish> implements Dao<Dish> {
         executeUpdate(REMOVE_BY_ID, id);
     }
 
+    /**
+     * Searches for dishes with given diet id in the database.
+     *
+     * @param dietId id of the diet
+     * @return list of dishes
+     */
     public List<Dish> getDishesByDietId(Long dietId) throws DaoException {
         return executeQuery(FIND_BY_DIET_ID, new DishRowMapper(), dietId);
     }
 
+    /**
+     * Creates an assigned dish database entry that connects a dish with a diet,
+     * that it is assigned to.
+     *
+     * @param dietId id of the diet
+     * @param dishId id of the dish
+     */
     public void createAssignedDish(Long dietId, Long dishId) throws DaoException {
         executeUpdate(CREATE_ASSIGNED_DISH, dietId, dishId);
     }
 
+    /**
+     * Gets a sublist of dishes of given size.
+     *
+     * @param firstRow starting point of the sublist
+     * @param rowCount number of rows to skip
+     * @return sublist of dishes
+     */
     public List<Dish> getSublist(int firstRow, int rowCount) throws DaoException {
         return executeQuery(SELECT_SUBLIST, new DishRowMapper(), rowCount, firstRow);
     }
 
+    /**
+     * Counts the number of dishes in the database.
+     *
+     * @return number of dishes
+     */
     public int getDishCount() throws DaoException {
         return executeQuery(COUNT_DISHES, COUNT_COLUMN_NAME);
     }

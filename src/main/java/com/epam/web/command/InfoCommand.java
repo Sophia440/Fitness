@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * This command redirects client to the appropriate info page depending on the 'section' parameter.
+ *
+ */
 public class InfoCommand implements Command {
     private static final String INFO_EXERCISES_PAGE = "/view/info_exercises.jsp";
     private static final String INFO_DISHES_PAGE = "/view/info_dishes.jsp";
@@ -31,6 +35,13 @@ public class InfoCommand implements Command {
         this.dietService = dietService;
     }
 
+    /**
+     * Handles chosen info page section.
+     *
+     * @param request the request from Controller
+     * @param response the response from Controller
+     * @return CommandResult with the chosen info page section
+     */
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         String section = request.getParameter(SECTION);

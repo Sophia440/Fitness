@@ -3,6 +3,9 @@ package com.epam.web.entity;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * The Membership entity.
+ */
 public class Membership implements Identifiable {
     public static final String TABLE = "membership";
     public static final String ID = "id";

@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * This command redirects client to the appropriate page depending on the 'action' parameter.
+ *
+ */
 public class ClientActionsCommand implements Command{
     private static final String CLIENT_DIET_PAGE = "/view/client_pages/client_diet.jsp";
     private static final String CLIENT_PROGRAM_PAGE = "/view/client_pages/client_program.jsp";
@@ -23,6 +27,13 @@ public class ClientActionsCommand implements Command{
         this.programService = programService;
     }
 
+    /**
+     * Handles chosen action.
+     *
+     * @param request the request from Controller
+     * @param response the response from Controller
+     * @return CommandResult of the chosen action
+     */
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         String action = request.getParameter(ACTION);

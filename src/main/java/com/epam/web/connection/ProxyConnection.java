@@ -5,6 +5,10 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+/**
+ * A proxy class for connections. All methods override similar methods from Connection and AutoCloseable interfaces.
+ *
+ */
 public class ProxyConnection implements Connection, AutoCloseable {
     private Connection connection;
     private ConnectionPool connectionPool;

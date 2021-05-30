@@ -3,6 +3,8 @@ package com.epam.web;
 import com.epam.web.command.Command;
 import com.epam.web.command.CommandFactory;
 import com.epam.web.command.CommandResult;
+import com.epam.web.connection.ConnectionPool;
+import com.epam.web.exception.ConnectionException;
 import com.epam.web.exception.ServiceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -59,5 +61,15 @@ public class Controller extends HttpServlet {
 
     private void redirect(HttpServletRequest request, HttpServletResponse response, String page) throws IOException {
         response.sendRedirect(request.getContextPath() + page);
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        try {
+            ConnectionPool.getInstance().closeAllConnections();
+        } catch (ConnectionException exception) {
+            LOGGER.error(exception.getMessage(), exception);
+        }
     }
 }

@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The Diet entity.
+ */
 public class Diet implements Identifiable {
     public static final String TABLE = "diet";
     public static final String ID = "id";

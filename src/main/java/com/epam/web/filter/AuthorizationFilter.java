@@ -11,6 +11,10 @@ import java.util.*;
 
 import static java.util.Objects.nonNull;
 
+/**
+ * An authorization filter.
+ *
+ */
 public class AuthorizationFilter implements Filter {
     private static final Map<String, List<Role>> COMMANDS_WITH_ROLES = new HashMap<>();
     private static final List<Role> ALL_ROLES = Arrays.asList(Role.ADMIN, Role.INSTRUCTOR, Role.CLIENT, Role.UNKNOWN);

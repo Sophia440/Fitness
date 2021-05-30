@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * This command handles buying a new membership.
+ *
+ */
 public class BuyMembershipCommand implements Command {
     private final UserService userService;
     private static final String CLIENT_ID = "userId";
@@ -19,6 +23,13 @@ public class BuyMembershipCommand implements Command {
         this.userService = userService;
     }
 
+    /**
+     * Handles membership purchase.
+     *
+     * @param request the request from Controller
+     * @param response the response from Controller
+     * @return CommandResult with the message or error page
+     */
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         HttpSession session = request.getSession();

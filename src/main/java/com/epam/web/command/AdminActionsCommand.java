@@ -19,6 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * This command redirects admin to the appropriate page depending on the 'action' parameter.
+ *
+ */
 public class AdminActionsCommand implements Command {
     public static final Logger LOGGER = LogManager.getLogger(AdminActionsCommand.class);
     private static final String ACTION = "action";
@@ -40,6 +44,13 @@ public class AdminActionsCommand implements Command {
         this.dietService = dietService;
     }
 
+    /**
+     * Handles chosen action.
+     *
+     * @param request the request from Controller
+     * @param response the response from Controller
+     * @return CommandResult of the chosen action
+     */
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         String action = request.getParameter(ACTION);

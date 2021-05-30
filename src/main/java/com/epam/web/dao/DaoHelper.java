@@ -5,6 +5,10 @@ import com.epam.web.exception.DaoException;
 
 import java.sql.SQLException;
 
+/**
+ * Creates an instance of a requested dao class.
+ *
+ */
 public class DaoHelper implements AutoCloseable {
     private final ProxyConnection connection;
 

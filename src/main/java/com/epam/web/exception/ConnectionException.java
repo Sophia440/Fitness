@@ -1,5 +1,9 @@
-package com.epam.web.connection;
+package com.epam.web.exception;
 
+/**
+ * A connection exception class. An instance of it may be thrown from ConnectionPool or ConnectionPoolFactory classes.
+ *
+ */
 public class ConnectionException extends Exception {
 
     public ConnectionException(String message) {

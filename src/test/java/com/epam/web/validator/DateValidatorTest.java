@@ -5,8 +5,8 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 
-public class ValidatorTest {
-    private final Validator validator = new Validator();
+public class DateValidatorTest {
+    private final DateValidator dateValidator = new DateValidator();
     private static final String VALID_START_DATE = LocalDate.MAX.minusMonths(1).toString();
     private static final String VALID_END_DATE = LocalDate.MAX.toString();
     private static final String INVALID_DATE = LocalDate.MIN.toString();
@@ -15,17 +15,17 @@ public class ValidatorTest {
 
     @Test
     public void testValidateDates_withValidInput_ShouldReturnTrue() {
-        boolean actual = validator.validateDates(VALID_START_DATE, VALID_END_DATE);
+        boolean actual = dateValidator.validate(VALID_START_DATE, VALID_END_DATE);
         Assert.assertTrue(actual);
     }
 
     @Test
     public void testValidateDates_withInvalidInput_ShouldReturnFalse() {
-        boolean actualNullStart = validator.validateDates(NULL_DATE, VALID_END_DATE);
-        boolean actualNullEnd = validator.validateDates(VALID_START_DATE, NULL_DATE);
-        boolean actualStartEarlierThanNow = validator.validateDates(INVALID_DATE, VALID_END_DATE);
-        boolean actualEndEarlierThanStart = validator.validateDates(VALID_START_DATE, INVALID_DATE);
-        boolean actualEmptyData = validator.validateDates(VALID_START_DATE, EMPTY_DATE);
+        boolean actualNullStart = dateValidator.validate(NULL_DATE, VALID_END_DATE);
+        boolean actualNullEnd = dateValidator.validate(VALID_START_DATE, NULL_DATE);
+        boolean actualStartEarlierThanNow = dateValidator.validate(INVALID_DATE, VALID_END_DATE);
+        boolean actualEndEarlierThanStart = dateValidator.validate(VALID_START_DATE, INVALID_DATE);
+        boolean actualEmptyData = dateValidator.validate(VALID_START_DATE, EMPTY_DATE);
         Assert.assertFalse(actualNullStart);
         Assert.assertFalse(actualNullEnd);
         Assert.assertFalse(actualStartEarlierThanNow);

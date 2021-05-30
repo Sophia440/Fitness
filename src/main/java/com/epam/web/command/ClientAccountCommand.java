@@ -16,6 +16,10 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This command redirects client to the appropriate page depending on the 'page' parameter.
+ *
+ */
 public class ClientAccountCommand implements Command {
     public static final Logger LOGGER = LogManager.getLogger(ClientAccountCommand.class);
     private static final String PAGE = "page";
@@ -34,6 +38,13 @@ public class ClientAccountCommand implements Command {
         this.dietService = dietService;
     }
 
+    /**
+     * Handles page choice and pagination for the program and diet pages.
+     *
+     * @param request the request from Controller
+     * @param response the response from Controller
+     * @return CommandResult with the main page
+     */
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         String page = request.getParameter(PAGE);

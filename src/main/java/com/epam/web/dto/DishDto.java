@@ -2,6 +2,10 @@ package com.epam.web.dto;
 
 import com.epam.web.entity.Meal;
 
+/**
+ * A data transfer object for the Dish class.
+ *
+ */
 public class DishDto {
     private Long id;
     private String name;

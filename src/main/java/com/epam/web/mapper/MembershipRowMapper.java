@@ -6,8 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+/**
+ * This class maps Membership entities from database information.
+ *
+ */
 public class MembershipRowMapper implements RowMapper<Membership> {
 
+    /**
+     * Creates a Membership object.
+     *
+     * @param resultSet with information from the database
+     * @return Membership
+     */
     @Override
     public Membership map(ResultSet resultSet) throws SQLException {
         Long id = resultSet.getLong(Membership.ID);

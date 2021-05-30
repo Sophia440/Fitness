@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Base class for all data access object classes.
+ *
+ */
 public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
     private final ProxyConnection connection;
 

@@ -6,6 +6,10 @@ import com.epam.web.exception.DaoException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Base interface for all data access object classes.
+ *
+ */
 public interface Dao<T extends Identifiable> {
     Optional<T> getById(Long id) throws DaoException;
 

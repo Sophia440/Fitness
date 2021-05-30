@@ -1,11 +1,11 @@
 package com.epam.web.service;
 
-import com.epam.web.connection.ConnectionException;
 import com.epam.web.connection.ConnectionPool;
 import com.epam.web.dao.DaoHelper;
 import com.epam.web.entity.Membership;
 import com.epam.web.entity.Role;
 import com.epam.web.entity.User;
+import com.epam.web.exception.ConnectionException;
 import com.epam.web.exception.ServiceException;
 import org.junit.Assert;
 import org.junit.Test;

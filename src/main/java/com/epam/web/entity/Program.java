@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The Program entity.
+ */
 public class Program implements Identifiable {
     public static final String TABLE = "program";
     public static final String ID = "id";

@@ -1,5 +1,9 @@
 package com.epam.web.dto;
 
+/**
+ * A data transfer object for the User class.
+ *
+ */
 public class UserDto {
 
     private Long id;

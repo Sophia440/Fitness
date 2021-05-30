@@ -1,5 +1,9 @@
 package com.epam.web.dto;
 
+/**
+ * A data transfer object for the Exercise class.
+ *
+ */
 public class ExerciseDto {
 
     private Long id;

@@ -2,6 +2,9 @@ package com.epam.web.entity;
 
 import java.util.Objects;
 
+/**
+ * The Exercise entity.
+ */
 public class Exercise implements Identifiable {
     public static final String TABLE = "exercise";
     public static final String ID = "id";

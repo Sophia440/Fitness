@@ -6,8 +6,18 @@ import com.epam.web.entity.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class maps User entities from database information.
+ *
+ */
 public class UserRowMapper implements RowMapper<User> {
 
+    /**
+     * Creates a User object.
+     *
+     * @param resultSet with information from the database
+     * @return User
+     */
     @Override
     public User map(ResultSet resultSet) throws SQLException {
         Long id = resultSet.getLong(User.ID);

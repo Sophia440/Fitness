@@ -2,6 +2,9 @@ package com.epam.web.entity;
 
 import java.util.Objects;
 
+/**
+ * The User entity.
+ */
 public class User implements Identifiable {
     public static final String TABLE = "user";
     public static final String ID = "id";

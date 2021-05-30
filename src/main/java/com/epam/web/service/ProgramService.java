@@ -17,6 +17,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * This class handles operations with ProgramDao and ExerciseDao classes.
+ *
+ */
 public class ProgramService {
     public static final Logger LOGGER = LogManager.getLogger(ProgramService.class);
     private final ProgramDao programDao;
@@ -27,6 +31,12 @@ public class ProgramService {
         this.exerciseDao = exerciseDao;
     }
 
+    /**
+     * Gets a Program from the database.
+     *
+     * @param clientId id of the client
+     * @return Optional<Program>
+     */
     public Optional<Program> getProgram(Long clientId) throws ServiceException {
         try {
             Optional<Program> optionalProgram = programDao.findProgramByClientId(clientId);
@@ -39,12 +49,23 @@ public class ProgramService {
         }
     }
 
+    /**
+     * Gets the assigned exercises from the database.
+     *
+     * @param program to set exercises
+     */
     private void setAssignedExercises(Optional<Program> program) throws DaoException {
         Long programId = program.get().getId();
         List<Exercise> exercises = exerciseDao.getExercisesByProgramId(programId);
         program.get().setExercises(exercises);
     }
 
+    /**
+     * Checks if client has an active or awaiting program.
+     *
+     * @param clientId id of the client
+     * @return boolean true if client has a program
+     */
     public boolean hasProgram(Long clientId) throws ServiceException {
         Optional<Program> optionalProgram = getProgram(clientId);
         if (optionalProgram.isPresent()) {
@@ -55,6 +76,12 @@ public class ProgramService {
         return false;
     }
 
+    /**
+     * Sets program status.
+     *
+     * @param clientId id of the client
+     * @param status to set
+     */
     public void setProgramStatus(Long clientId, Status status) throws ServiceException {
         try {
             Optional<Program> optionalProgram = getProgram(clientId);
@@ -68,6 +95,16 @@ public class ProgramService {
         }
     }
 
+    /**
+     * Adds a new program to the database.
+     *
+     * @param clientId id of the client
+     * @param instructorId id of the instructor
+     * @param programExercisesList list of exercises in new program
+     * @param startDate starting date
+     * @param endDate ending date
+     * @return boolean true if program added successfully
+     */
     public boolean addProgram(Long clientId, Long instructorId, String[] programExercisesList, String startDate, String endDate) throws ServiceException {
         List<Long> exercisesIds = Arrays.stream(programExercisesList)
                 .map(Long::valueOf)
@@ -103,6 +140,12 @@ public class ProgramService {
         }
     }
 
+    /**
+     * Adds an assigned exercise to the database.
+     *
+     * @param programId id of the program
+     * @param exerciseId id of the exercise
+     */
     public void addAssignedExercise(Long programId, Long exerciseId) {
         try {
             exerciseDao.createAssignedExercise(programId, exerciseId);
@@ -111,6 +154,12 @@ public class ProgramService {
         }
     }
 
+    /**
+     * Gets exercise by id from the database.
+     *
+     * @param exerciseId id of the exercise
+     * @return Optional<Exercise>
+     */
     public Optional<Exercise> getExerciseById(Long exerciseId) {
         try {
             return exerciseDao.getById(exerciseId);
@@ -120,6 +169,11 @@ public class ProgramService {
         return Optional.empty();
     }
 
+    /**
+     * Gets all exercises from the database.
+     *
+     * @return list of all exercises
+     */
     public List<Exercise> getAllExercises() throws ServiceException {
         try {
             return exerciseDao.getAll();
@@ -128,6 +182,12 @@ public class ProgramService {
         }
     }
 
+    /**
+     * Adds a exercise to the database.
+     *
+     * @param newExerciseName name of the new exercise
+     * @return boolean true if added successfully
+     */
     public boolean addExercise(String newExerciseName) throws ServiceException {
         Exercise exercise = new Exercise();
         exercise.setName(newExerciseName);
@@ -139,14 +199,26 @@ public class ProgramService {
         }
     }
 
-    public void deleteExercise(Long id) throws ServiceException {
+    /**
+     * Deletes a exercise by id from the database.
+     *
+     * @param exerciseId id of the exercise
+     */
+    public void deleteExercise(Long exerciseId) throws ServiceException {
         try {
-            exerciseDao.removeById(id);
+            exerciseDao.removeById(exerciseId);
         } catch (DaoException exception) {
             throw new ServiceException(exception);
         }
     }
 
+    /**
+     * Gets a sublist of exercises of given size.
+     *
+     * @param firstRow starting point of the sublist
+     * @param rowCount number of rows to skip
+     * @return sublist of exercises
+     */
     public List<Exercise> getExerciseSublist(int firstRow, int rowCount) throws ServiceException {
         try {
             return exerciseDao.getSublist(firstRow, rowCount);
@@ -155,6 +227,11 @@ public class ProgramService {
         }
     }
 
+    /**
+     * Counts the number of exercises in the database.
+     *
+     * @return number of exercises
+     */
     public int getExerciseCount() throws ServiceException {
         try {
             return exerciseDao.getExerciseCount();

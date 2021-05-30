@@ -3,9 +3,20 @@ package com.epam.web.validator;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-public class Validator {
+/**
+ * This class validates the dates.
+ *
+ */
+public class DateValidator {
 
-    public boolean validateDates(String startDate, String endDate) {
+    /**
+     * Checks if start data is earlier than end and later than current data.
+     *
+     * @param startDate as String
+     * @param endDate as String
+     * @return boolean true if valid
+     */
+    public boolean validate(String startDate, String endDate) {
         LocalDate startDateLocal;
         LocalDate endDateLocal;
         try {

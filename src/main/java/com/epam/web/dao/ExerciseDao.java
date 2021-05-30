@@ -8,6 +8,10 @@ import com.epam.web.mapper.ExerciseRowMapper;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Data access object class for Exercise entity. Overrides all CRUD operations.
+ *
+ */
 public class ExerciseDao extends AbstractDao<Exercise> implements Dao<Exercise> {
     public static final String TABLE_NAME = "exercise";
     public static final String COUNT_EXERCISES = "SELECT COUNT(id) FROM exercise";
@@ -50,18 +54,43 @@ public class ExerciseDao extends AbstractDao<Exercise> implements Dao<Exercise> 
         executeUpdate(REMOVE_BY_ID, id);
     }
 
+    /**
+     * Searches for exercises with given program id in the database.
+     *
+     * @param programId id of the program
+     * @return list of exercises
+     */
     public List<Exercise> getExercisesByProgramId(Long programId) throws DaoException {
         return executeQuery(FIND_BY_PROGRAM_ID, new ExerciseRowMapper(), programId);
     }
 
+    /**
+     * Creates an assigned exercise database entry that connects an exercise with a program,
+     * that it is assigned to.
+     *
+     * @param programId id of the program
+     * @param exerciseId id of the exercise
+     */
     public void createAssignedExercise(Long programId, Long exerciseId) throws DaoException {
         executeUpdate(CREATE_ASSIGNED_EXERCISE, programId, exerciseId);
     }
 
+    /**
+     * Gets a sublist of exercises of given size.
+     *
+     * @param firstRow starting point of the sublist
+     * @param rowCount number of rows to skip
+     * @return sublist of exercises
+     */
     public List<Exercise> getSublist(int firstRow, int rowCount) throws DaoException {
         return executeQuery(SELECT_SUBLIST, new ExerciseRowMapper(), rowCount, firstRow);
     }
 
+    /**
+     * Counts the number of exercises in the database.
+     *
+     * @return number of exercises
+     */
     public int getExerciseCount() throws DaoException {
         return executeQuery(COUNT_EXERCISES, COUNT_COLUMN_NAME);
     }

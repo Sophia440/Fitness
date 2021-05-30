@@ -18,6 +18,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * This class handles operations with DietDao and DishDao classes.
+ *
+ */
 public class DietService {
     public static final Logger LOGGER = LogManager.getLogger(DietService.class);
     private final DietDao dietDao;
@@ -28,6 +32,12 @@ public class DietService {
         this.dishDao = dishDao;
     }
 
+    /**
+     * Gets a Diet from the database.
+     *
+     * @param clientId id of the client
+     * @return Optional<Diet>
+     */
     public Optional<Diet> getDiet(Long clientId) throws ServiceException {
         try {
             Optional<Diet> optionalDiet = dietDao.findDietByClientId(clientId);
@@ -40,12 +50,23 @@ public class DietService {
         }
     }
 
+    /**
+     * Gets the assigned dishes from the database.
+     *
+     * @param diet to set dishes
+     */
     private void setAssignedDishes(Optional<Diet> diet) throws DaoException {
         Long dietId = diet.get().getId();
         List<Dish> dishes = dishDao.getDishesByDietId(dietId);
         diet.get().setDishes(dishes);
     }
 
+    /**
+     * Checks if client has an active or awaiting diet.
+     *
+     * @param clientId id of the client
+     * @return boolean true if client has a diet
+     */
     public boolean hasDiet(Long clientId) throws ServiceException {
         Optional<Diet> optionalDiet = getDiet(clientId);
         if (optionalDiet.isPresent()) {
@@ -56,6 +77,12 @@ public class DietService {
         return false;
     }
 
+    /**
+     * Sets diet status.
+     *
+     * @param clientId id of the client
+     * @param status to set
+     */
     public void setDietStatus(Long clientId, Status status) throws ServiceException {
         try {
             Optional<Diet> optionalDiet = getDiet(clientId);
@@ -69,6 +96,16 @@ public class DietService {
         }
     }
 
+    /**
+     * Adds a new diet to the database.
+     *
+     * @param clientId id of the client
+     * @param instructorId id of the instructor
+     * @param dietDishList list of dishes in new diet
+     * @param startDate starting date
+     * @param endDate ending date
+     * @return boolean true if diet added successfully
+     */
     public boolean addDiet(Long clientId, Long instructorId, String[] dietDishList, String startDate, String endDate) throws ServiceException {
         List<Long> dishesIds = Arrays.stream(dietDishList)
                 .map(Long::valueOf)
@@ -104,6 +141,12 @@ public class DietService {
         }
     }
 
+    /**
+     * Adds an assigned dish to the database.
+     *
+     * @param dietId id of the diet
+     * @param dishId id of the dish
+     */
     public void addAssignedDish(Long dietId, Long dishId) {
         try {
             dishDao.createAssignedDish(dietId, dishId);
@@ -112,6 +155,12 @@ public class DietService {
         }
     }
 
+    /**
+     * Gets dish by id from the database.
+     *
+     * @param dishId id of the dish
+     * @return Optional<Dish>
+     */
     public Optional<Dish> getDishById(Long dishId) {
         try {
             return dishDao.getById(dishId);
@@ -121,6 +170,11 @@ public class DietService {
         return Optional.empty();
     }
 
+    /**
+     * Gets all dishes from the database.
+     *
+     * @return list of all dishes
+     */
     public List<Dish> getAllDishes() throws ServiceException {
         try {
             return dishDao.getAll();
@@ -129,6 +183,13 @@ public class DietService {
         }
     }
 
+    /**
+     * Adds a dish to the database.
+     *
+     * @param newDishName name of the new dish
+     * @param newDishMeal meal of the new dish
+     * @return boolean true if added successfully
+     */
     public boolean addDish(String newDishName, String newDishMeal) throws ServiceException {
         Dish dish = new Dish();
         dish.setName(newDishName);
@@ -141,14 +202,26 @@ public class DietService {
         }
     }
 
-    public void deleteDish(Long id) throws ServiceException {
+    /**
+     * Deletes a dish by id from the database.
+     *
+     * @param dishId id of the dish
+     */
+    public void deleteDish(Long dishId) throws ServiceException {
         try {
-            dishDao.removeById(id);
+            dishDao.removeById(dishId);
         } catch (DaoException exception) {
             throw new ServiceException(exception);
         }
     }
 
+    /**
+     * Gets a sublist of dishes of given size.
+     *
+     * @param firstRow starting point of the sublist
+     * @param rowCount number of rows to skip
+     * @return sublist of dishes
+     */
     public List<Dish> getDishSublist(int firstRow, int rowCount) throws ServiceException {
         try {
             return dishDao.getSublist(firstRow, rowCount);
@@ -157,6 +230,11 @@ public class DietService {
         }
     }
 
+    /**
+     * Counts the number of dishes in the database.
+     *
+     * @return number of dishes
+     */
     public int getDishCount() throws ServiceException {
         try {
             return dishDao.getDishCount();

@@ -7,8 +7,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+/**
+ * This class maps Program entities from database information.
+ *
+ */
 public class ProgramRowMapper implements RowMapper<Program> {
 
+    /**
+     * Creates a Program object.
+     *
+     * @param resultSet with information from the database
+     * @return Program
+     */
     @Override
     public Program map(ResultSet resultSet) throws SQLException {
         Long id = resultSet.getLong(Program.ID);

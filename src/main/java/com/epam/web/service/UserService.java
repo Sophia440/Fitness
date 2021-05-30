@@ -14,6 +14,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * This class handles operations with UserDao and MembershipDao classes.
+ *
+ */
 public class UserService {
     private final UserDao userDao;
     private final MembershipDao membershipDao;
@@ -23,6 +27,13 @@ public class UserService {
         this.membershipDao = membershipDao;
     }
 
+    /**
+     * Checks if user's credentials are in the database.
+     *
+     * @param login of the user
+     * @param password of the user
+     * @return Optional<User>
+     */
     public Optional<User> login(String login, String password) throws ServiceException {
         try {
             return userDao.findUserByLoginAndPassword(login, password);
@@ -31,6 +42,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Gets client's last membership from the database.
+     *
+     * @param clientId id of the client
+     * @return Optional<Membership>
+     */
     public Optional<Membership> getLastMembership(Long clientId) throws ServiceException {
         List<Membership> memberships = getAllMemberships(clientId);
         if (memberships.isEmpty()) {
@@ -44,6 +61,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Gets all client's memberships from the database.
+     *
+     * @param clientId id of the client
+     * @return list of all clients memberships
+     */
     private List<Membership> getAllMemberships(Long clientId) throws ServiceException {
         List<Membership> memberships;
         try {
@@ -54,6 +77,13 @@ public class UserService {
         return memberships;
     }
 
+    /**
+     * Handles membership purchase.
+     *
+     * @param clientId id of the client
+     * @param monthsNumber membership duration
+     * @return boolean true if bought successfully
+     */
     public boolean buyMembership(Long clientId, long monthsNumber) throws ServiceException {
         Membership membership = getNewMembershipInfo(clientId, monthsNumber);
         try {
@@ -64,6 +94,13 @@ public class UserService {
         }
     }
 
+    /**
+     * Creates a new membership when it is purchased.
+     *
+     * @param clientId id of the client
+     * @param monthsNumber membership duration
+     * @return membership
+     */
     private Membership getNewMembershipInfo(Long clientId, long monthsNumber) throws ServiceException {
         Membership membership = new Membership();
         membership.setClientId(clientId);
@@ -83,6 +120,12 @@ public class UserService {
         return membership;
     }
 
+    /**
+     * Gets a list of users by a given role from the database.
+     *
+     * @param role given role
+     * @return list of users
+     */
     public List<User> getUsersByRole(Role role) throws ServiceException {
         try {
             return userDao.getUsersByRole(role);
@@ -91,6 +134,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Gets discount by client id from the database.
+     *
+     * @param clientId id of the client
+     * @return discount
+     */
     public int getDiscount(Long clientId) throws ServiceException {
         try {
             Optional<User> optionalUser = userDao.getById(clientId);
@@ -104,6 +153,12 @@ public class UserService {
         return 0;
     }
 
+    /**
+     * Sets a discount to a client.
+     *
+     * @param clientId id of the client
+     * @param newDiscount discount to add
+     */
     public void setDiscount(Long clientId, int newDiscount) throws ServiceException {
         try {
             Optional<User> optionalUser = userDao.getById(clientId);

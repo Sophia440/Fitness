@@ -11,6 +11,10 @@ import org.apache.log4j.Logger;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Data access object class for User entity. Overrides all CRUD operations.
+ *
+ */
 public class UserDao extends AbstractDao<User> implements Dao<User> {
 
     public static final String TABLE_NAME = "user";
@@ -18,7 +22,6 @@ public class UserDao extends AbstractDao<User> implements Dao<User> {
     public static final String FIND_BY_ID = "SELECT * FROM user WHERE id = ?";
     public static final String FIND_BY_ROLE = "SELECT * FROM user WHERE role = ?";
     public static final String FIND_BY_LOGIN_AND_PASSWORD = "SELECT * FROM user WHERE login = ? AND password = ?";
-    // WHERE login = ? AND password = MD5(?)
     private static final String REMOVE_BY_ID = "DELETE FROM user WHERE id = ?";
     private static final String CREATE = "INSERT INTO user (login, password, role) VALUE (?, ?, ?)";
     private static final String UPDATE = "UPDATE user SET login = ?, password = ?, role = ?, discount = ? WHERE id = ?";
@@ -63,10 +66,23 @@ public class UserDao extends AbstractDao<User> implements Dao<User> {
         executeUpdate(REMOVE_BY_ID, id);
     }
 
+    /**
+     * Searches for the user with given login and password in the database.
+     *
+     * @param login of the user
+     * @param password of the user
+     * @return Optional<User>
+     */
     public Optional<User> findUserByLoginAndPassword(String login, String password) throws DaoException {
         return executeForSingleResult(FIND_BY_LOGIN_AND_PASSWORD, new UserRowMapper(), login, password);
     }
 
+    /**
+     * Gets a list of users by a given role from the database.
+     *
+     * @param role given role
+     * @return list of users
+     */
     public List<User> getUsersByRole(Role role) throws DaoException {
         return executeQuery(FIND_BY_ROLE, new UserRowMapper(), role.toString());
     }
