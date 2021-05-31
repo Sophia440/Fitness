@@ -1,0 +1,108 @@
+package com.epam.web.command;
+
+import com.epam.web.dto.DishDto;
+import com.epam.web.dto.ExerciseDto;
+import com.epam.web.entity.*;
+import com.epam.web.exception.ServiceException;
+import com.epam.web.service.DietService;
+import com.epam.web.service.ProgramService;
+import com.epam.web.service.UserService;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * This command redirects client to the appropriate page depending on the 'page' parameter.
+ *
+ */
+public class ClientAccountCommand implements Command {
+    public static final Logger LOGGER = LogManager.getLogger(ClientAccountCommand.class);
+    private static final String PAGE = "page";
+    private static final String CLIENT_MEMBERSHIP_PAGE = "/view/client_pages/client_membership.jsp";
+    private static final String CLIENT_PROGRAM_PAGE = "/view/client_pages/client_program.jsp";
+    private static final String CLIENT_DIET_PAGE = "/view/client_pages/client_diet.jsp";
+    private static final String CLIENT_ID = "userId";
+
+    private UserService userService;
+    private ProgramService programService;
+    private DietService dietService;
+
+    public ClientAccountCommand(UserService userService, ProgramService programService, DietService dietService) {
+        this.userService = userService;
+        this.programService = programService;
+        this.dietService = dietService;
+    }
+
+    /**
+     * Handles page choice and pagination for the program and diet pages.
+     *
+     * @param request the request from Controller
+     * @param response the response from Controller
+     * @return CommandResult with the main page
+     */
+    @Override
+    public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+        String page = request.getParameter(PAGE);
+        HttpSession session = request.getSession();
+        Long clientId = (Long) session.getAttribute(CLIENT_ID);
+        int listSize;
+        int half;
+        switch (page) {
+            case "membership":
+                int clientDiscount = userService.getDiscount(clientId);
+                session.setAttribute("clientDiscount", clientDiscount);
+                Optional<Membership> optionalMembership;
+                optionalMembership = userService.getLastMembership(clientId);
+                if (optionalMembership.isPresent()) {
+                    Membership membership = optionalMembership.get();
+                    session.setAttribute("membershipEndDate", membership.getEndDate());
+                }
+                return CommandResult.forward(CLIENT_MEMBERSHIP_PAGE);
+            case "program":
+                Optional<Program> optionalProgram = programService.getProgram(clientId);
+                if (optionalProgram.isPresent()) {
+                    Program program = optionalProgram.get();
+                    List<Exercise> exerciseList = program.getExercises();
+                    listSize = exerciseList.size();
+                    half = listSize / 2;
+                    if (listSize % 2 != 0) {
+                        half++;
+                    }
+                    List<Exercise> exerciseListFirstHalf = exerciseList.subList(0, half);
+                    List<Exercise> exerciseListSecondHalf = exerciseList.subList(half, listSize);
+                    session.setAttribute("exerciseListFirstHalf", exerciseListFirstHalf);
+                    session.setAttribute("exerciseListSecondHalf", exerciseListSecondHalf);
+                    session.setAttribute("exercise", new ExerciseDto());
+                    String programStatus = program.getStatus().toString();
+                    session.setAttribute("programStatus", programStatus);
+                }
+                return CommandResult.forward(CLIENT_PROGRAM_PAGE);
+            case "diet":
+                Optional<Diet> optionalDiet = dietService.getDiet(clientId);
+                if (optionalDiet.isPresent()) {
+                    Diet diet = optionalDiet.get();
+                    List<Dish> dishList = diet.getDishes();
+                    listSize = dishList.size();
+                    half = listSize / 2;
+                    if (listSize % 2 != 0) {
+                        half++;
+                    }
+                    List<Dish> dishListFirstHalf = dishList.subList(0, half);
+                    List<Dish> dishListSecondHalf = dishList.subList(half, listSize);
+                    session.setAttribute("dishListFirstHalf", dishListFirstHalf);
+                    session.setAttribute("dishListSecondHalf", dishListSecondHalf);
+                    session.setAttribute("dish", new DishDto());
+                    String dietStatus = diet.getStatus().toString();
+                    session.setAttribute("dietStatus", dietStatus);
+                }
+                return CommandResult.forward(CLIENT_DIET_PAGE);
+            default:
+                throw new IllegalArgumentException("Unknown page: " + page);
+        }
+    }
+}
